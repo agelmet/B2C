@@ -8,144 +8,188 @@
 <link href="https://fonts.googleapis.com/css2?family=Commissioner:wght@400;500;600;700;800&family=Literata:ital,opsz,wght@1,7..72,500&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#F3F4F1;
-  --card:#FFFFFF;
-  --ink:#1B1F24;
-  --ink2:#5A6270;
-  --ink3:#98A0AC;
-  --line:#E4E6E1;
-  --accent:#3D53E0;
-  --accent-soft:#E9ECFC;
-  --good:#1E7A46;
-  --good-soft:#E4F4EA;
-  --warn:#B0641D;
-  --warn-soft:#FBF0E0;
-  --danger:#C24328;
-  --danger-soft:#FAEAE5;
-  --r:16px;
-  --shadow:0 1px 2px rgba(27,31,36,.05),0 6px 20px rgba(27,31,36,.06);
+  --bg:#F3F4F1; --card:#FFFFFF; --ink:#1B1F24; --ink2:#5A6270; --ink3:#98A0AC;
+  --line:#E6E8E3; --accent:#3D53E0; --accent2:#2E42C4; --accent-soft:#E9ECFC;
+  --good:#1E7A46; --good-soft:#E4F4EA; --warn:#B0641D; --warn-soft:#FBF0E0;
+  --danger:#C2334F; --danger-soft:#FAE8EC; --track:#E7E9E4;
+  --r:16px; --shadow:0 1px 2px rgba(27,31,36,.05),0 6px 20px rgba(27,31,36,.06);
+  --shadow-lg:0 4px 12px rgba(27,31,36,.08),0 16px 40px rgba(27,31,36,.12);
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 html{font-size:16px;}
-body{font-family:'Commissioner',system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;padding-bottom:calc(84px + env(safe-area-inset-bottom));}
+body{font-family:'Commissioner',system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;padding-bottom:calc(88px + env(safe-area-inset-bottom));}
 button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
 input,select{font-family:inherit;font-size:15px;color:var(--ink);}
-.app{max-width:960px;margin:0 auto;padding:0 16px;}
+.app{max-width:980px;margin:0 auto;padding:0 16px;}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;}}
 
 /* ===== Top bar ===== */
-.top{display:flex;align-items:center;gap:12px;padding:18px 0 10px;position:sticky;top:0;background:linear-gradient(var(--bg) 82%,transparent);z-index:40;}
+.top{display:flex;align-items:center;gap:10px;padding:18px 0 10px;position:sticky;top:0;background:linear-gradient(var(--bg) 82%,transparent);z-index:40;}
 .brand{font-weight:800;font-size:22px;letter-spacing:-.02em;}
 .brand .dot{color:var(--accent);}
 .brand-tag{font-family:'Literata',serif;font-style:italic;font-size:12.5px;color:var(--ink3);display:none;}
-@media(min-width:640px){.brand-tag{display:inline;margin-left:8px;}}
+@media(min-width:680px){.brand-tag{display:inline;margin-left:8px;}}
 .top .spacer{flex:1;}
 .profiles{display:flex;gap:6px;align-items:center;}
-.avatar{width:36px;height:36px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;border:2px solid transparent;transition:.15s;}
+.avatar{width:36px;height:36px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-weight:700;font-size:13.5px;display:flex;align-items:center;justify-content:center;border:2px solid transparent;transition:.15s;}
 .avatar.active{border-color:var(--accent);background:var(--accent);color:#fff;}
 .avatar.add{background:var(--card);border:1.5px dashed var(--ink3);color:var(--ink3);font-size:18px;}
+.iconbtn{width:36px;height:36px;border-radius:50%;background:var(--card);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--ink2);transition:.15s;}
+.iconbtn:hover{border-color:var(--ink3);}
 .lang{font-size:12px;font-weight:700;color:var(--ink2);background:var(--card);border:1px solid var(--line);border-radius:999px;padding:7px 12px;}
 
-/* ===== Greeting / today ring ===== */
-.hero{display:flex;align-items:center;gap:18px;padding:10px 0 4px;}
+/* ===== Hero ===== */
+.hero{display:flex;align-items:center;gap:18px;padding:8px 0 2px;}
 .hero h1{font-size:clamp(22px,5vw,30px);font-weight:800;letter-spacing:-.02em;line-height:1.15;}
 .hero .sub{color:var(--ink2);font-size:14px;margin-top:2px;}
-.ring{--p:0;width:74px;height:74px;border-radius:50%;flex:0 0 auto;background:conic-gradient(var(--accent) calc(var(--p)*1%),#E7E9E4 0);display:flex;align-items:center;justify-content:center;}
-.ring .in{width:58px;height:58px;border-radius:50%;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.ring{--p:0;width:76px;height:76px;border-radius:50%;flex:0 0 auto;background:conic-gradient(var(--accent) calc(var(--p)*1%),var(--track) 0);display:flex;align-items:center;justify-content:center;transition:background .4s;}
+.ring .in{width:60px;height:60px;border-radius:50%;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;}
 .ring b{font-size:15px;font-weight:800;}
 .ring span{font-size:9.5px;color:var(--ink3);text-transform:uppercase;letter-spacing:.06em;}
 
-/* ===== Tabs (desktop top / mobile bottom) ===== */
+/* ===== Tabs ===== */
 .tabs{display:flex;gap:4px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px;margin:14px 0 18px;box-shadow:var(--shadow);}
-.tabs button{flex:1;padding:10px 6px;border-radius:999px;font-weight:600;font-size:13.5px;color:var(--ink2);display:flex;align-items:center;justify-content:center;gap:7px;transition:.15s;white-space:nowrap;}
+.tabs button{flex:1;padding:10px 4px;border-radius:999px;font-weight:600;font-size:13px;color:var(--ink2);display:flex;align-items:center;justify-content:center;gap:6px;transition:.18s;white-space:nowrap;}
 .tabs button.on{background:var(--ink);color:#fff;}
 .tabs .ico{font-size:15px;line-height:1;}
-@media(max-width:639px){
-  .tabs{position:fixed;left:12px;right:12px;bottom:calc(10px + env(safe-area-inset-bottom));margin:0;z-index:50;}
-  .tabs button span.lbl{font-size:10.5px;}
-  .tabs button{flex-direction:column;gap:3px;padding:8px 2px;}
+@media(max-width:679px){
+  .tabs{position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom));margin:0;z-index:50;box-shadow:var(--shadow-lg);}
+  .tabs button{flex-direction:column;gap:2px;padding:8px 1px;}
+  .tabs button span.lbl{font-size:9.8px;}
 }
 
-/* ===== Cards & sections ===== */
+/* ===== Cards / sections ===== */
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:18px;margin-bottom:14px;}
-.sec-h{display:flex;align-items:baseline;gap:10px;margin:20px 0 10px;}
+.sec-h{display:flex;align-items:baseline;gap:10px;margin:20px 0 10px;flex-wrap:wrap;}
 .sec-h h2{font-size:16px;font-weight:800;letter-spacing:-.01em;}
 .sec-h .hint{font-size:12.5px;color:var(--ink3);}
 .sec-h .right{margin-left:auto;font-size:13px;font-weight:700;color:var(--accent);}
+.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px;}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px;box-shadow:var(--shadow);}
+.stat b{font-size:20px;font-weight:800;letter-spacing:-.02em;display:block;}
+.stat span{font-size:10.5px;color:var(--ink3);font-weight:600;text-transform:uppercase;letter-spacing:.04em;}
 
 /* ===== Quick add ===== */
 .qadd{display:flex;flex-direction:column;gap:10px;}
 .qadd .row1{display:flex;gap:8px;}
-.qadd input[type=text]{flex:1;border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;background:var(--bg);outline:none;transition:.15s;}
-.qadd input[type=text]:focus{border-color:var(--accent);background:#fff;}
-.qadd .go{background:var(--accent);color:#fff;font-weight:700;border-radius:12px;padding:0 20px;font-size:15px;}
-.chipset{display:flex;gap:6px;flex-wrap:wrap;}
-.chipset .lb{font-size:11px;color:var(--ink3);font-weight:700;text-transform:uppercase;letter-spacing:.06em;align-self:center;margin-right:2px;}
+.qadd input[type=text]{flex:1;border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;background:var(--bg);outline:none;transition:.15s;min-width:0;}
+.qadd input[type=text]:focus{border-color:var(--accent);background:var(--card);}
+.qadd .go{background:var(--accent);color:#fff;font-weight:700;border-radius:12px;padding:0 20px;font-size:15px;transition:.15s;}
+.qadd .go:hover{background:var(--accent2);}
+.chipset{display:flex;gap:6px;flex-wrap:wrap;align-items:center;}
+.chipset .lb{font-size:10.5px;color:var(--ink3);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-right:2px;}
 .pchip{font-size:12.5px;font-weight:600;padding:7px 12px;border-radius:999px;background:var(--bg);border:1.5px solid var(--line);color:var(--ink2);transition:.12s;}
 .pchip.on{border-color:var(--accent);background:var(--accent-soft);color:var(--accent);}
+.pchip.p1.on{border-color:var(--warn);background:var(--warn-soft);color:var(--warn);}
+.pchip.p2.on{border-color:var(--danger);background:var(--danger-soft);color:var(--danger);}
+.mini-in{width:82px;border:1.5px solid var(--line);border-radius:999px;padding:7px 12px;background:var(--bg);outline:none;font-size:12.5px;font-weight:600;}
+.mini-in:focus{border-color:var(--accent);background:var(--card);}
 
-/* ===== Task list ===== */
-.task{display:flex;align-items:center;gap:12px;padding:12px 4px;border-bottom:1px solid var(--line);}
+/* ===== Tasks ===== */
+.task{display:flex;align-items:center;gap:11px;padding:12px 8px 12px 12px;border-bottom:1px solid var(--line);border-left:3px solid transparent;border-radius:2px;transition:background .12s;}
+.task:hover{background:var(--bg);}
 .task:last-child{border-bottom:none;}
+.task.pr1{border-left-color:var(--warn);}
+.task.pr2{border-left-color:var(--danger);}
+@keyframes pop{0%{transform:scale(.6);}60%{transform:scale(1.15);}100%{transform:scale(1);}}
 .tick{width:24px;height:24px;border-radius:8px;border:2px solid var(--ink3);flex:0 0 auto;display:flex;align-items:center;justify-content:center;color:transparent;font-size:13px;transition:.15s;}
-.task.done .tick{background:var(--good);border-color:var(--good);color:#fff;}
-.task .body{flex:1;min-width:0;}
+.task.done .tick{background:var(--good);border-color:var(--good);color:#fff;animation:pop .25s ease;}
+.task .body{flex:1;min-width:0;cursor:pointer;}
 .task .t{font-weight:600;font-size:15px;}
 .task.done .t{text-decoration:line-through;color:var(--ink3);}
 .task .m{display:flex;gap:8px;align-items:center;margin-top:3px;flex-wrap:wrap;}
 .badge{font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px;}
 .mins{font-size:12px;color:var(--ink2);font-weight:600;}
-.del{color:var(--ink3);font-size:17px;padding:6px;opacity:.6;}
+.late{font-size:11px;font-weight:700;color:var(--danger);}
+.play{width:32px;height:32px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-size:12px;flex:0 0 auto;display:flex;align-items:center;justify-content:center;transition:.15s;}
+.play:hover{background:var(--accent);color:#fff;}
+.del{color:var(--ink3);font-size:17px;padding:6px;opacity:.55;}
 .empty{color:var(--ink3);font-size:14px;text-align:center;padding:26px 10px;}
 .empty b{display:block;font-size:15px;color:var(--ink2);margin-bottom:3px;}
+.alldone{text-align:center;padding:28px 10px;}
+.alldone .big{font-size:34px;}
+.alldone b{display:block;font-size:16px;margin-top:6px;}
+.alldone span{font-size:13px;color:var(--ink2);}
 
 /* ===== Week ===== */
+.wk-nav{display:flex;align-items:center;gap:10px;}
+.wk-nav .arr{width:32px;height:32px;border-radius:10px;background:var(--card);border:1px solid var(--line);font-size:14px;color:var(--ink2);}
+.wk-nav .cur{font-weight:700;font-size:13.5px;color:var(--ink2);min-width:120px;text-align:center;}
 .week{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;}
 @media(max-width:760px){.week{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px;margin:0 -16px;padding-left:16px;padding-right:16px;}
-.day{min-width:72vw;scroll-snap-align:start;}}
-.day{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;box-shadow:var(--shadow);}
+.day{min-width:70vw;scroll-snap-align:start;}}
+.day{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:11px;box-shadow:var(--shadow);display:flex;flex-direction:column;}
 .day.today{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft),var(--shadow);}
-.day h4{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink3);display:flex;justify-content:space-between;}
-.day h4 b{color:var(--ink);}
-.slot{font-size:11.5px;font-weight:600;background:var(--bg);border-left:3px solid var(--ink3);padding:5px 8px;border-radius:0 8px 8px 0;margin-top:7px;color:var(--ink2);}
-.dtask{font-size:12.5px;font-weight:600;padding:6px 8px;border-radius:9px;margin-top:7px;display:flex;gap:6px;align-items:center;}
-.dtask.done{opacity:.45;text-decoration:line-through;}
-.dtask .dm{margin-left:auto;font-size:10.5px;font-weight:700;opacity:.75;}
+.day-h{display:flex;align-items:center;gap:7px;margin-bottom:2px;}
+.day-h .dn{font-size:19px;font-weight:800;letter-spacing:-.02em;}
+.day.today .dn{color:var(--accent);}
+.day-h .dw{font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--ink3);font-weight:700;line-height:1.25;}
+.day-h .dadd{margin-left:auto;width:26px;height:26px;border-radius:8px;background:var(--bg);border:1px dashed var(--ink3);color:var(--ink3);font-size:14px;line-height:1;transition:.15s;}
+.day-h .dadd:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-soft);}
+.day-load{font-size:10.5px;color:var(--ink3);font-weight:600;margin-bottom:6px;min-height:14px;}
+.slot{font-size:11px;font-weight:600;background:var(--bg);border-left:3px solid var(--ink3);padding:4px 8px;border-radius:0 8px 8px 0;margin-top:6px;color:var(--ink2);display:flex;justify-content:space-between;gap:6px;}
+.slot .x{opacity:0;color:var(--ink3);transition:.12s;}
+.slot:hover .x{opacity:.8;}
+.dtask{font-size:12.5px;font-weight:600;padding:6px 8px;border-radius:9px;margin-top:6px;display:flex;gap:6px;align-items:center;cursor:pointer;}
+.dtask.done{opacity:.4;text-decoration:line-through;}
+.dtask .dm{margin-left:auto;font-size:10.5px;font-weight:700;opacity:.75;flex:0 0 auto;}
 
-/* ===== Subs & deadlines ===== */
+/* ===== Stats ===== */
+.chart{display:flex;gap:8px;align-items:flex-end;height:150px;padding:6px 2px 0;}
+.chart .col{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end;}
+.chart .bar{width:100%;max-width:44px;border-radius:8px 8px 4px 4px;background:var(--track);position:relative;transition:height .5s ease;min-height:4px;}
+.chart .bar.hot{background:var(--accent);}
+.chart .val{font-size:10px;font-weight:700;color:var(--ink2);}
+.chart .dlb{font-size:10.5px;font-weight:700;color:var(--ink3);text-transform:uppercase;}
+.chart .col.today .dlb{color:var(--accent);}
+.abar{display:flex;align-items:center;gap:10px;margin:9px 0;}
+.abar .an{width:96px;font-size:12.5px;font-weight:700;flex:0 0 auto;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.abar .atr{flex:1;height:12px;background:var(--track);border-radius:999px;overflow:hidden;}
+.abar .af{height:100%;border-radius:999px;transition:width .5s;}
+.abar .av{font-size:11.5px;font-weight:700;color:var(--ink2);width:52px;text-align:right;flex:0 0 auto;}
+
+/* ===== Subs / deadlines ===== */
 .sub-row{display:flex;align-items:center;gap:12px;padding:12px 4px;border-bottom:1px solid var(--line);}
 .sub-row:last-child{border:none;}
 .sub-ico{width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:17px;flex:0 0 auto;}
 .sub-row .n{font-weight:700;font-size:14.5px;}
 .sub-row .d{font-size:12px;color:var(--ink3);}
-.sub-row .amt{margin-left:auto;font-weight:800;font-size:15px;}
+.sub-row .amt{margin-left:auto;font-weight:800;font-size:15px;text-align:right;}
+.sub-row .amt small{display:block;font-size:10.5px;font-weight:600;color:var(--ink3);}
 .total-line{display:flex;justify-content:space-between;align-items:center;padding-top:14px;margin-top:4px;border-top:2px solid var(--ink);font-weight:800;}
+.total-line small{display:block;font-size:11px;color:var(--ink3);font-weight:600;}
 .dl{display:flex;align-items:center;gap:12px;padding:13px 4px;border-bottom:1px solid var(--line);}
 .dl:last-child{border:none;}
-.count{min-width:56px;text-align:center;border-radius:12px;padding:7px 4px;font-weight:800;font-size:16px;line-height:1;}
+.count{min-width:56px;text-align:center;border-radius:12px;padding:7px 4px;font-weight:800;font-size:16px;line-height:1;flex:0 0 auto;}
 .count small{display:block;font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-top:2px;opacity:.8;}
-.plan-btn{margin-left:auto;font-size:12px;font-weight:700;color:var(--accent);background:var(--accent-soft);padding:8px 12px;border-radius:999px;white-space:nowrap;}
+.plan-btn{margin-left:auto;font-size:12px;font-weight:700;color:var(--accent);background:var(--accent-soft);padding:8px 12px;border-radius:999px;white-space:nowrap;flex:0 0 auto;}
 
 /* ===== Flows ===== */
 .flows{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px;}
 .flow{background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:15px;text-align:left;transition:.15s;box-shadow:var(--shadow);}
-.flow:hover{border-color:var(--accent);}
+.flow:hover{border-color:var(--accent);transform:translateY(-1px);}
 .flow .fi{font-size:22px;}
 .flow b{display:block;font-size:14px;margin-top:8px;}
 .flow span{font-size:12px;color:var(--ink2);display:block;margin-top:3px;line-height:1.45;}
 
-/* ===== Overlays ===== */
+/* ===== Sheets / overlays ===== */
 .ovl{position:fixed;inset:0;background:rgba(27,31,36,.45);backdrop-filter:blur(3px);z-index:100;display:flex;align-items:flex-end;justify-content:center;}
 @media(min-width:640px){.ovl{align-items:center;}}
-.sheet{background:var(--card);border-radius:22px 22px 0 0;width:100%;max-width:480px;padding:24px 22px calc(24px + env(safe-area-inset-bottom));max-height:88vh;overflow-y:auto;}
+@keyframes rise{from{transform:translateY(24px);opacity:.6;}to{transform:none;opacity:1;}}
+.sheet{background:var(--card);border-radius:22px 22px 0 0;width:100%;max-width:480px;padding:24px 22px calc(24px + env(safe-area-inset-bottom));max-height:88vh;overflow-y:auto;animation:rise .22s ease;}
 @media(min-width:640px){.sheet{border-radius:22px;}}
 .sheet h3{font-size:19px;font-weight:800;margin-bottom:4px;letter-spacing:-.01em;}
 .sheet .sd{font-size:13.5px;color:var(--ink2);margin-bottom:16px;}
 .f-row{margin-bottom:13px;}
 .f-row label{display:block;font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--ink3);margin-bottom:6px;}
 .f-row input,.f-row select{width:100%;border:1.5px solid var(--line);border-radius:12px;padding:12px 13px;background:var(--bg);outline:none;}
-.f-row input:focus,.f-row select:focus{border-color:var(--accent);background:#fff;}
-.sheet .cta{width:100%;background:var(--accent);color:#fff;font-weight:800;font-size:15.5px;border-radius:14px;padding:15px;margin-top:6px;}
+.f-row input:focus,.f-row select:focus{border-color:var(--accent);background:var(--card);}
+.f-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.sheet .cta{width:100%;background:var(--accent);color:#fff;font-weight:800;font-size:15.5px;border-radius:14px;padding:15px;margin-top:6px;transition:.15s;}
+.sheet .cta:hover{background:var(--accent2);}
 .sheet .ghost{width:100%;color:var(--ink2);font-weight:600;padding:13px;font-size:14px;}
+.sheet .danger{width:100%;color:var(--danger);font-weight:700;padding:13px;font-size:14px;}
 .persona-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0 6px;}
 .persona{border:2px solid var(--line);border-radius:16px;padding:16px 13px;text-align:center;transition:.15s;}
 .persona.on,.persona:hover{border-color:var(--accent);background:var(--accent-soft);}
@@ -156,176 +200,198 @@ input,select{font-family:inherit;font-size:15px;color:var(--ink);}
 .wordmark .dot{color:var(--accent);}
 .tagline{font-family:'Literata',serif;font-style:italic;text-align:center;color:var(--ink2);font-size:14.5px;margin:4px 0 18px;}
 .hide{display:none!important;}
-.stat-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px;}
-.stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px;box-shadow:var(--shadow);}
-.stat b{font-size:20px;font-weight:800;letter-spacing:-.02em;display:block;}
-.stat span{font-size:11px;color:var(--ink3);font-weight:600;text-transform:uppercase;letter-spacing:.04em;}
 .prem{font-size:12px;color:var(--ink2);background:var(--warn-soft);border:1px solid #EAD9BC;border-radius:12px;padding:11px 14px;margin-top:10px;line-height:1.5;}
 .prem b{color:var(--warn);}
+.focus-time{font-size:56px;font-weight:800;letter-spacing:-.02em;text-align:center;font-variant-numeric:tabular-nums;margin:10px 0 2px;}
+.focus-sub{text-align:center;color:var(--ink2);font-size:14px;margin-bottom:18px;}
 </style>
 </head>
 <body>
 <div class="app">
-
   <div class="top">
-    <div class="brand">πάντα<span class="dot">.</span><span class="brand-tag" id="brandTag">Τα πάντα σου. Πάντα.</span></div>
+    <div class="brand">πάντα<span class="dot">.</span><span class="brand-tag" id="brandTag"></span></div>
     <div class="spacer"></div>
     <div class="profiles" id="profileBar"></div>
+    <button class="iconbtn" onclick="openSettings()" title="Settings">⚙</button>
     <button class="lang" id="langBtn" onclick="toggleLang()">EN</button>
   </div>
-
   <div class="hero">
     <div style="flex:1">
       <h1 id="greet"></h1>
       <div class="sub" id="greetSub"></div>
     </div>
-    <div class="ring" id="ring"><div class="in"><b id="ringPct">0%</b><span id="ringLbl">σήμερα</span></div></div>
+    <div class="ring" id="ring"><div class="in"><b id="ringPct">0%</b><span id="ringLbl"></span></div></div>
   </div>
-
   <div class="tabs" id="tabs"></div>
-
   <main id="view"></main>
 </div>
 
-<!-- Onboarding -->
 <div class="ovl" id="onb">
   <div class="sheet">
     <div class="wordmark">πάντα<span class="dot">.</span></div>
-    <div class="tagline" id="onbTag">Τα πάντα σου. Πάντα.</div>
-    <div style="text-align:center;margin-bottom:8px;"><button class="lang" onclick="toggleLang()" id="onbLang">English</button></div>
-    <div class="f-row"><label id="onbNameLbl">Το όνομά σου</label><input type="text" id="onbName" placeholder="π.χ. Νίκος"></div>
-    <label style="font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--ink3);" id="onbWho">Ποιος θα το χρησιμοποιεί;</label>
+    <div class="tagline" id="onbTag"></div>
+    <div style="text-align:center;margin-bottom:8px;"><button class="lang" onclick="toggleLang()" id="onbLang"></button></div>
+    <div class="f-row"><label id="onbNameLbl"></label><input type="text" id="onbName" placeholder="π.χ. Νίκος"></div>
+    <label style="font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--ink3);" id="onbWho"></label>
     <div class="persona-grid" id="personaGrid"></div>
-    <button class="cta" id="onbGo" onclick="finishOnb()">Ξεκίνα — είναι δωρεάν</button>
+    <button class="cta" id="onbGo" onclick="finishOnb()" style="width:100%;background:var(--accent);color:#fff;font-weight:800;font-size:15.5px;border-radius:14px;padding:15px;margin-top:6px;"></button>
   </div>
 </div>
-
-<!-- Generic sheet -->
 <div class="ovl hide" id="sheetOvl"><div class="sheet" id="sheetBody"></div></div>
-
 <script>
-/* ============ Safe storage (works in restricted previews, persists when deployed) ============ */
+/* ============ Safe storage ============ */
 const mem={};
 const store={
   get(k){ try{ return localStorage.getItem(k) ?? mem[k] ?? null; }catch(e){ return mem[k] ?? null; } },
-  set(k,v){ mem[k]=v; try{ localStorage.setItem(k,v); }catch(e){} }
+  set(k,v){ mem[k]=v; try{ localStorage.setItem(k,v); }catch(e){} },
+  del(k){ delete mem[k]; try{ localStorage.removeItem(k); }catch(e){} }
 };
 
 /* ============ i18n ============ */
 const T={
-  el:{tag:"Τα πάντα σου. Πάντα.",today:"Σήμερα",week:"Εβδομάδα",subs:"Συνδρομές",dls:"Προθεσμίες",flows:"Ροές",
-  hi:["Καλημέρα","Καλησπέρα","Καλό βράδυ"],greetSub:d=>`${d.left} εκκρεμότητες · ~${d.time} ακόμη`,allDone:"Όλα έτοιμα — μπράβο! 🎉",
-  ringLbl:"σήμερα",qPh:"Τι πρέπει να γίνει; π.χ. Ασκήσεις άλγεβρας…",qGo:"Προσθήκη",area:"Τομέας",time:"Χρόνος",day:"Ημέρα",
-  todayTasks:"Οι εκκρεμότητες του σήμερα",tomorrow:"Αύριο",noTasks:"Τίποτα εδώ",noTasksSub:"Πρόσθεσε κάτι από πάνω ή διάλεξε μια έτοιμη ροή.",
-  schedule:"Πρόγραμμα",addSlot:"+ μάθημα/δραστηριότητα",subsTitle:"Οι συνδρομές της οικογένειας",subsHint:"φροντιστήρια, αθλήματα, υπηρεσίες",
-  addSub:"+ συνδρομή",perMonth:"Σύνολο / μήνα",renews:"ανανέωση",dlTitle:"Διαγωνίσματα & προθεσμίες",addDl:"+ προθεσμία",
-  plan:"Φτιάξε πλάνο",planned:"Έτοιμο πλάνο ✓",days:"μέρες",daysOne:"μέρα",todayLit:"σήμερα",
-  flowsTitle:"Έτοιμες ροές",flowsHint:"ένα πάτημα — έτοιμο πρόγραμμα",
-  stTasks:"εκκρεμότητες",stTime:"χρόνος σήμερα",stStreak:"σερί ημερών",
-  wk:["Δευ","Τρί","Τετ","Πέμ","Παρ","Σάβ","Κυρ"],
-  months:["Ιαν","Φεβ","Μαρ","Απρ","Μαΐ","Ιουν","Ιουλ","Αυγ","Σεπ","Οκτ","Νοε","Δεκ"],
-  onbName:"Το όνομά σου",onbWho:"Ποιος θα το χρησιμοποιεί;",onbGo:"Ξεκίνα — είναι δωρεάν",onbLang:"English",
-  personas:{student:["🎒","Μαθητής","σχολείο & φροντιστήρια"],uni:["🎓","Φοιτητής","σχολές & εργασίες"],adult:["🗂️","Ενήλικας","λογαριασμοί & ζωή"],parent:["👨‍👩‍👧","Γονέας","όλη η οικογένεια"]},
-  newProfile:"Νέο προφίλ",name:"Όνομα",type:"Τύπος",create:"Δημιουργία",cancel:"Άκυρο",
-  subName:"Όνομα (π.χ. Φροντιστήριο Μαθηματικών)",subCost:"€ / μήνα",subDay:"Ημέρα ανανέωσης (1–28)",subCat:"Κατηγορία",
-  cats:{edu:"📚 Εκπαίδευση",sport:"⚽ Άθλημα",serv:"📺 Υπηρεσία",health:"🏥 Υγεία"},
-  dlName:"Τίτλος (π.χ. Διαγώνισμα Φυσικής)",dlDate:"Ημερομηνία",dlArea:"Τομέας",
-  slotName:"Τίτλος (π.χ. Σχολείο, Αγγλικά)",slotDays:"Ημέρες",slotTime:"Ώρα (π.χ. 17:00–19:00)",
-  flowStudy:["📘","Διάβασμα μαθήματος","Θεωρία 30′ → Ασκήσεις 45′ → Επανάληψη 20′"],
-  flowExam:["📝","Προετοιμασία διαγωνίσματος","διάλεξε ημερομηνία — το πλάνο μοιράζεται μόνο του στις μέρες"],
-  flowWork:["🎓","Εργασία / Coursework","Έρευνα → Σχέδιο → Γράψιμο → Διόρθωση → Παράδοση"],
-  flowRev:["🔁","Επανάληψη εβδομάδας","20′ ανά μάθημα, κάθε Σάββατο"],
-  flowBills:["💶","Λογαριασμοί μήνα","ΔΕΗ, νερό, κινητό, κοινόχρηστα — μία φορά τον μήνα"],
-  pickArea:"Για ποιο μάθημα/τομέα;",pickDate:"Πότε είναι;",apply:"Πρόσθεσέ το",
-  premT:"Πάντα Family",prem:"Δωρεάν: 1 προφίλ. <b>Πάντα Family €19,90/έτος</b> — έως 4 προφίλ, αντίγραφα ασφαλείας & συγχρονισμός σε όλες τις συσκευές.",
-  examFlow:["Θεωρία & σημειώσεις","Ασκήσεις","Επανάληψη λαθών","Sample διαγώνισμα"],
-  workFlow:["Έρευνα & πηγές","Σχεδιάγραμμα","Γράψιμο πρώτης έκδοσης","Διόρθωση & μορφοποίηση","Τελικός έλεγχος & παράδοση"]},
-  en:{tag:"Everything you've got. Always.",today:"Today",week:"Week",subs:"Subscriptions",dls:"Deadlines",flows:"Flows",
-  hi:["Good morning","Good afternoon","Good evening"],greetSub:d=>`${d.left} to do · ~${d.time} left`,allDone:"All done — well done! 🎉",
-  ringLbl:"today",qPh:"What needs to get done? e.g. Algebra exercises…",qGo:"Add",area:"Area",time:"Time",day:"Day",
-  todayTasks:"Today's tasks",tomorrow:"Tomorrow",noTasks:"Nothing here",noTasksSub:"Add something above or pick a ready-made flow.",
-  schedule:"Schedule",addSlot:"+ class/activity",subsTitle:"Family subscriptions",subsHint:"tutors, sports, services",
-  addSub:"+ subscription",perMonth:"Total / month",renews:"renews",dlTitle:"Exams & deadlines",addDl:"+ deadline",
-  plan:"Auto-plan",planned:"Plan ready ✓",days:"days",daysOne:"day",todayLit:"today",
-  flowsTitle:"Ready-made flows",flowsHint:"one tap — full plan",
-  stTasks:"open tasks",stTime:"time today",stStreak:"day streak",
-  wk:["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],
-  months:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
-  onbName:"Your name",onbWho:"Who will use it?",onbGo:"Start — it's free",onbLang:"Ελληνικά",
-  personas:{student:["🎒","Student","school & tutoring"],uni:["🎓","University","courses & deadlines"],adult:["🗂️","Adult","bills & life"],parent:["👨‍👩‍👧","Parent","the whole family"]},
-  newProfile:"New profile",name:"Name",type:"Type",create:"Create",cancel:"Cancel",
-  subName:"Name (e.g. Math tutor)",subCost:"€ / month",subDay:"Renewal day (1–28)",subCat:"Category",
-  cats:{edu:"📚 Education",sport:"⚽ Sport",serv:"📺 Service",health:"🏥 Health"},
-  dlName:"Title (e.g. Physics exam)",dlDate:"Date",dlArea:"Area",
-  slotName:"Title (e.g. School, English)",slotDays:"Days",slotTime:"Time (e.g. 17:00–19:00)",
-  flowStudy:["📘","Study a subject","Theory 30′ → Exercises 45′ → Review 20′"],
-  flowExam:["📝","Exam prep","pick a date — the plan spreads itself across the days"],
-  flowWork:["🎓","Coursework","Research → Outline → Draft → Edit → Submit"],
-  flowRev:["🔁","Weekly review","20′ per subject, every Saturday"],
-  flowBills:["💶","Monthly bills","power, water, phone — once a month"],
-  pickArea:"Which subject/area?",pickDate:"When is it?",apply:"Add it",
-  premT:"Panta Family",prem:"Free: 1 profile. <b>Panta Family €19.90/yr</b> — up to 4 profiles, backups & sync across devices.",
-  examFlow:["Theory & notes","Exercises","Review mistakes","Sample exam"],
-  workFlow:["Research & sources","Outline","First draft","Edit & format","Final check & submit"]}
-};
+el:{tag:"Τα πάντα σου. Πάντα.",today:"Σήμερα",week:"Εβδομάδα",stats:"Πρόοδος",subs:"Συνδρομές",dls:"Προθεσμίες",flows:"Ροές",
+hi:["Καλημέρα","Καλησπέρα","Καλό βράδυ"],greetSub:d=>`${d.left} εκκρεμότητες · ~${d.time} ακόμη`,allDone:"Όλα έτοιμα για σήμερα 🎉",
+ringLbl:"σήμερα",qPh:"Τι πρέπει να γίνει; π.χ. Ασκήσεις άλγεβρας…",qGo:"Προσθήκη",area:"Τομέας",time:"Χρόνος",day:"Ημέρα",prio:"Προτερ.",
+orMins:"ή λεπτά:",custPh:"π.χ. 180",
+prios:["Χαμηλή","Μεσαία","Υψηλή"],
+todayTasks:"Οι εκκρεμότητες του σήμερα",overdue:"Καθυστερημένα",tomorrow:"Αύριο",noTasks:"Τίποτα εδώ",noTasksSub:"Πρόσθεσε κάτι από πάνω ή διάλεξε μια έτοιμη ροή.",
+allDoneBig:"Τα κατάφερες!",allDoneSub:"Όλες οι σημερινές εκκρεμότητες ολοκληρώθηκαν.",
+schedule:"Πρόγραμμα",addSlot:"+ σταθερή δραστηριότητα",thisWeek:"Τρέχουσα",weekOf:"Εβδ.",
+subsTitle:"Συνδρομές",subsHint:"φροντιστήρια, αθλήματα, υπηρεσίες",addSub:"+ συνδρομή",
+perMonth:"Σύνολο / μήνα",perYear:"το χρόνο",renews:"ανανέωση",monthly:"Μηνιαία",yearly:"Ετήσια",cycle:"Χρέωση",
+dlTitle:"Διαγωνίσματα & προθεσμίες",addDl:"+ προθεσμία",plan:"Φτιάξε πλάνο",planned:"Έτοιμο ✓",days:"μέρες",daysOne:"μέρα",todayLit:"σήμερα",late:"πέρασε",
+flowsTitle:"Έτοιμες ροές",flowsHint:"ένα πάτημα — έτοιμο πρόγραμμα",
+stTasks:"εκκρεμότητες",stTime:"χρόνος σήμερα",stStreak:"σερί ημερών",
+statsH:"Η πρόοδός σου",chartH:"Ώρες δουλειάς — 7 ημέρες",chartHint:"με βάση όσα ολοκλήρωσες",
+sDone:"ολοκληρωμένα (7ημ)",sHours:"ώρες (7ημ)",sToday:"σήμερα",sBest:"καλύτερη μέρα",
+areaH:"Ανά τομέα — 7 ημέρες",noStats:"Ολοκλήρωσε τις πρώτες σου εκκρεμότητες και εδώ θα χτίζεται η εικόνα σου.",
+wk:["Δευ","Τρί","Τετ","Πέμ","Παρ","Σάβ","Κυρ"],wk1:["Δε","Τρ","Τε","Πε","Πα","Σα","Κυ"],
+months:["Ιαν","Φεβ","Μαρ","Απρ","Μαΐ","Ιουν","Ιουλ","Αυγ","Σεπ","Οκτ","Νοε","Δεκ"],
+onbName:"Το όνομά σου",onbWho:"Ποιος θα το χρησιμοποιεί;",onbGo:"Ξεκίνα — είναι δωρεάν",onbLang:"English",
+personas:{student:["🎒","Μαθητής","σχολείο & φροντιστήρια"],uni:["🎓","Φοιτητής","σχολές & εργασίες"],adult:["🗂️","Ενήλικας","λογαριασμοί & ζωή"],parent:["👨‍👩‍👧","Γονέας","όλη η οικογένεια"]},
+newProfile:"Νέο προφίλ",name:"Όνομα",type:"Τύπος",create:"Δημιουργία",cancel:"Άκυρο",saveB:"Αποθήκευση",edit:"Επεξεργασία",
+subName:"Όνομα (π.χ. Φροντιστήριο)",subCost:"Ποσό €",subDay:"Ημέρα ανανέωσης (1–28)",subCat:"Κατηγορία",
+cats:{edu:"📚 Εκπαίδευση",sport:"⚽ Άθλημα",serv:"📺 Υπηρεσία",health:"🏥 Υγεία"},
+dlName:"Τίτλος (π.χ. Διαγώνισμα Φυσικής)",dlDate:"Ημερομηνία",dlArea:"Τομέας",
+slotName:"Τίτλος (π.χ. Σχολείο, Προπόνηση)",slotDays:"Ημέρες",slotTime:"Ώρα (π.χ. 17:00–19:00)",
+addOn:"Νέα εκκρεμότητα",minutes:"Λεπτά",date:"Ημερομηνία",
+flowStudy:["📘","Διάβασμα μαθήματος","Θεωρία 30′ → Ασκήσεις 45′ → Επανάληψη 20′"],
+flowExam:["📝","Προετοιμασία διαγωνίσματος","διάλεξε ημερομηνία — το πλάνο μοιράζεται μόνο του"],
+flowWork:["🎓","Εργασία / Coursework","Έρευνα → Σχέδιο → Γράψιμο → Διόρθωση → Παράδοση"],
+flowRev:["🔁","Επανάληψη εβδομάδας","20′ ανά μάθημα, κάθε Σάββατο"],
+flowBills:["💶","Λογαριασμοί μήνα","ΔΕΗ, νερό, κινητό — μία φορά τον μήνα"],
+pickArea:"Για ποιο μάθημα/τομέα;",pickDate:"Πότε είναι;",apply:"Πρόσθεσέ το",
+premT:"Πάντα Family",prem:"Δωρεάν: 1 προφίλ. <b>Πάντα Family €19,90/έτος</b> — έως 4 προφίλ, αντίγραφα ασφαλείας & συγχρονισμός.",
+examFlow:["Θεωρία & σημειώσεις","Ασκήσεις","Επανάληψη λαθών","Sample διαγώνισμα"],
+workFlow:["Έρευνα & πηγές","Σχεδιάγραμμα","Γράψιμο πρώτης έκδοσης","Διόρθωση & μορφοποίηση","Τελικός έλεγχος & παράδοση"],
+settings:"Ρυθμίσεις",areasH:"Τομείς / μαθήματα",areaPh:"Νέος τομέας…",addB:"+",backup:"Λήψη αντιγράφου (JSON)",resetB:"Διαγραφή όλων & επανεκκίνηση",resetQ:"Σίγουρα; Θα χαθούν όλα.",
+focusT:"Ώρα συγκέντρωσης",focusDone:"Ολοκληρώθηκε ✓",focusPause:"Παύση",focusGo:"Συνέχεια",focusStop:"Ακύρωση",focusOver:"+ επιπλέον χρόνος"},
+en:{tag:"Everything you've got. Always.",today:"Today",week:"Week",stats:"Progress",subs:"Subs",dls:"Deadlines",flows:"Flows",
+hi:["Good morning","Good afternoon","Good evening"],greetSub:d=>`${d.left} to do · ~${d.time} left`,allDone:"All clear for today 🎉",
+ringLbl:"today",qPh:"What needs to get done? e.g. Algebra exercises…",qGo:"Add",area:"Area",time:"Time",day:"Day",prio:"Priority",
+orMins:"or mins:",custPh:"e.g. 180",
+prios:["Low","Medium","High"],
+todayTasks:"Today's tasks",overdue:"Overdue",tomorrow:"Tomorrow",noTasks:"Nothing here",noTasksSub:"Add something above or pick a ready-made flow.",
+allDoneBig:"You did it!",allDoneSub:"Everything for today is complete.",
+schedule:"Schedule",addSlot:"+ recurring activity",thisWeek:"This week",weekOf:"Wk of",
+subsTitle:"Subscriptions",subsHint:"tutors, sports, services",addSub:"+ subscription",
+perMonth:"Total / month",perYear:"per year",renews:"renews",monthly:"Monthly",yearly:"Yearly",cycle:"Billing",
+dlTitle:"Exams & deadlines",addDl:"+ deadline",plan:"Auto-plan",planned:"Ready ✓",days:"days",daysOne:"day",todayLit:"today",late:"overdue",
+flowsTitle:"Ready-made flows",flowsHint:"one tap — full plan",
+stTasks:"open tasks",stTime:"time today",stStreak:"day streak",
+statsH:"Your progress",chartH:"Hours worked — 7 days",chartHint:"based on what you completed",
+sDone:"done (7d)",sHours:"hours (7d)",sToday:"today",sBest:"best day",
+areaH:"By area — 7 days",noStats:"Complete your first tasks and your picture will build here.",
+wk:["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],wk1:["Mo","Tu","We","Th","Fr","Sa","Su"],
+months:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
+onbName:"Your name",onbWho:"Who will use it?",onbGo:"Start — it's free",onbLang:"Ελληνικά",
+personas:{student:["🎒","Student","school & tutoring"],uni:["🎓","University","courses & deadlines"],adult:["🗂️","Adult","bills & life"],parent:["👨‍👩‍👧","Parent","the whole family"]},
+newProfile:"New profile",name:"Name",type:"Type",create:"Create",cancel:"Cancel",saveB:"Save",edit:"Edit",
+subName:"Name (e.g. Math tutor)",subCost:"Amount €",subDay:"Renewal day (1–28)",subCat:"Category",
+cats:{edu:"📚 Education",sport:"⚽ Sport",serv:"📺 Service",health:"🏥 Health"},
+dlName:"Title (e.g. Physics exam)",dlDate:"Date",dlArea:"Area",
+slotName:"Title (e.g. School, Practice)",slotDays:"Days",slotTime:"Time (e.g. 17:00–19:00)",
+addOn:"New task",minutes:"Minutes",date:"Date",
+flowStudy:["📘","Study a subject","Theory 30′ → Exercises 45′ → Review 20′"],
+flowExam:["📝","Exam prep","pick a date — the plan spreads itself"],
+flowWork:["🎓","Coursework","Research → Outline → Draft → Edit → Submit"],
+flowRev:["🔁","Weekly review","20′ per subject, every Saturday"],
+flowBills:["💶","Monthly bills","power, water, phone — once a month"],
+pickArea:"Which subject/area?",pickDate:"When is it?",apply:"Add it",
+premT:"Panta Family",prem:"Free: 1 profile. <b>Panta Family €19.90/yr</b> — up to 4 profiles, backups & sync.",
+examFlow:["Theory & notes","Exercises","Review mistakes","Sample exam"],
+workFlow:["Research & sources","Outline","First draft","Edit & format","Final check & submit"],
+settings:"Settings",areasH:"Areas / subjects",areaPh:"New area…",addB:"+",backup:"Download backup (JSON)",resetB:"Delete everything & restart",resetQ:"Sure? Everything will be lost.",
+focusT:"Focus time",focusDone:"Completed ✓",focusPause:"Pause",focusGo:"Resume",focusStop:"Cancel",focusOver:"+ extra time"}};
 
-/* ============ Areas / palette ============ */
 const AREA_COLORS=[["#2B5BD7","#E8F0FE"],["#1E7A46","#E4F4EA"],["#B0641D","#FBF0E0"],["#8A3FC2","#F3E9FB"],["#C2334F","#FBE9ED"],["#0E6E5C","#E2F2EE"],["#6B7280","#EEF0F2"]];
 
-/* ============ Seeds per persona ============ */
+/* ============ Seeds ============ */
 function seeds(p,lang){
   const el=lang==="el";
   const D=n=>{const d=new Date();d.setDate(d.getDate()+n);return d.toISOString().slice(0,10);};
-  if(p==="student")return{
+  /* demo history so Progress looks alive: last 5 days */
+  const hist=[[4,50,0],[3,75,1],[2,40,0],[1,95,2],[1,30,3]].map(([back,min,a])=>({d:D(-back),min,a}));
+  if(p==="student")return{hist,
     areas:el?["Μαθηματικά","Φυσική","Βιολογία","Αγγλικά"]:["Math","Physics","Biology","English"],
     tasks:[
-      {t:el?"Ασκήσεις άλγεβρας σελ. 42":"Algebra exercises p. 42",a:0,min:45,d:D(0)},
-      {t:el?"Θεωρία: κύτταρο":"Theory: the cell",a:2,min:30,d:D(0)},
-      {t:el?"Vocabulary Unit 5":"Vocabulary Unit 5",a:3,min:20,d:D(1)}],
+      {t:el?"Ασκήσεις άλγεβρας σελ. 42":"Algebra exercises p. 42",a:0,min:45,d:D(0),p:2},
+      {t:el?"Θεωρία: κύτταρο":"Theory: the cell",a:2,min:30,d:D(0),p:1},
+      {t:el?"Vocabulary Unit 5":"Vocabulary Unit 5",a:3,min:20,d:D(1),p:0}],
     slots:[{n:el?"Σχολείο":"School",days:[0,1,2,3,4],time:"08:15–14:00"},
       {n:el?"Φροντιστήριο Μαθ.":"Math tutoring",days:[1,3],time:"17:00–19:00"},
       {n:el?"Ποδόσφαιρο":"Football",days:[2,4],time:"18:00–19:30"}],
-    subs:[{n:el?"Φροντιστήριο":"Tutoring school",c:120,day:1,cat:"edu"},
-      {n:el?"Ποδόσφαιρο":"Football club",c:40,day:5,cat:"sport"},
-      {n:el?"Αγγλικά":"English lessons",c:60,day:1,cat:"edu"}],
+    subs:[{n:el?"Φροντιστήριο":"Tutoring school",c:120,day:1,cat:"edu",cy:"m"},
+      {n:el?"Ποδόσφαιρο":"Football club",c:40,day:5,cat:"sport",cy:"m"},
+      {n:el?"Αγγλικά":"English lessons",c:60,day:1,cat:"edu",cy:"m"}],
     dls:[{t:el?"Διαγώνισμα Φυσικής":"Physics exam",a:1,d:D(9)}]};
-  if(p==="uni")return{
+  if(p==="uni")return{hist,
     areas:el?["Μικροοικονομία","Στατιστική","Marketing","Αγγλικά ΙΙ"]:["Microeconomics","Statistics","Marketing","English II"],
-    tasks:[{t:el?"Διάβασμα κεφ. 3":"Read chapter 3",a:0,min:60,d:D(0)},
-      {t:el?"Ασκήσεις SPSS":"SPSS exercises",a:1,min:45,d:D(1)}],
+    tasks:[{t:el?"Διάβασμα κεφ. 3":"Read chapter 3",a:0,min:60,d:D(0),p:1},
+      {t:el?"Ασκήσεις SPSS":"SPSS exercises",a:1,min:45,d:D(1),p:1}],
     slots:[{n:el?"Διαλέξεις":"Lectures",days:[0,2,4],time:"09:00–13:00"},{n:el?"Γυμναστήριο":"Gym",days:[1,3],time:"19:00–20:00"}],
-    subs:[{n:"Spotify",c:6,day:12,cat:"serv"},{n:el?"Γυμναστήριο":"Gym",c:25,day:1,cat:"sport"}],
+    subs:[{n:"Spotify",c:6,day:12,cat:"serv",cy:"m"},{n:el?"Γυμναστήριο":"Gym",c:25,day:1,cat:"sport",cy:"m"},{n:el?"Πάσο βιβλιοθήκης":"Library pass",c:30,day:1,cat:"edu",cy:"y"}],
     dls:[{t:el?"Παράδοση εργασίας Marketing":"Marketing coursework due",a:2,d:D(14)},{t:el?"Εξεταστική: Στατιστική":"Statistics final",a:1,d:D(21)}]};
-  if(p==="adult")return{
+  if(p==="adult")return{hist,
     areas:el?["Σπίτι","Οικονομικά","Υγεία","Δουλειά"]:["Home","Finances","Health","Work"],
-    tasks:[{t:el?"Πληρωμή ΔΕΗ":"Pay electricity bill",a:1,min:15,d:D(0)},
-      {t:el?"Ραντεβού οδοντίατρο":"Book dentist",a:2,min:15,d:D(1)}],
+    tasks:[{t:el?"Πληρωμή ΔΕΗ":"Pay electricity bill",a:1,min:15,d:D(0),p:2},
+      {t:el?"Ραντεβού οδοντίατρο":"Book dentist",a:2,min:15,d:D(1),p:0}],
     slots:[{n:el?"Δουλειά":"Work",days:[0,1,2,3,4],time:"09:00–17:00"},{n:el?"Περπάτημα":"Walk",days:[1,3,5],time:"07:30–08:00"}],
-    subs:[{n:el?"Κινητό":"Mobile plan",c:22,day:15,cat:"serv"},{n:"Netflix",c:13,day:3,cat:"serv"},{n:el?"Ασφάλεια ΙΧ":"Car insurance",c:28,day:20,cat:"serv"}],
+    subs:[{n:el?"Κινητό":"Mobile plan",c:22,day:15,cat:"serv",cy:"m"},{n:"Netflix",c:13,day:3,cat:"serv",cy:"m"},{n:el?"Ασφάλεια ΙΧ":"Car insurance",c:280,day:20,cat:"serv",cy:"y"}],
     dls:[{t:el?"ΚΤΕΟ αυτοκινήτου":"Car inspection (MOT)",a:1,d:D(25)},{t:el?"Δόση ΕΝΦΙΑ":"Property-tax instalment",a:1,d:D(18)}]};
-  return{ /* parent */
+  return{hist,
     areas:el?["Παιδιά","Σπίτι","Οικονομικά","Υγεία"]:["Kids","Home","Finances","Health"],
-    tasks:[{t:el?"Πληρωμή φροντιστηρίου":"Pay tutoring fee",a:2,min:10,d:D(0)},
-      {t:el?"Φόρμα σχολικής εκδρομής":"School-trip form",a:0,min:10,d:D(1)}],
+    tasks:[{t:el?"Πληρωμή φροντιστηρίου":"Pay tutoring fee",a:2,min:10,d:D(0),p:2},
+      {t:el?"Φόρμα σχολικής εκδρομής":"School-trip form",a:0,min:10,d:D(1),p:1}],
     slots:[{n:el?"Προπόνηση Νίκου":"Nikos' practice",days:[2,4],time:"18:00–19:30"},{n:el?"Μπαλέτο Μαρίας":"Maria's ballet",days:[1],time:"17:30–18:30"}],
-    subs:[{n:el?"Φροντιστήριο Νίκος":"Tutoring — Nikos",c:120,day:1,cat:"edu"},{n:el?"Μπαλέτο Μαρία":"Ballet — Maria",c:45,day:1,cat:"sport"},{n:el?"Αγγλικά ×2":"English ×2",c:110,day:1,cat:"edu"}],
+    subs:[{n:el?"Φροντιστήριο Νίκος":"Tutoring — Nikos",c:120,day:1,cat:"edu",cy:"m"},{n:el?"Μπαλέτο Μαρία":"Ballet — Maria",c:45,day:1,cat:"sport",cy:"m"},{n:el?"Αγγλικά ×2":"English ×2",c:110,day:1,cat:"edu",cy:"m"}],
     dls:[{t:el?"Εμβόλιο παιδιάτρου":"Paediatrician appointment",a:3,d:D(11)}]};
 }
 
 /* ============ State ============ */
-let S=null;
-function load(){ const raw=store.get("panta_v1"); if(raw){ try{S=JSON.parse(raw);}catch(e){S=null;} } }
-function save(){ store.set("panta_v1",JSON.stringify(S)); }
+let S=null, curTab="today", weekOff=0, uid=Date.now();
+let qA=0,qM=30,qD=0,qP=0; /* quick-add state (declared early) */
+let F=null; /* focus timer */
+function load(){
+  let raw=store.get("panta_v2");
+  if(!raw){ raw=store.get("panta_v1"); /* migrate v1 */
+    if(raw){ try{ S=JSON.parse(raw);
+      S.profiles.forEach(pr=>{ pr.hist=pr.hist||[]; pr.tasks.forEach(t=>t.p=t.p??0); pr.subs.forEach(s=>s.cy=s.cy||"m"); });
+      save(); }catch(e){S=null;} }
+    return; }
+  try{S=JSON.parse(raw);}catch(e){S=null;}
+}
+function save(){ store.set("panta_v2",JSON.stringify(S)); }
 function P(){ return S.profiles[S.active]; }
 function t(){ return T[S?S.lang:"el"]; }
 load();
 
-let curTab="today", uid=Date.now();
 const $=id=>document.getElementById(id);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const todayISO=()=>new Date().toISOString().slice(0,10);
 const fmtMin=m=>m>=60?`${Math.floor(m/60)}h${m%60?` ${m%60}′`:""}`:`${m}′`;
-const dayIdx=iso=>{const d=new Date(iso+"T12:00");return (d.getDay()+6)%7;};
+const isoPlus=n=>{const d=new Date();d.setDate(d.getDate()+n);return d.toISOString().slice(0,10);};
+function nextWeekdayISO(w){ const now=new Date(); const cur=(now.getDay()+6)%7; const off=(w-cur+7)%7; return isoPlus(off); }
 
 /* ============ Onboarding ============ */
 let onbPersona="student", onbLangState="el";
@@ -343,8 +409,8 @@ function finishOnb(){
 }
 function mkProfile(name,persona,lang){
   const sd=seeds(persona,lang);
-  return{name,persona,areas:sd.areas,
-    tasks:sd.tasks.map(x=>({id:++uid,t:x.t,a:x.a,min:x.min,d:x.d,done:false})),
+  return{name,persona,areas:sd.areas,hist:sd.hist,
+    tasks:sd.tasks.map(x=>({id:++uid,done:false,...x})),
     slots:sd.slots.map(x=>({id:++uid,...x})),
     subs:sd.subs.map(x=>({id:++uid,...x})),
     dls:sd.dls.map(x=>({id:++uid,...x,planned:false}))};
@@ -354,56 +420,55 @@ function toggleLang(){
   S.lang=S.lang==="el"?"en":"el"; save(); boot();
 }
 
-/* ============ Boot & chrome ============ */
+/* ============ Boot ============ */
 function boot(){
   const L=t();
   document.documentElement.lang=S.lang;
   $("brandTag").textContent=L.tag;
   $("langBtn").textContent=S.lang==="el"?"EN":"ΕΛ";
   $("ringLbl").textContent=L.ringLbl;
-  /* streak */
   const td=todayISO();
   if(S.lastDay!==td){ const y=new Date();y.setDate(y.getDate()-1);
     S.streak=(S.lastDay===y.toISOString().slice(0,10))?S.streak+1:1; S.lastDay=td; save(); }
-  /* profiles */
   $("profileBar").innerHTML=S.profiles.map((p,i)=>
     `<button class="avatar ${i===S.active?'active':''}" title="${esc(p.name)}" onclick="S.active=${i};save();boot()">${esc(p.name.slice(0,2).toUpperCase())}</button>`).join("")+
     `<button class="avatar add" onclick="openNewProfile()">+</button>`;
-  /* greeting */
   const h=new Date().getHours(), hi=L.hi[h<12?0:h<19?1:2];
   $("greet").textContent=`${hi}, ${P().name}`;
-  const open=P().tasks.filter(x=>!x.done&&x.d<=todayISO());
+  const open=P().tasks.filter(x=>!x.done&&x.d<=td);
   const mins=open.reduce((s,x)=>s+x.min,0);
   $("greetSub").textContent=open.length?L.greetSub({left:open.length,time:fmtMin(mins)}):L.allDone;
-  /* ring */
-  const dueToday=P().tasks.filter(x=>x.d===todayISO());
+  const dueToday=P().tasks.filter(x=>x.d===td);
   const pct=dueToday.length?Math.round(dueToday.filter(x=>x.done).length/dueToday.length*100):0;
   $("ring").style.setProperty("--p",pct); $("ringPct").textContent=pct+"%";
-  /* tabs */
-  const tabs=[["today","☀️",L.today],["week","🗓️",L.week],["subs","💶",L.subs],["dls","⏳",L.dls],["flows","✨",L.flows]];
+  const tabs=[["today","☀️",L.today],["week","🗓️",L.week],["stats","📊",L.stats],["subs","💶",L.subs],["dls","⏳",L.dls],["flows","✨",L.flows]];
   $("tabs").innerHTML=tabs.map(([k,i,l])=>
     `<button class="${curTab===k?'on':''}" onclick="curTab='${k}';boot()"><span class="ico">${i}</span><span class="lbl">${l}</span></button>`).join("");
   render();
 }
 
-/* ============ Views ============ */
+/* ============ Shared pieces ============ */
 function areaBadge(ai){ const [fg,bg]=AREA_COLORS[ai%AREA_COLORS.length];
   return `<span class="badge" style="color:${fg};background:${bg}">${esc(P().areas[ai]||"—")}</span>`; }
-
-function taskRow(x){
-  return `<div class="task ${x.done?'done':''}">
+function taskRow(x,late){
+  return `<div class="task ${x.done?'done':''} pr${x.p||0}">
     <button class="tick" onclick="tog(${x.id})">✓</button>
-    <div class="body"><div class="t">${esc(x.t)}</div>
-      <div class="m">${areaBadge(x.a)}<span class="mins">⏱ ${fmtMin(x.min)}</span></div></div>
+    <div class="body" onclick="openEdit(${x.id})"><div class="t">${esc(x.t)}</div>
+      <div class="m">${areaBadge(x.a)}<span class="mins">⏱ ${fmtMin(x.min)}</span>${late?`<span class="late">⚠ ${t().late}</span>`:""}</div></div>
+    ${x.done?"":`<button class="play" onclick="startFocus(${x.id})">▶</button>`}
     <button class="del" onclick="delTask(${x.id})">×</button></div>`;
 }
+
+/* ============ Views ============ */
 function render(){
-  const L=t(), v=$("view");
+  const L=t(), v=$("view"), td=todayISO();
   if(curTab==="today"){
-    const td=todayISO(), tm=new Date();tm.setDate(tm.getDate()+1);const tmISO=tm.toISOString().slice(0,10);
-    const due=P().tasks.filter(x=>x.d<=td).sort((a,b)=>a.done-b.done);
-    const tmr=P().tasks.filter(x=>x.d===tmISO&&!x.done);
+    const tmISO=isoPlus(1);
+    const over=P().tasks.filter(x=>x.d<td&&!x.done).sort((a,b)=>(b.p||0)-(a.p||0));
+    const due=P().tasks.filter(x=>x.d===td).sort((a,b)=>a.done-b.done||(b.p||0)-(a.p||0));
+    const tmr=P().tasks.filter(x=>x.d===tmISO&&!x.done).sort((a,b)=>(b.p||0)-(a.p||0));
     const open=P().tasks.filter(x=>!x.done&&x.d<=td);
+    const allDone=due.length>0&&due.every(x=>x.done)&&!over.length;
     v.innerHTML=`
     <div class="stat-grid">
       <div class="stat"><b>${open.length}</b><span>${L.stTasks}</span></div>
@@ -414,73 +479,175 @@ function render(){
       <div class="row1"><input type="text" id="qT" placeholder="${L.qPh}" onkeydown="if(event.key==='Enter')qAdd()"><button class="go" onclick="qAdd()">${L.qGo}</button></div>
       <div class="chipset"><span class="lb">${L.area}</span>${P().areas.map((a,i)=>`<button class="pchip ${i===qA?'on':''}" onclick="qA=${i};render()">${esc(a)}</button>`).join("")}</div>
       <div class="chipset"><span class="lb">${L.time}</span>${[15,30,45,60,90].map(m=>`<button class="pchip ${m===qM?'on':''}" onclick="qM=${m};render()">${m}′</button>`).join("")}
-        <span class="lb" style="margin-left:8px">${L.day}</span>
+        <span class="lb">${L.orMins}</span><input class="mini-in" id="qCust" inputmode="numeric" placeholder="${L.custPh}"></div>
+      <div class="chipset"><span class="lb">${L.day}</span>
         <button class="pchip ${qD===0?'on':''}" onclick="qD=0;render()">${L.today}</button>
-        <button class="pchip ${qD===1?'on':''}" onclick="qD=1;render()">${L.tomorrow}</button></div>
+        <button class="pchip ${qD===1?'on':''}" onclick="qD=1;render()">${L.tomorrow}</button>
+        ${L.wk1.map((w,i)=>`<button class="pchip ${qD===10+i?'on':''}" onclick="qD=${10+i};render()">${w}</button>`).join("")}</div>
+      <div class="chipset"><span class="lb">${L.prio}</span>${L.prios.map((p,i)=>`<button class="pchip p${i} ${qP===i?'on':''}" onclick="qP=${i};render()">${["○","◐","●"][i]} ${p}</button>`).join("")}</div>
     </div></div>
+    ${over.length?`<div class="sec-h"><h2 style="color:var(--danger)">${L.overdue}</h2></div><div class="card" style="border-color:var(--danger-soft)">${over.map(x=>taskRow(x,true)).join("")}</div>`:""}
     <div class="sec-h"><h2>${L.todayTasks}</h2></div>
-    <div class="card">${due.length?due.map(taskRow).join(""):`<div class="empty"><b>${L.noTasks}</b>${L.noTasksSub}</div>`}</div>
-    ${tmr.length?`<div class="sec-h"><h2>${L.tomorrow}</h2></div><div class="card">${tmr.map(taskRow).join("")}</div>`:""}`;
+    <div class="card">${allDone?`<div class="alldone"><div class="big">🎉</div><b>${L.allDoneBig}</b><span>${L.allDoneSub}</span></div>`
+      :due.length?due.map(x=>taskRow(x)).join(""):`<div class="empty"><b>${L.noTasks}</b>${L.noTasksSub}</div>`}</div>
+    ${tmr.length?`<div class="sec-h"><h2>${L.tomorrow}</h2></div><div class="card">${tmr.map(x=>taskRow(x)).join("")}</div>`:""}`;
   }
   if(curTab==="week"){
-    const now=new Date(); const mon=new Date(now); mon.setDate(now.getDate()-((now.getDay()+6)%7));
+    const now=new Date(); const mon=new Date(now); mon.setDate(now.getDate()-((now.getDay()+6)%7)+weekOff*7);
     let cols="";
     for(let i=0;i<7;i++){ const d=new Date(mon); d.setDate(mon.getDate()+i); const iso=d.toISOString().slice(0,10);
-      const isT=iso===todayISO();
+      const isT=iso===td;
       const slots=P().slots.filter(s=>s.days.includes(i));
-      const tasks=P().tasks.filter(x=>x.d===iso);
-      cols+=`<div class="day ${isT?'today':''}"><h4><b>${L.wk[i]}</b><span>${d.getDate()} ${L.months[d.getMonth()]}</span></h4>
-        ${slots.map(s=>`<div class="slot">🕐 ${esc(s.time)} · ${esc(s.n)}</div>`).join("")}
+      const tasks=P().tasks.filter(x=>x.d===iso).sort((a,b)=>(b.p||0)-(a.p||0));
+      const loadM=tasks.filter(x=>!x.done).reduce((s,x)=>s+x.min,0);
+      cols+=`<div class="day ${isT?'today':''}">
+        <div class="day-h"><span class="dn">${d.getDate()}</span><span class="dw">${L.wk[i]}<br>${L.months[d.getMonth()]}</span><button class="dadd" onclick="openAddOn('${iso}')">+</button></div>
+        <div class="day-load">${loadM?"⏱ "+fmtMin(loadM):""}</div>
+        ${slots.map(s=>`<div class="slot"><span>🕐 ${esc(s.time)} · ${esc(s.n)}</span><button class="x" onclick="delSlot(${s.id})">×</button></div>`).join("")}
         ${tasks.map(x=>{const [fg,bg]=AREA_COLORS[x.a%AREA_COLORS.length];
           return `<div class="dtask ${x.done?'done':''}" style="color:${fg};background:${bg}" onclick="tog(${x.id})">${esc(x.t)}<span class="dm">${fmtMin(x.min)}</span></div>`;}).join("")}</div>`;
     }
-    v.innerHTML=`<div class="sec-h"><h2>${L.schedule}</h2><button class="right" onclick="openSlot()">${L.addSlot}</button></div><div class="week">${cols}</div>`;
+    const wkLbl=weekOff===0?L.thisWeek:`${L.weekOf} ${mon.getDate()} ${L.months[mon.getMonth()]}`;
+    v.innerHTML=`<div class="sec-h"><h2>${L.schedule}</h2>
+      <div class="wk-nav" style="margin-left:auto"><button class="arr" onclick="weekOff--;render()">‹</button><span class="cur">${wkLbl}</span><button class="arr" onclick="weekOff++;render()">›</button></div>
+      <button class="right" style="margin-left:0;flex-basis:100%;text-align:right" onclick="openSlot()">${L.addSlot}</button></div>
+      <div class="week">${cols}</div>`;
   }
-  if(curTab==="subs"){
-    const total=P().subs.reduce((s,x)=>s+Number(x.c||0),0);
-    const icons={edu:["📚","#E8F0FE"],sport:["⚽","#E4F4EA"],serv:["📺","#F3E9FB"],health:["🏥","#FBE9ED"]};
-    v.innerHTML=`<div class="sec-h"><h2>${L.subsTitle}</h2><span class="hint">${L.subsHint}</span><button class="right" onclick="openSub()">${L.addSub}</button></div>
-    <div class="card">${P().subs.map(x=>{const ic=icons[x.cat]||icons.serv;
-      return `<div class="sub-row"><div class="sub-ico" style="background:${ic[1]}">${ic[0]}</div>
-        <div><div class="n">${esc(x.n)}</div><div class="d">${L.renews}: ${x.day}/${new Date().getMonth()+1}</div></div>
-        <div class="amt">€${Number(x.c).toFixed(0)}</div><button class="del" onclick="delSub(${x.id})">×</button></div>`;}).join("")||`<div class="empty"><b>${L.noTasks}</b></div>`}
-      <div class="total-line"><span>${L.perMonth}</span><span>€${total.toFixed(0)}</span></div></div>
-    <div class="prem"><b>${L.premT}:</b> ${L.prem}</div>`;
-  }
-  if(curTab==="dls"){
-    const td=new Date(todayISO()+"T12:00");
-    v.innerHTML=`<div class="sec-h"><h2>${L.dlTitle}</h2><button class="right" onclick="openDl()">${L.addDl}</button></div>
-    <div class="card">${P().dls.sort((a,b)=>a.d<b.d?-1:1).map(x=>{
-      const dd=Math.round((new Date(x.d+"T12:00")-td)/86400000);
-      const col=dd<=3?["var(--danger)","var(--danger-soft)"]:dd<=10?["var(--warn)","var(--warn-soft)"]:["var(--good)","var(--good-soft)"];
-      const lbl=dd===0?L.todayLit:(dd===1?`1 ${L.daysOne}`:`${dd} ${L.days}`);
-      return `<div class="dl"><div class="count" style="color:${col[0]};background:${col[1]}">${dd===0?"!":dd}<small>${lbl}</small></div>
-        <div><div class="n" style="font-weight:700;font-size:14.5px">${esc(x.t)}</div><div class="d" style="font-size:12px;color:var(--ink3)">${areaBadge(x.a)} · ${x.d}</div></div>
-        <button class="plan-btn" onclick="autoplan(${x.id})" ${x.planned?'style="opacity:.55"':''}>${x.planned?L.planned:L.plan}</button>
-        <button class="del" onclick="delDl(${x.id})">×</button></div>`;}).join("")||`<div class="empty"><b>${L.noTasks}</b></div>`}</div>`;
-  }
+  if(curTab==="stats") renderStats(v,L);
+  if(curTab==="subs") renderSubs(v,L);
+  if(curTab==="dls") renderDls(v,L,td);
   if(curTab==="flows"){
-    const F=[["flowStudy","study"],["flowExam","exam"],["flowWork","work"],["flowRev","rev"],["flowBills","bills"]];
+    const FL=[["flowStudy","study"],["flowExam","exam"],["flowWork","work"],["flowRev","rev"],["flowBills","bills"]];
     v.innerHTML=`<div class="sec-h"><h2>${L.flowsTitle}</h2><span class="hint">${L.flowsHint}</span></div>
-    <div class="flows">${F.map(([k,fn])=>{const f=L[k];
+    <div class="flows">${FL.map(([k,fn])=>{const f=L[k];
       return `<button class="flow" onclick="runFlow('${fn}')"><div class="fi">${f[0]}</div><b>${f[1]}</b><span>${f[2]}</span></button>`;}).join("")}</div>`;
   }
 }
+function renderStats(v,L){
+  const hist=P().hist||[];
+  const days=[]; for(let i=6;i>=0;i--){ const iso=isoPlus(-i); const es=hist.filter(h=>h.d===iso);
+    days.push({iso,min:es.reduce((s,h)=>s+h.min,0),n:es.length,w:(new Date(iso+"T12:00").getDay()+6)%7}); }
+  const max=Math.max(60,...days.map(d=>d.min));
+  const wkMin=days.reduce((s,d)=>s+d.min,0), wkN=days.reduce((s,d)=>s+d.n,0);
+  const best=days.reduce((a,b)=>b.min>a.min?b:a,days[0]);
+  const todayMin=days[6].min;
+  const byArea={}; hist.filter(h=>days.some(d=>d.iso===h.d)).forEach(h=>{byArea[h.a]=(byArea[h.a]||0)+h.min;});
+  const amax=Math.max(1,...Object.values(byArea));
+  v.innerHTML=`<div class="sec-h"><h2>${L.statsH}</h2></div>
+  <div class="stat-grid" style="grid-template-columns:repeat(4,1fr)">
+    <div class="stat"><b>${(wkMin/60).toFixed(1)}h</b><span>${L.sHours}</span></div>
+    <div class="stat"><b>${wkN}</b><span>${L.sDone}</span></div>
+    <div class="stat"><b>${fmtMin(todayMin)||"0′"}</b><span>${L.sToday}</span></div>
+    <div class="stat"><b>${S.streak}🔥</b><span>${L.stStreak}</span></div>
+  </div>
+  <div class="sec-h"><h2>${L.chartH}</h2><span class="hint">${L.chartHint}</span></div>
+  <div class="card"><div class="chart">${days.map((d,i)=>
+    `<div class="col ${i===6?'today':''}"><span class="val">${d.min?fmtMin(d.min):""}</span><div class="bar ${i===6||d.min===best.min&&d.min>0?'hot':''}" style="height:${Math.max(3,Math.round(d.min/max*100))}%"></div><span class="dlb">${L.wk1[d.w]}</span></div>`).join("")}</div></div>
+  <div class="sec-h"><h2>${L.areaH}</h2></div>
+  <div class="card">${Object.keys(byArea).length?Object.entries(byArea).sort((a,b)=>b[1]-a[1]).map(([a,m])=>{
+    const [fg]=AREA_COLORS[a%AREA_COLORS.length];
+    return `<div class="abar"><span class="an">${esc(P().areas[a]||"—")}</span><div class="atr"><div class="af" style="width:${Math.round(m/amax*100)}%;background:${fg}"></div></div><span class="av">${fmtMin(m)}</span></div>`;
+  }).join(""):`<div class="empty"><b>${L.noTasks}</b>${L.noStats}</div>`}</div>`;
+}
+function renderSubs(v,L){
+  const icons={edu:["📚","#E8F0FE"],sport:["⚽","#E4F4EA"],serv:["📺","#F3E9FB"],health:["🏥","#FBE9ED"]};
+  const monthEq=x=>x.cy==="y"?x.c/12:x.c;
+  const totalM=P().subs.reduce((s,x)=>s+monthEq(x),0);
+  v.innerHTML=`<div class="sec-h"><h2>${L.subsTitle}</h2><span class="hint">${L.subsHint}</span><button class="right" onclick="openSub()">${L.addSub}</button></div>
+  <div class="card">${P().subs.map(x=>{const ic=icons[x.cat]||icons.serv;
+    return `<div class="sub-row"><div class="sub-ico" style="background:${ic[1]}">${ic[0]}</div>
+      <div><div class="n">${esc(x.n)}</div><div class="d">${L.renews}: ${x.day} · ${x.cy==="y"?L.yearly:L.monthly}</div></div>
+      <div class="amt">€${Number(x.c).toFixed(0)}${x.cy==="y"?`<small>≈ €${monthEq(x).toFixed(0)}/${S.lang==="el"?"μήνα":"mo"}</small>`:""}</div>
+      <button class="del" onclick="delSub(${x.id})">×</button></div>`;}).join("")||`<div class="empty"><b>${L.noTasks}</b></div>`}
+    <div class="total-line"><span>${L.perMonth}<small>€${(totalM*12).toFixed(0)} ${L.perYear}</small></span><span>€${totalM.toFixed(0)}</span></div></div>
+  <div class="prem"><b>${L.premT}:</b> ${L.prem}</div>`;
+}
+function renderDls(v,L,td){
+  const tdd=new Date(td+"T12:00");
+  v.innerHTML=`<div class="sec-h"><h2>${L.dlTitle}</h2><button class="right" onclick="openDl()">${L.addDl}</button></div>
+  <div class="card">${P().dls.sort((a,b)=>a.d<b.d?-1:1).map(x=>{
+    const dd=Math.round((new Date(x.d+"T12:00")-tdd)/86400000);
+    const col=dd<=3?["var(--danger)","var(--danger-soft)"]:dd<=10?["var(--warn)","var(--warn-soft)"]:["var(--good)","var(--good-soft)"];
+    const lbl=dd<0?L.late:dd===0?L.todayLit:(dd===1?`1 ${L.daysOne}`:`${dd} ${L.days}`);
+    return `<div class="dl"><div class="count" style="color:${col[0]};background:${col[1]}">${dd<=0?"!":dd}<small>${lbl}</small></div>
+      <div style="min-width:0"><div style="font-weight:700;font-size:14.5px">${esc(x.t)}</div><div style="font-size:12px;color:var(--ink3)">${areaBadge(x.a)} · ${x.d}</div></div>
+      <button class="plan-btn" onclick="autoplan(${x.id})" ${x.planned?'style="opacity:.55"':''}>${x.planned?L.planned:L.plan}</button>
+      <button class="del" onclick="delDl(${x.id})">×</button></div>`;}).join("")||`<div class="empty"><b>${L.noTasks}</b></div>`}</div>`;
+}
 
-/* ============ Actions ============ */
-let qA=0,qM=30,qD=0;
+/* ============ Task actions ============ */
+function targetDate(){ if(qD===0)return todayISO(); if(qD===1)return isoPlus(1); return nextWeekdayISO(qD-10); }
 function qAdd(){
   const inp=$("qT"), txt=inp.value.trim(); if(!txt)return;
-  const d=new Date(); d.setDate(d.getDate()+qD);
-  P().tasks.push({id:++uid,t:txt,a:qA,min:qM,d:d.toISOString().slice(0,10),done:false});
+  const cm=parseInt(($("qCust")||{}).value); const min=(cm>0&&cm<1440)?cm:qM;
+  P().tasks.push({id:++uid,t:txt,a:qA,min,d:targetDate(),done:false,p:qP});
   save(); boot(); setTimeout(()=>{const i=$("qT");if(i)i.focus();},50);
 }
-function tog(id){ const x=P().tasks.find(x=>x.id===id); if(x){x.done=!x.done; save(); boot();} }
+function tog(id){ const x=P().tasks.find(x=>x.id===id); if(!x)return;
+  x.done=!x.done;
+  if(x.done){ (P().hist=P().hist||[]).push({d:todayISO(),min:x.min,a:x.a}); }
+  else{ const h=P().hist||[]; const i=h.findIndex(e=>e.d===todayISO()&&e.min===x.min&&e.a===x.a); if(i>-1)h.splice(i,1); }
+  save(); boot(); }
 function delTask(id){ P().tasks=P().tasks.filter(x=>x.id!==id); save(); boot(); }
 function delSub(id){ P().subs=P().subs.filter(x=>x.id!==id); save(); boot(); }
 function delDl(id){ P().dls=P().dls.filter(x=>x.id!==id); save(); boot(); }
+function delSlot(id){ P().slots=P().slots.filter(x=>x.id!==id); save(); boot(); }
 
-/* ============ Auto-plan an exam ============ */
+/* ============ Focus timer ============ */
+function startFocus(id){
+  const x=P().tasks.find(x=>x.id===id); if(!x)return; const L=t();
+  F={id,total:x.min*60,left:x.min*60,run:true,int:null};
+  sheet(`<h3>${L.focusT}</h3><p class="sd">${esc(x.t)}</p>
+    <div class="focus-time" id="fT">${fmtClock(F.left)}</div>
+    <div class="focus-sub">${areaBadge(x.a)}</div>
+    <button class="cta" onclick="finishFocus()">${L.focusDone}</button>
+    <button class="ghost" id="fPause" onclick="pauseFocus()">${L.focusPause}</button>
+    <button class="danger" onclick="stopFocus()">${L.focusStop}</button>`);
+  F.int=setInterval(()=>{ if(!F||!F.run)return; F.left--; const el=$("fT");
+    if(el)el.textContent=(F.left<0?"+":"")+fmtClock(Math.abs(F.left)); },1000);
+}
+const fmtClock=s=>`${String(Math.floor(s/60)).padStart(2,"0")}:${String(s%60).padStart(2,"0")}`;
+function pauseFocus(){ if(!F)return; F.run=!F.run; $("fPause").textContent=F.run?t().focusPause:t().focusGo; }
+function finishFocus(){ if(!F)return;
+  const x=P().tasks.find(x=>x.id===F.id);
+  const spent=Math.max(1,Math.round((F.total-Math.min(F.left,F.total))/60))|| (x?x.min:1);
+  if(x&&!x.done){ x.done=true; (P().hist=P().hist||[]).push({d:todayISO(),min:Math.max(spent,1),a:x.a}); }
+  stopFocus(); save(); boot(); }
+function stopFocus(){ if(F&&F.int)clearInterval(F.int); F=null; closeSheet(); }
+
+/* ============ Edit task ============ */
+function openEdit(id){
+  const x=P().tasks.find(x=>x.id===id); if(!x)return; const L=t();
+  sheet(`<h3>${L.edit}</h3>
+  <div class="f-row"><label>${L.name}</label><input id="eT" type="text" value="${esc(x.t)}"></div>
+  <div class="f-grid">
+    <div class="f-row"><label>${L.area}</label><select id="eA">${P().areas.map((a,i)=>`<option value="${i}" ${i===x.a?"selected":""}>${esc(a)}</option>`).join("")}</select></div>
+    <div class="f-row"><label>${L.minutes}</label><input id="eM" type="number" min="1" max="1439" value="${x.min}"></div>
+    <div class="f-row"><label>${L.date}</label><input id="eD" type="date" value="${x.d}"></div>
+    <div class="f-row"><label>${L.prio}</label><select id="eP">${L.prios.map((p,i)=>`<option value="${i}" ${i===(x.p||0)?"selected":""}>${p}</option>`).join("")}</select></div>
+  </div>
+  <button class="cta" onclick="saveEdit(${id})">${L.saveB}</button><button class="ghost" onclick="closeSheet()">${L.cancel}</button>`);
+}
+function saveEdit(id){ const x=P().tasks.find(x=>x.id===id); if(x){
+  x.t=$("eT").value.trim()||x.t; x.a=+$("eA").value; x.min=Math.max(1,+$("eM").value||x.min);
+  x.d=$("eD").value||x.d; x.p=+$("eP").value; }
+  closeSheet(); save(); boot(); }
+
+/* ============ Add task on a specific day (week view) ============ */
+function openAddOn(iso){ const L=t();
+  sheet(`<h3>${L.addOn}</h3><p class="sd">${iso}</p>
+  <div class="f-row"><label>${L.name}</label><input id="aT" type="text" placeholder="${L.qPh}"></div>
+  <div class="f-grid">
+    <div class="f-row"><label>${L.area}</label><select id="aA">${P().areas.map((a,i)=>`<option value="${i}">${esc(a)}</option>`).join("")}</select></div>
+    <div class="f-row"><label>${L.minutes}</label><input id="aM" type="number" min="1" value="30"></div>
+  </div>
+  <div class="f-row"><label>${L.prio}</label><select id="aP">${L.prios.map((p,i)=>`<option value="${i}">${p}</option>`).join("")}</select></div>
+  <button class="cta" onclick="createOn('${iso}')">${L.create}</button><button class="ghost" onclick="closeSheet()">${L.cancel}</button>`); }
+function createOn(iso){ const txt=$("aT").value.trim(); if(!txt){closeSheet();return;}
+  P().tasks.push({id:++uid,t:txt,a:+$("aA").value,min:Math.max(1,+$("aM").value||30),d:iso,done:false,p:+$("aP").value});
+  closeSheet(); save(); boot(); }
+
+/* ============ Auto-plan & flows ============ */
 function autoplan(id){
   const x=P().dls.find(d=>d.id===id); if(!x||x.planned)return;
   const L=t(), steps=L.examFlow;
@@ -488,58 +655,49 @@ function autoplan(id){
   const span=Math.max(1,Math.round((exam-today)/86400000)-1);
   steps.forEach((s,i)=>{
     const off=Math.min(span,Math.max(0,Math.round(span*(i/(steps.length-1||1)))));
-    const dd=new Date(today); dd.setDate(today.getDate()+off);
-    P().tasks.push({id:++uid,t:`${s} — ${x.t}`,a:x.a,min:i===steps.length-1?60:40,d:dd.toISOString().slice(0,10),done:false});
+    P().tasks.push({id:++uid,t:`${s} — ${x.t}`,a:x.a,min:i===steps.length-1?60:40,d:isoPlus(off),done:false,p:1});
   });
-  x.planned=true; save(); curTab="week"; boot();
+  x.planned=true; save(); curTab="week"; weekOff=0; boot();
 }
-
-/* ============ Flows ============ */
 function runFlow(fn){
   const L=t();
+  const areaSel=id=>`<select id="${id}">${P().areas.map((a,i)=>`<option value="${i}">${esc(a)}</option>`).join("")}</select>`;
   if(fn==="study"){ sheet(`<h3>${L.flowStudy[1]}</h3><p class="sd">${L.flowStudy[2]}</p>
-    <div class="f-row"><label>${L.pickArea}</label><select id="fA">${P().areas.map((a,i)=>`<option value="${i}">${esc(a)}</option>`).join("")}</select></div>
+    <div class="f-row"><label>${L.pickArea}</label>${areaSel("fA")}</div>
     <button class="cta" onclick="applyStudy()">${L.apply}</button><button class="ghost" onclick="closeSheet()">${L.cancel}</button>`); return; }
-  if(fn==="exam"){ sheet(`<h3>${L.flowExam[1]}</h3><p class="sd">${L.flowExam[2]}</p>
-    <div class="f-row"><label>${L.dlName}</label><input id="fT" type="text"></div>
-    <div class="f-row"><label>${L.pickArea}</label><select id="fA">${P().areas.map((a,i)=>`<option value="${i}">${esc(a)}</option>`).join("")}</select></div>
-    <div class="f-row"><label>${L.pickDate}</label><input id="fD" type="date" value="${(()=>{const d=new Date();d.setDate(d.getDate()+10);return d.toISOString().slice(0,10);})()}"></div>
-    <button class="cta" onclick="applyExam()">${L.apply}</button><button class="ghost" onclick="closeSheet()">${L.cancel}</button>`); return; }
-  if(fn==="work"){ sheet(`<h3>${L.flowWork[1]}</h3><p class="sd">${L.flowWork[2]}</p>
-    <div class="f-row"><label>${L.dlName}</label><input id="fT" type="text"></div>
-    <div class="f-row"><label>${L.pickArea}</label><select id="fA">${P().areas.map((a,i)=>`<option value="${i}">${esc(a)}</option>`).join("")}</select></div>
-    <div class="f-row"><label>${L.pickDate}</label><input id="fD" type="date" value="${(()=>{const d=new Date();d.setDate(d.getDate()+14);return d.toISOString().slice(0,10);})()}"></div>
-    <button class="cta" onclick="applyWork()">${L.apply}</button><button class="ghost" onclick="closeSheet()">${L.cancel}</button>`); return; }
-  if(fn==="rev"){ /* Saturday review: 20' per area */
-    const now=new Date(); const sat=new Date(now); sat.setDate(now.getDate()+((5-((now.getDay()+6)%7))+7)%7);
-    const iso=sat.toISOString().slice(0,10);
-    P().areas.forEach((a,i)=>P().tasks.push({id:++uid,t:(S.lang==="el"?"Επανάληψη — ":"Review — ")+a,a:i,min:20,d:iso,done:false}));
-    save(); curTab="week"; boot(); return; }
+  if(fn==="exam"||fn==="work"){ const f=fn==="exam"?L.flowExam:L.flowWork, def=fn==="exam"?10:14;
+    sheet(`<h3>${f[1]}</h3><p class="sd">${f[2]}</p>
+    <div class="f-row"><label>${L.dlName}</label><input id="fT2" type="text"></div>
+    <div class="f-row"><label>${L.pickArea}</label>${areaSel("fA")}</div>
+    <div class="f-row"><label>${L.pickDate}</label><input id="fD" type="date" value="${isoPlus(def)}"></div>
+    <button class="cta" onclick="${fn==="exam"?"applyExam()":"applyWork()"}">${L.apply}</button><button class="ghost" onclick="closeSheet()">${L.cancel}</button>`); return; }
+  if(fn==="rev"){ const now=new Date(); const off=((5-((now.getDay()+6)%7))+7)%7; const iso=isoPlus(off);
+    P().areas.forEach((a,i)=>P().tasks.push({id:++uid,t:(S.lang==="el"?"Επανάληψη — ":"Review — ")+a,a:i,min:20,d:iso,done:false,p:0}));
+    save(); curTab="week"; weekOff=0; boot(); return; }
   if(fn==="bills"){
     const names=S.lang==="el"?["ΔΕΗ / ρεύμα","Νερό","Κινητό & internet","Κοινόχρηστα"]:["Electricity","Water","Phone & internet","Building fees"];
     const ai=Math.max(0,P().areas.findIndex(a=>/οικονομ|financ/i.test(a)));
-    names.forEach(n=>P().tasks.push({id:++uid,t:n,a:ai,min:10,d:todayISO(),done:false}));
+    names.forEach(n=>P().tasks.push({id:++uid,t:n,a:ai,min:10,d:todayISO(),done:false,p:1}));
     save(); curTab="today"; boot(); return; }
 }
-function applyStudy(){ const L=t(),a=+$("fA").value, base=[[L.examFlow[0],30],[L.examFlow[1],45],[L.examFlow[2],20]];
-  base.forEach(([s,m])=>P().tasks.push({id:++uid,t:`${s} — ${P().areas[a]}`,a,min:m,d:todayISO(),done:false}));
+function applyStudy(){ const L=t(),a=+$("fA").value;
+  [[L.examFlow[0],30],[L.examFlow[1],45],[L.examFlow[2],20]].forEach(([s,m])=>
+    P().tasks.push({id:++uid,t:`${s} — ${P().areas[a]}`,a,min:m,d:todayISO(),done:false,p:1}));
   closeSheet(); save(); curTab="today"; boot(); }
-function applyExam(){ const title=$("fT").value.trim()||t().flowExam[1], a=+$("fA").value, d=$("fD").value||todayISO();
-  P().dls.push({id:++uid,t:title,a,d,planned:false}); const nd=P().dls[P().dls.length-1];
-  closeSheet(); save(); autoplan(nd.id); }
-function applyWork(){ const L=t(),title=$("fT").value.trim()||L.flowWork[1], a=+$("fA").value, d=$("fD").value||todayISO();
+function applyExam(){ const title=$("fT2").value.trim()||t().flowExam[1], a=+$("fA").value, d=$("fD").value||todayISO();
+  P().dls.push({id:++uid,t:title,a,d,planned:false});
+  closeSheet(); save(); autoplan(P().dls[P().dls.length-1].id); }
+function applyWork(){ const L=t(),title=$("fT2").value.trim()||L.flowWork[1], a=+$("fA").value, d=$("fD").value||todayISO();
   P().dls.push({id:++uid,t:title,a,d,planned:true});
   const today=new Date(todayISO()+"T12:00"), due=new Date(d+"T12:00");
   const span=Math.max(1,Math.round((due-today)/86400000)-1);
-  L.workFlow.forEach((s,i)=>{ const off=Math.min(span,Math.round(span*(i/(L.workFlow.length-1))));
-    const dd=new Date(today); dd.setDate(today.getDate()+off);
-    P().tasks.push({id:++uid,t:`${s} — ${title}`,a,min:60,d:dd.toISOString().slice(0,10),done:false}); });
-  closeSheet(); save(); curTab="week"; boot(); }
+  L.workFlow.forEach((s,i)=>P().tasks.push({id:++uid,t:`${s} — ${title}`,a,min:60,d:isoPlus(Math.min(span,Math.round(span*(i/(L.workFlow.length-1))))),done:false,p:1}));
+  closeSheet(); save(); curTab="week"; weekOff=0; boot(); }
 
-/* ============ Sheets: new profile / sub / deadline / slot ============ */
+/* ============ Sheets ============ */
 function sheet(html){ $("sheetBody").innerHTML=html; $("sheetOvl").classList.remove("hide"); }
-function closeSheet(){ $("sheetOvl").classList.add("hide"); }
-$("sheetOvl")&&$("sheetOvl").addEventListener("click",e=>{ if(e.target.id==="sheetOvl") closeSheet(); });
+function closeSheet(){ if(F&&F.int){clearInterval(F.int);F=null;} $("sheetOvl").classList.add("hide"); }
+$("sheetOvl").addEventListener("click",e=>{ if(e.target.id==="sheetOvl") closeSheet(); });
 
 function openNewProfile(){ const L=t();
   sheet(`<h3>${L.newProfile}</h3><p class="sd">${L.premT} · €19,90/yr</p>
@@ -553,19 +711,24 @@ function createProfile(){ const n=$("npN").value.trim()||"—";
 function openSub(){ const L=t();
   sheet(`<h3>${L.addSub.replace("+ ","")}</h3>
   <div class="f-row"><label>${L.name}</label><input id="sN" type="text" placeholder="${L.subName}"></div>
-  <div class="f-row"><label>${L.subCost}</label><input id="sC" type="number" min="0" step="1"></div>
-  <div class="f-row"><label>${L.subDay}</label><input id="sD" type="number" min="1" max="28" value="1"></div>
-  <div class="f-row"><label>${L.subCat}</label><select id="sK">${Object.entries(L.cats).map(([k,v])=>`<option value="${k}">${v}</option>`).join("")}</select></div>
+  <div class="f-grid">
+    <div class="f-row"><label>${L.subCost}</label><input id="sC" type="number" min="0" step="1"></div>
+    <div class="f-row"><label>${L.cycle}</label><select id="sCy"><option value="m">${L.monthly}</option><option value="y">${L.yearly}</option></select></div>
+    <div class="f-row"><label>${L.subDay}</label><input id="sD" type="number" min="1" max="28" value="1"></div>
+    <div class="f-row"><label>${L.subCat}</label><select id="sK">${Object.entries(L.cats).map(([k,v])=>`<option value="${k}">${v}</option>`).join("")}</select></div>
+  </div>
   <button class="cta" onclick="createSub()">${L.create}</button><button class="ghost" onclick="closeSheet()">${L.cancel}</button>`); }
 function createSub(){ const n=$("sN").value.trim(); if(!n){closeSheet();return;}
-  P().subs.push({id:++uid,n,c:+$("sC").value||0,day:Math.min(28,Math.max(1,+$("sD").value||1)),cat:$("sK").value});
+  P().subs.push({id:++uid,n,c:+$("sC").value||0,day:Math.min(28,Math.max(1,+$("sD").value||1)),cat:$("sK").value,cy:$("sCy").value});
   closeSheet(); save(); boot(); }
 
 function openDl(){ const L=t();
   sheet(`<h3>${L.addDl.replace("+ ","")}</h3>
   <div class="f-row"><label>${L.dlName}</label><input id="dN" type="text"></div>
-  <div class="f-row"><label>${L.dlArea}</label><select id="dA">${P().areas.map((a,i)=>`<option value="${i}">${esc(a)}</option>`).join("")}</select></div>
-  <div class="f-row"><label>${L.dlDate}</label><input id="dD" type="date" value="${(()=>{const d=new Date();d.setDate(d.getDate()+7);return d.toISOString().slice(0,10);})()}"></div>
+  <div class="f-grid">
+    <div class="f-row"><label>${L.dlArea}</label><select id="dA">${P().areas.map((a,i)=>`<option value="${i}">${esc(a)}</option>`).join("")}</select></div>
+    <div class="f-row"><label>${L.dlDate}</label><input id="dD" type="date" value="${isoPlus(7)}"></div>
+  </div>
   <button class="cta" onclick="createDl()">${L.create}</button><button class="ghost" onclick="closeSheet()">${L.cancel}</button>`); }
 function createDl(){ const n=$("dN").value.trim(); if(!n){closeSheet();return;}
   P().dls.push({id:++uid,t:n,a:+$("dA").value,d:$("dD").value||todayISO(),planned:false});
@@ -574,13 +737,30 @@ function createDl(){ const n=$("dN").value.trim(); if(!n){closeSheet();return;}
 function openSlot(){ const L=t();
   sheet(`<h3>${L.addSlot.replace("+ ","")}</h3>
   <div class="f-row"><label>${L.name}</label><input id="slN" type="text" placeholder="${L.slotName}"></div>
-  <div class="f-row"><label>${L.slotDays}</label><div class="chipset" id="slDays">${T[S.lang].wk.map((w,i)=>`<button class="pchip" data-i="${i}" onclick="this.classList.toggle('on')">${w}</button>`).join("")}</div></div>
+  <div class="f-row"><label>${L.slotDays}</label><div class="chipset" id="slDays">${t().wk.map((w,i)=>`<button class="pchip" data-i="${i}" onclick="this.classList.toggle('on')">${w}</button>`).join("")}</div></div>
   <div class="f-row"><label>${L.slotTime}</label><input id="slT" type="text" placeholder="17:00–19:00"></div>
   <button class="cta" onclick="createSlot()">${L.create}</button><button class="ghost" onclick="closeSheet()">${L.cancel}</button>`); }
 function createSlot(){ const n=$("slN").value.trim(); if(!n){closeSheet();return;}
   const days=[...document.querySelectorAll("#slDays .pchip.on")].map(b=>+b.dataset.i);
   P().slots.push({id:++uid,n,days:days.length?days:[0],time:$("slT").value.trim()||"—"});
   closeSheet(); save(); boot(); }
+
+/* ============ Settings ============ */
+function openSettings(){ const L=t();
+  sheet(`<h3>${L.settings}</h3>
+  <div class="f-row"><label>${L.areasH}</label>
+    <div class="chipset" style="margin-bottom:8px">${P().areas.map((a,i)=>`<span class="pchip on">${esc(a)}</span>`).join("")}</div>
+    <div style="display:flex;gap:8px"><input id="stArea" type="text" placeholder="${L.areaPh}" style="flex:1;border:1.5px solid var(--line);border-radius:12px;padding:11px 13px;background:var(--bg);outline:none">
+    <button class="cta" style="width:auto;margin:0;padding:11px 18px" onclick="addArea()">${L.addB}</button></div></div>
+  <button class="ghost" onclick="backup()" style="border:1.5px solid var(--line);border-radius:12px">${L.backup}</button>
+  <button class="danger" onclick="resetAll()">${L.resetB}</button>
+  <button class="ghost" onclick="closeSheet()">${L.cancel}</button>`); }
+function addArea(){ const v=$("stArea").value.trim(); if(v){P().areas.push(v); save();} openSettings(); }
+function backup(){ try{
+  const blob=new Blob([JSON.stringify(S,null,2)],{type:"application/json"});
+  const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="panta-backup.json"; a.click();
+  }catch(e){} }
+function resetAll(){ if(confirm(t().resetQ)){ store.del("panta_v2"); store.del("panta_v1"); location.reload(); } }
 
 /* ============ Start ============ */
 if(S){ $("onb").classList.add("hide"); boot(); } else { renderOnb(); }
