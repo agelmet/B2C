@@ -331,6 +331,59 @@ body.is-wallet .cta:hover { background:var(--w-grad-hover); box-shadow:0 20px 48
 .dangerb:hover { background:var(--danger-soft); }
 
 .hide { display:none!important; }
+
+/* ===== pchip (was unstyled) ===== */
+.pchip { font-size:14px; font-weight:700; padding:12px 18px; border-radius:18px; background:var(--bg); border:1.5px solid var(--line); color:var(--ink2); transition:.2s; }
+.pchip.on { background:var(--accent-soft); color:var(--accent-text); border-color:var(--a1); box-shadow:0 6px 16px rgba(99,102,241,.15); }
+
+/* ===== Live now-line ===== */
+.cal-now { position:absolute; left:0; right:0; z-index:8; pointer-events:none; display:flex; align-items:center; }
+.cal-now::before { content:""; width:10px; height:10px; border-radius:50%; background:var(--danger); margin-left:-5px; box-shadow:0 0 0 4px color-mix(in srgb, var(--danger) 20%, transparent); }
+.cal-now::after { content:""; flex:1; height:2px; background:var(--danger); opacity:.85; }
+
+/* ===== Command palette ===== */
+.cmd-res { display:flex; flex-direction:column; gap:10px; margin-top:20px; max-height:52vh; overflow-y:auto; }
+.cmd-row { display:flex; align-items:center; gap:14px; padding:16px 18px; border:1px solid var(--line); border-radius:18px; background:var(--card-solid); cursor:pointer; transition:.2s; font-weight:700; font-size:15px; }
+.cmd-row:hover { border-color:var(--a1); transform:translateY(-1px); box-shadow:var(--sh-sm); }
+.cmd-row svg { color:var(--ink3); }
+.cmd-tag { margin-left:auto; font-size:10.5px; font-weight:800; text-transform:uppercase; color:var(--ink3); letter-spacing:.08em; flex:0 0 auto; }
+
+/* ===== Recurring subs rows ===== */
+.wsub { display:flex; align-items:center; gap:14px; padding:16px; background:var(--card-solid); border:1px solid var(--line); border-radius:20px; box-shadow:var(--sh-sm); }
+.wsub .ico { width:44px; height:44px; border-radius:14px; background:var(--good-soft); color:var(--good); display:flex; align-items:center; justify-content:center; flex:0 0 auto; }
+.wsub .n { font-weight:800; font-size:15px; }
+.wsub .d { font-size:12.5px; color:var(--ink3); font-weight:600; margin-top:2px; }
+.wsub .amt { margin-left:auto; font-weight:800; font-size:16px; font-variant-numeric:tabular-nums; text-align:right; }
+.wsub .amt small { display:block; font-size:10.5px; color:var(--ink3); font-weight:700; }
+.wsub-total { display:flex; justify-content:space-between; font-weight:800; padding:16px 4px 0; border-top:1.5px solid var(--ink); margin-top:4px; }
+
+/* ===== Goals ===== */
+.goal { background:var(--card-solid); border:1px solid var(--line); border-radius:24px; padding:20px; box-shadow:var(--sh-sm); }
+.goal-bar { height:12px; background:var(--track); border-radius:99px; overflow:hidden; margin:14px 0 10px; }
+.goal-fill { height:100%; border-radius:99px; background:var(--w-grad); transition:width .8s cubic-bezier(.25,1,.5,1); }
+
+/* ===== Mobile calendar height ===== */
+@media(max-width:850px){ .cal-body-wrap { height:56vh; } .w-fast-add input[type="number"]{width:90px;} }
+
+/* ===== Dark theme ===== */
+html[data-theme="dark"] {
+  --bg:#0C0C11; --card:rgba(23,23,30,.72); --card-solid:#17171E; --card2:rgba(23,23,30,.5);
+  --ink:#F4F4F6; --ink2:#B4B4BE; --ink3:#74747E;
+  --line:rgba(255,255,255,.09); --line2:rgba(255,255,255,.17); --track:#26262E;
+  --accent-soft:#22204A; --accent-text:#A5B4FC;
+  --good-soft:#0E2E23; --warn-soft:#34240C; --danger-soft:#3A1020;
+  --sh-sm:0 4px 12px -2px rgba(0,0,0,.4); --sh:0 16px 40px -12px rgba(0,0,0,.55), 0 4px 12px -4px rgba(0,0,0,.4); --sh-lg:0 32px 64px -16px rgba(0,0,0,.7);
+}
+html[data-theme="dark"] body::before { opacity:.75; }
+html[data-theme="dark"] .card, html[data-theme="dark"] .qa-wrap { border-color:var(--line); }
+html[data-theme="dark"] .f-row input, html[data-theme="dark"] .f-row select { background:#101016; }
+html[data-theme="dark"] .f-row input:focus, html[data-theme="dark"] .f-row select:focus { background:#14141B; }
+html[data-theme="dark"] .note-item { background:linear-gradient(145deg,#4A3E10,#3B330F); border-color:rgba(253,224,71,.18); }
+html[data-theme="dark"] .note-text { color:#FDE68A; }
+html[data-theme="dark"] .hero .sub { background:linear-gradient(90deg,rgba(99,102,241,.16),rgba(219,39,119,.16)); color:#C7D2FE; border-color:rgba(129,140,248,.25); }
+html[data-theme="dark"] .chip.on-warn { color:#1A1200; }
+html[data-theme="dark"] .cal-day-head svg, html[data-theme="dark"] .ringwrap circle:first-of-type { stroke:rgba(255,255,255,.08); }
+@media(max-width:850px){ html[data-theme="dark"] .tabs { background:rgba(20,20,28,.92); border-color:rgba(255,255,255,.1); } }
 </style>
 </head>
 <body>
@@ -339,6 +392,7 @@ body.is-wallet .cta:hover { background:var(--w-grad-hover); box-shadow:0 20px 48
     <div class="brand">πάντα<span class="dot">.</span><span class="brand-tag" id="brandTag"></span></div>
     <div class="spacer"></div>
     <div class="profiles" id="profileBar"></div>
+    <button class="iconbtn" onclick="openCmd()" id="searchBtn" title="Αναζήτηση (Ctrl+K)"></button>
     <button class="iconbtn" onclick="openSettings()" id="gearBtn" title="Ρυθμίσεις"></button>
     <button class="lang" id="langBtn" onclick="toggleLang()">EN</button>
   </div>
@@ -412,7 +466,14 @@ coffee:'<path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4
 food:'<path d="M3 11l1-9h16l1 9M3 11a9 9 0 0 0 18 0M3 11h18"></path><path d="M12 22a9 9 0 0 0 9-9H3a9 9 0 0 0 9 9z"></path>',
 car:'<path d="M14 16H9m10 0h3v-3.15a1 1 0 0 0-.84-.99L16 11l-2.7-3.6a2 2 0 0 0-1.6-.8H9.3a2 2 0 0 0-1.6.8L5 11l-5.16.86a1 1 0 0 0-.84.99V16h3m10 0a2 2 0 1 1-4 0m4 0a2 2 0 1 0-4 0m-6 0a2 2 0 1 1-4 0m4 0a2 2 0 1 0-4 0"></path>',
 bag:'<path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path>',
-inc:'<path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>'
+inc:'<path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>',
+zap:'<path d="M13 2L3 14h7l-1 8 11-14h-7l0-6z"/>',
+loop:'<path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.5 9a9 9 0 0114.9-3.4L23 10M1 14l4.6 4.4A9 9 0 0020.5 15"/>',
+grad2:'<path d="M22 9L12 4 2 9l10 5 10-5z"/><path d="M6 11.5V17c3 2.6 9 2.6 12 0v-5.5"/>',
+users:'<circle cx="9" cy="8" r="3.5"/><path d="M2 20v-1a6 6 0 0112 0v1M16 4a3.5 3.5 0 010 7M17.5 13.5A6 6 0 0122 19v1"/>',
+search:'<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>',
+euro:'<path d="M18.5 5.5A8 8 0 006 8m0 8a8 8 0 0012.5 2.5M3 10h10M3 14h9"/>',
+moon:'<path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/>'
 };
 const ic=(n,s=24,w=2)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round">${IC[n]||""}</svg>`;
 
@@ -461,7 +522,16 @@ newProfile:"Νέο προφίλ",name:"Όνομα",type:"Τύπος",create:"Δ�
 dlName:"Τίτλος",dlDate:"Ημερομηνία",dlArea:"Τομέας", slotName:"Τίτλος (π.χ. Deep Work)",slotDays:"Ημέρες",slotTime:"Ώρα (π.χ. 10:00–12:00)",
 settings:"Ρυθμίσεις",areasH:"Projects / Τομείς",areaPh:"Νέος τομέας…",backup:"JSON Backup",resetB:"Factory Reset",resetQ:"Είστε σίγουροι;",
 focusT:"Deep Work",focusDone:"Ολοκληρώθηκε",focusStop:"Ακύρωση",focusMin:"Στο παρασκήνιο →",
-anytime: "Ολοήμερο", dragHint: "Σύρετε για αλλαγή ώρας (Desktop)"
+anytime: "Ολοήμερο", dragHint: "Σύρετε για αλλαγή ώρας (Desktop)",
+wBalD:"Ισοζύγιο Ημέρας",wBalY:"Ισοζύγιο Έτους",wSubs:"Πάγια & Συνδρομές",wSubTotal:"Πάγια / μήνα",wSubAdd:"Πάγιο",
+presetsLb:"Συνηθισμένες:",subCost:"Ποσό €",subDay:"Ημέρα ανανέωσης (1–28)",monthly:"Μηνιαία",yearly:"Ετήσια",cycle:"Χρέωση",
+renews:"ανανέωση",inDays:n=>n===0?"σήμερα":(n===1?"σε 1 ημέρα":`σε ${n} ημέρες`),
+searchT:"Αναζήτηση",searchPh:"Εκκρεμότητες, σημειώσεις, προθεσμίες…",noRes:"Κανένα αποτέλεσμα",
+repeatL:"Επανάληψη",repOpts:["Χωρίς επανάληψη","Καθημερινά","Εβδομαδιαία"],
+area2:"Τομέας",minutes:"Λεπτά",delT:"Διαγραφή",startF:"Έναρξη Focus",
+addHb:"Συνήθεια",hbPh:"π.χ. Διάβασμα 20 σελ.",
+themeL:"Εμφάνιση",themes:["Φωτεινό","Σκούρο","Αυτόματο"],
+wGoalAdd:"Στόχος",wGoalName:"Τι ονειρεύεσαι; (π.χ. MacBook)",wGoalCost:"Κόστος €",wGoalPut:"+ Κατάθεση",wGoalPh:"Ποσό"
 },
 en:{tag:"Everything you've got. Always.",today:"Today",week:"Week",stats:"Progress",dls:"Deadlines",wallet:"Finance",
 hi:["Good morning","Good afternoon","Good evening"],
@@ -486,7 +556,16 @@ newProfile:"New profile",name:"Name",type:"Type",create:"Create",cancel:"Cancel"
 dlName:"Title",dlDate:"Date",dlArea:"Area", slotName:"Title (e.g. Deep Work)",slotDays:"Days",slotTime:"Time (e.g. 10:00–12:00)",
 settings:"Settings",areasH:"Projects / Areas",areaPh:"New area…",backup:"JSON Backup",resetB:"Factory Reset",resetQ:"Are you sure?",
 focusT:"Deep Work",focusDone:"Completed",focusStop:"Cancel",focusMin:"Continue in background →",
-anytime: "All Day", dragHint: "Drag to change time (Desktop)"
+anytime: "All Day", dragHint: "Drag to change time (Desktop)",
+wBalD:"Daily Balance",wBalY:"Yearly Balance",wSubs:"Recurring & Subscriptions",wSubTotal:"Recurring / month",wSubAdd:"Recurring",
+presetsLb:"Common:",subCost:"Amount €",subDay:"Renewal day (1–28)",monthly:"Monthly",yearly:"Yearly",cycle:"Billing",
+renews:"renews",inDays:n=>n===0?"today":(n===1?"in 1 day":`in ${n} days`),
+searchT:"Search",searchPh:"Tasks, notes, deadlines…",noRes:"No results",
+repeatL:"Repeat",repOpts:["No repeat","Daily","Weekly"],
+area2:"Area",minutes:"Minutes",delT:"Delete",startF:"Start Focus",
+addHb:"Habit",hbPh:"e.g. Read 20 pages",
+themeL:"Appearance",themes:["Light","Dark","Auto"],
+wGoalAdd:"Goal",wGoalName:"What's the dream? (e.g. MacBook)",wGoalCost:"Cost €",wGoalPut:"+ Deposit",wGoalPh:"Amount"
 }
 };
 
@@ -511,7 +590,7 @@ function seeds(p,lang){
       {id:3, amt:-2.4, cat:"coffee", note:"Freddo", d:D(0)},
       {id:4, amt:-45, cat:"serv", note:"Contentful CMS", d:D(-1)}
     ],
-    wish: [], view: "daily"
+    wish: [], subs: [], view: "daily"
   };
 
   if(p==="adult") return{hist,
@@ -535,16 +614,19 @@ function seeds(p,lang){
 let S=null, curTab="today", weekOff=0, uid=Date.now();
 let F=null;
 // Quick Add State (No Selects)
-let qA=0, qM=30, qD="today", qP=1;
+let qA=0, qM=30, qD="today", qP=1, qR="", wSign=-1;
 
 function load(){
   let raw=store.get("panta_v2");
   if(raw){ 
     try{S=JSON.parse(raw); 
-      if(S)S.profiles.forEach(pr=>{
+      if(S){ S.theme=S.theme||"auto";
+       S.profiles.forEach(pr=>{
         pr.notes=pr.notes||[]; pr.hist=pr.hist||[]; pr.habits=pr.habits||[];
         pr.wallet=pr.wallet||{txs:[], wish:[], view:"daily"};
-      });
+        pr.wallet.subs=pr.wallet.subs||[]; pr.wallet.wish=pr.wallet.wish||[];
+        pr.tasks.forEach(t=>{t.p=t.p??1; t.rep=t.rep||"";});
+       });}
     }catch(e){S=null;} return; 
   }
 }
@@ -584,6 +666,50 @@ function toggleLang(){
   S.lang=S.lang==="el"?"en":"el"; save(); boot();
 }
 
+/* ============ Profile factory (was missing — crashed onboarding) ============ */
+function mkProfile(name,persona,lang){
+  const sd=seeds(persona,lang);
+  return{name,persona,areas:[...sd.areas],hist:[...(sd.hist||[])],
+    habits:(sd.habits||[]).map(h=>({t:h.t,logs:[...h.logs],id:++uid})),
+    wallet:{txs:(sd.wallet&&sd.wallet.txs||[]).map(x=>({...x,id:++uid})),wish:[],subs:[],view:"daily"},
+    notes:(sd.notes||[]).map(n=>({...n,id:++uid})),
+    tasks:sd.tasks.map(x=>({done:false,time:"",rep:"",p:1,...x,id:++uid})),
+    slots:sd.slots.map(x=>({...x,id:++uid})),
+    dls:sd.dls.map(x=>({...x,planned:false,id:++uid}))};
+}
+
+/* ============ Task row + area badge (were missing — crashed Deadlines/Overdue) ============ */
+const PRC=["var(--ink3)","var(--warn)","var(--danger)"];
+function areaBadge(ai){ const [fg,bg]=AREA_COLORS[ai%AREA_COLORS.length];
+  return `<span class="badge" style="color:${fg};background:${bg}">${esc(P().areas[ai]||"—")}</span>`; }
+function taskRow(x,late){
+  return `<div class="task">
+    <button class="tick ${x.done?'':''}" onclick="tog(${x.id})">${ic("check",16,3)}</button>
+    <div class="body" onclick="openEdit(${x.id})">
+      <div class="t"><span class="pd" style="background:${PRC[x.p||0]}${(x.p||0)===0?';opacity:.35':''}"></span>${esc(x.t)}</div>
+      <div class="m">${areaBadge(x.a)}<span class="mins">${ic("clock",14)} ${fmtMin(x.min)}</span>${x.time?`<span class="mins">${esc(x.time)}</span>`:""}${x.rep?`<span class="mins">${ic("loop",13)}</span>`:""}${late?`<span class="late">${t().late}</span>`:""}</div></div>
+    ${x.done?"":`<button class="play" onclick="startFocus(${x.id})">${ic("play",18)}</button>`}
+    <button class="del" onclick="delTask(${x.id})">${ic("x",18)}</button></div>`;
+}
+const nextWeekdayISO=w=>{const now=new Date();const cur=(now.getDay()+6)%7;return isoPlus((w-cur+7)%7);};
+const isoAdd=(iso,n)=>{const d=new Date(iso+"T12:00");d.setDate(d.getDate()+n);return d.toISOString().slice(0,10);};
+
+/* ============ Theme engine ============ */
+function applyTheme(){
+  const th=(S&&S.theme)||"auto";
+  const dark=th==="dark"||(th==="auto"&&window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches);
+  document.documentElement.dataset.theme=dark?"dark":"light";
+}
+
+/* ============ Calendar sync + smart scroll ============ */
+function syncCal(){
+  document.querySelectorAll(".cal-wrapper").forEach(w=>{
+    const b=w.querySelector(".cal-body-wrap"), h=w.querySelector(".cal-header"), a=w.querySelector(".cal-allday");
+    if(b){ b.onscroll=()=>{ if(h)h.scrollLeft=b.scrollLeft; if(a)a.scrollLeft=b.scrollLeft; };
+      const n=new Date(); b.scrollTop=Math.max(0,((n.getHours()*60+n.getMinutes())/60*72)-230); }
+  });
+}
+
 /* ============ Boot ============ */
 function boot(){
   const L=t();
@@ -591,7 +717,7 @@ function boot(){
   $("brandTag").textContent=L.tag;
   $("langBtn").textContent=S.lang==="el"?"EN":"ΕΛ";
   $("ringLbl").textContent=L.ringLbl;
-  $("gearBtn").innerHTML=ic("gear",22);
+  $("gearBtn").innerHTML=ic("gear",22); const sb=$("searchBtn"); if(sb)sb.innerHTML=ic("search",22); applyTheme();
   $("mPause").innerHTML=ic(F&&F.run?"pause":"play",20);
   $("mDone").innerHTML=ic("check",20);
   
@@ -656,6 +782,8 @@ function renderCalCol(dateISO) {
               ondrop="this.classList.remove('drag-over'); dropTask(event, '${dateISO}', '${hr}')"></div>`;
   }
   html += `</div>`;
+  if(dateISO===todayISO()){ const n=new Date();
+    html += `<div class="cal-now" style="top:${((n.getHours()*60+n.getMinutes())/60*72).toFixed(0)}px"></div>`; }
   
   // Calculate horizontal overlapping
   const overlapGroups = [];
@@ -728,7 +856,6 @@ function dropTask(e, dateISO, timeStr) {
 function renderWallet(v, L) {
   const w = P().wallet;
   const view = w.view;
-  const bal = w.txs.reduce((s,x)=>s+x.amt, 0);
   
   const td = new Date();
   let startISO, endISO;
@@ -744,6 +871,41 @@ function renderWallet(v, L) {
   }
   
   const curTxs = w.txs.filter(x => x.d >= startISO && x.d <= endISO);
+  const bal = curTxs.reduce((s,x)=>s+x.amt, 0);
+  const incT = curTxs.filter(x=>x.amt>0).reduce((s,x)=>s+x.amt,0);
+  const expT = Math.abs(curTxs.filter(x=>x.amt<0).reduce((s,x)=>s+x.amt,0));
+  const balLbl = view==="daily"?L.wBalD:(view==="yearly"?L.wBalY:L.wBal);
+  /* recurring subs */
+  const nowD=new Date(), cd=nowD.getDate(), dim=new Date(nowD.getFullYear(),nowD.getMonth()+1,0).getDate();
+  const du=x=>{let n=x.day-cd; if(n<0)n+=dim; return n;};
+  const monthEq=x=>x.cy==="y"?x.c/12:x.c;
+  const subsL=[...(w.subs||[])].sort((a,b)=>du(a)-du(b));
+  const subsTotal=subsL.reduce((s,x)=>s+monthEq(x),0);
+  const subsHtml=`
+    <div class="sec-h"><h2>${ic("euro",22)} ${L.wSubs}</h2><button class="right" onclick="openWSub()">${ic("plus",18)} ${L.wSubAdd}</button></div>
+    <div style="display:flex; flex-direction:column; gap:12px; margin-bottom:40px;">
+      ${subsL.map(x=>`<div class="wsub">
+        <div class="ico">${ic("euro",20)}</div>
+        <div><div class="n">${esc(x.n)}</div><div class="d">${L.renews} ${L.inDays(du(x))} · ${x.cy==="y"?L.yearly:L.monthly}</div></div>
+        <div class="amt">€${Number(x.c).toFixed(0)}${x.cy==="y"?`<small>≈ €${monthEq(x).toFixed(0)}/${S.lang==="el"?"μήνα":"mo"}</small>`:""}</div>
+        <button class="del" style="opacity:.5" onclick="delWSub(${x.id})">${ic("x",18)}</button></div>`).join("")}
+      ${subsL.length?`<div class="wsub-total"><span>${L.wSubTotal}</span><span>€${subsTotal.toFixed(0)}</span></div>`:`<div class="empty" style="padding:24px"><b>${L.noTasks}</b></div>`}
+    </div>`;
+  /* goals / dreams */
+  const goalsHtml=`
+    <div class="sec-h"><h2>${ic("spark",22)} ${L.wDreams}</h2><button class="right" onclick="openGoal()">${ic("plus",18)} ${L.wGoalAdd}</button></div>
+    <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:16px; margin-bottom:40px;">
+      ${(w.wish||[]).map(g=>{const pct=Math.min(100,Math.round((g.saved/g.cost)*100));
+        return `<div class="goal">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+            <b style="font-size:16px;">${esc(g.n)}</b>
+            <button class="del" style="opacity:.5" onclick="delGoal(${g.id})">${ic("x",16)}</button></div>
+          <div class="goal-bar"><div class="goal-fill" style="width:${pct}%"></div></div>
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-size:13px; font-weight:700; color:var(--ink3);">€${g.saved.toFixed(0)} / €${g.cost.toFixed(0)} · ${pct}%</span>
+            <button class="chip" style="padding:8px 14px;" onclick="putGoal(${g.id})">${L.wGoalPut}</button></div>
+        </div>`;}).join("")||`<div class="empty" style="padding:24px; grid-column:1/-1;"><b>${L.noTasks}</b></div>`}
+    </div>`;
   
   let mainHtml = "";
   if(view === "daily") {
@@ -762,8 +924,12 @@ function renderWallet(v, L) {
       </div>
       
       <div class="w-fast-add">
-        <input type="number" id="fA" step="0.1" placeholder="€ ${L.wExp}/${L.wInc}">
-        <input type="text" id="fN" placeholder="Note...">
+        <div style="display:flex; gap:6px; padding-left:8px;">
+          <button class="chip ${wSign<0?'on-danger':''}" style="padding:8px 14px;" onclick="wSign=-1;render()">− ${L.wExp}</button>
+          <button class="chip ${wSign>0?'on':''}" style="padding:8px 14px; ${wSign>0?'background:var(--good);':''}" onclick="wSign=1;render()">+ ${L.wInc}</button>
+        </div>
+        <input type="number" id="fA" step="0.1" inputmode="decimal" placeholder="€">
+        <input type="text" id="fN" placeholder="${S.lang==='el'?'Σημείωση...':'Note...'}">
         <button onclick="fastAddTx()">${ic("plus",20)}</button>
       </div>`;
   } else {
@@ -813,11 +979,17 @@ function renderWallet(v, L) {
   </div>
 
   <div class="w-header">
-    <span>${L.wBal}</span>
+    <span>${balLbl}</span>
     <div class="bal">€${bal.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2})}</div>
+    <div style="display:flex; gap:12px; margin-top:16px;">
+      <span style="font-size:14px; font-weight:800; color:var(--good); background:var(--good-soft); padding:8px 16px; border-radius:999px;">+€${incT.toFixed(0)} ${L.wInc}</span>
+      <span style="font-size:14px; font-weight:800; color:var(--danger); background:var(--danger-soft); padding:8px 16px; border-radius:999px;">−€${expT.toFixed(0)} ${L.wExp}</span>
+    </div>
   </div>
   
   ${mainHtml}
+  ${subsHtml}
+  ${goalsHtml}
   
   <div class="sec-h"><h2>${ic("wallet",22)} ${L.wTxs}</h2></div>
   <div style="display:flex; flex-direction:column; gap:12px;">
@@ -845,10 +1017,55 @@ function addTx(amt, cat, note) {
   save(); boot();
 }
 function fastAddTx() {
-  const amt = +$("fA").value;
-  const note = $("fN").value.trim() || "Transaction";
-  if(amt) addTx(amt, amt>0?'income':'general', note);
+  const raw = Math.abs(+$("fA").value);
+  const note = $("fN").value.trim() || ($ && S.lang==="el" ? "Συναλλαγή" : "Transaction");
+  if(raw) addTx(raw*wSign, wSign>0?'income':'general', note);
 }
+/* ===== Recurring subs ===== */
+const WSUBP=[[["Κινητό (Cosmote/Vodafone)","Mobile plan"],22,"m"],[["Internet σπιτιού","Home internet"],30,"m"],[["Spotify","Spotify"],7,"m"],[["Netflix","Netflix"],13,"m"],[["YouTube Premium","YouTube Premium"],14,"m"],[["Γυμναστήριο","Gym"],25,"m"],[["Φροντιστήριο","Tutoring"],120,"m"],[["iCloud / Google One","iCloud / Google One"],3,"m"],[["Ασφάλεια ΙΧ","Car insurance"],280,"y"]];
+function fillWSub(i){ const p=WSUBP[i]; $("wsN").value=p[0][S.lang==="el"?0:1]; $("wsC").value=p[1]; $("wsCy").value=p[2]; }
+function openWSub(){ const L=t();
+  sheet(`<h3>${L.wSubAdd}</h3>
+  <div class="qa-track" style="margin-bottom:24px;"><span class="qa-lbl" style="width:auto;">${L.presetsLb}</span>${WSUBP.map((p,i)=>`<button class="chip" onclick="fillWSub(${i})">${p[0][S.lang==="el"?0:1]}</button>`).join("")}</div>
+  <div class="f-row"><label>${L.name}</label><input id="wsN" type="text"></div>
+  <div class="f-grid">
+    <div class="f-row"><label>${L.subCost}</label><input id="wsC" type="number" min="0" step="1"></div>
+    <div class="f-row"><label>${L.cycle}</label><select id="wsCy"><option value="m">${L.monthly}</option><option value="y">${L.yearly}</option></select></div>
+    <div class="f-row"><label>${L.subDay}</label><input id="wsD" type="number" min="1" max="28" value="1"></div>
+  </div>
+  <div class="modal-actions"><button class="cta" onclick="createWSub()">${L.create}</button><button class="ghost" onclick="closeSheet()">${L.cancel}</button></div>`); }
+function createWSub(){ const n=$("wsN").value.trim(); if(!n){closeSheet();return;}
+  P().wallet.subs.push({id:++uid,n,c:+$("wsC").value||0,day:Math.min(28,Math.max(1,+$("wsD").value||1)),cy:$("wsCy").value});
+  closeSheet(); save(); boot(); }
+function delWSub(id){ P().wallet.subs=P().wallet.subs.filter(x=>x.id!==id); save(); boot(); }
+/* ===== Goals ===== */
+function openGoal(){ const L=t();
+  sheet(`<h3>${L.wGoalAdd}</h3>
+  <div class="f-row"><label>${L.name}</label><input id="gN" type="text" placeholder="${L.wGoalName}"></div>
+  <div class="f-row"><label>${L.wGoalCost}</label><input id="gC" type="number" min="1"></div>
+  <div class="modal-actions"><button class="cta" onclick="createGoal()">${L.create}</button><button class="ghost" onclick="closeSheet()">${L.cancel}</button></div>`); }
+function createGoal(){ const n=$("gN").value.trim(), c=+$("gC").value; if(!n||!c){closeSheet();return;}
+  P().wallet.wish.push({id:++uid,n,cost:c,saved:0}); closeSheet(); save(); boot(); }
+function putGoal(id){ const g=P().wallet.wish.find(x=>x.id===id); if(!g)return;
+  const v=prompt(t().wGoalPh,"50"); const a=+v; if(a>0){ g.saved=Math.min(g.cost,g.saved+a); save(); boot(); } }
+function delGoal(id){ P().wallet.wish=P().wallet.wish.filter(x=>x.id!==id); save(); boot(); }
+/* ===== Command palette ===== */
+function openCmd(){ const L=t();
+  sheet(`<h3>${L.searchT}</h3>
+  <div class="f-row"><input id="cmdI" type="text" placeholder="${L.searchPh}" oninput="cmdSearch()" autocomplete="off"></div>
+  <div class="cmd-res" id="cmdR"></div>`);
+  setTimeout(()=>{const i=$("cmdI"); if(i)i.focus();},80); cmdSearch(); }
+function cmdSearch(){ const L=t(); const q=($("cmdI")?$("cmdI").value:"").toLowerCase().trim();
+  const res=[];
+  P().tasks.forEach(x=>{ if(!q||x.t.toLowerCase().includes(q)) res.push({ic:"sun",t:x.t,tag:x.d,fn:`closeSheet();openEdit(${x.id})`}); });
+  (P().notes||[]).forEach(n=>{ if(q&&n.t.toLowerCase().includes(q)) res.push({ic:"pin",t:n.t,tag:L.notesH,fn:`curTab='today';closeSheet();boot()`}); });
+  P().dls.forEach(d=>{ if(q&&d.t.toLowerCase().includes(q)) res.push({ic:"flag",t:d.t,tag:d.d,fn:`curTab='dls';closeSheet();boot()`}); });
+  const r=$("cmdR"); if(!r)return;
+  r.innerHTML=res.slice(0,12).map(x=>`<div class="cmd-row" onclick="${x.fn}">${ic(x.ic,18)}<span style="flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${esc(x.t)}</span><span class="cmd-tag">${esc(x.tag)}</span></div>`).join("")||`<div class="empty" style="padding:24px;"><b>${L.noRes}</b></div>`; }
+document.addEventListener("keydown",e=>{
+  if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==="k"){ e.preventDefault(); if(S)openCmd(); }
+  if(e.key==="Escape"&&!$("sheetOvl").classList.contains("hide")){ if(F)minimizeFocus(); else closeSheet(); }
+});
 function delTx(id) {
   if(confirm("Delete transaction?")) { P().wallet.txs = P().wallet.txs.filter(x=>x.id!==id); save(); boot(); }
 }
@@ -885,6 +1102,7 @@ function render(){
             <span class="qa-lbl">${L.day}</span>
             <button class="chip ${qD==='today'?'on':''}" onclick="qD='today';render()">${L.today}</button>
             <button class="chip ${qD==='tomorrow'?'on':''}" onclick="qD='tomorrow';render()">${L.tomorrow}</button>
+            ${L.wk1.map((w,i)=>`<button class="chip ${qD===i?'on':''}" onclick="qD=${i};render()">${w}</button>`).join("")}
           </div>
           
           <div class="qa-track">
@@ -893,8 +1111,9 @@ function render(){
           </div>
           
           <div class="qa-footer">
-            <div class="qa-custom-time">
-              ${ic("clock", 18)} <input type="time" id="qa-time">
+            <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+              <div class="qa-custom-time">${ic("clock", 18)} <input type="time" id="qa-time"></div>
+              <button class="chip ${qR?'on':''}" onclick="qR=qR===''?'d':(qR==='d'?'w':'');render()">${ic("loop",15)} ${L.repOpts[qR===''?0:(qR==='d'?1:2)]}</button>
             </div>
             <button class="btn-p" onclick="qAdd()">${L.qGo}</button>
           </div>
@@ -944,9 +1163,7 @@ function render(){
       </div>
     </div>`;
     
-    setTimeout(() => {
-      document.querySelectorAll('.timeline-scroll').forEach(el => el.scrollTop = 8 * 72);
-    }, 50);
+    setTimeout(syncCal, 50);
   }
   
   if(curTab==="week"){
@@ -986,9 +1203,7 @@ function render(){
         </div>
       </div>`;
       
-      setTimeout(() => {
-        document.querySelectorAll('.timeline-scroll').forEach(el => el.scrollTop = 8 * 72);
-      }, 50);
+      setTimeout(syncCal, 50);
   }
   if(curTab==="stats") renderStats(v,L,td);
   if(curTab==="dls") renderDls(v,L,td);
@@ -1016,7 +1231,7 @@ function renderStats(v,L,td){
     </div>
     
     <div>
-      <div class="sec-h" style="margin-top:0;"><h2>${ic("loop",22)} ${L.hbTitle}</h2><span class="hint">${L.hbHint}</span></div>
+      <div class="sec-h" style="margin-top:0;"><h2>${ic("loop",22)} ${L.hbTitle}</h2><span class="hint">${L.hbHint}</span><button class="right" onclick="openHb()">${ic("plus",18)} ${L.addHb}</button></div>
       <div style="display:flex; flex-direction:column; gap:16px;">
         ${habits.map(h => {
           let streak = 0; let check = new Date(td);
@@ -1024,9 +1239,10 @@ function renderStats(v,L,td){
           if(streak === 0 && h.logs.includes(isoPlus(-1))) { check = new Date(isoPlus(-1)); while(h.logs.includes(check.toISOString().slice(0,10))) { streak++; check.setDate(check.getDate()-1); } }
           
           return `<div class="card" style="margin:0; padding:20px;">
-            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:20px;">
-              <h3 style="font-size:17px; font-weight:800;">${esc(h.t)}</h3>
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:20px; gap:8px;">
+              <h3 style="font-size:17px; font-weight:800; flex:1;">${esc(h.t)}</h3>
               <div style="font-size:13px; font-weight:800; color:var(--warn); background:var(--warn-soft); padding:6px 14px; border-radius:999px; display:flex; align-items:center; gap:6px;">${ic("spark",16)} ${streak}</div>
+              <button class="del" style="opacity:.4; padding:6px;" onclick="delHb(${h.id})">${ic("x",16)}</button>
             </div>
             <div class="habit-days">
               ${days.map(d => {
@@ -1067,8 +1283,9 @@ function qAdd(){
   let time = $("qa-time") ? $("qa-time").value : "";
   
   if(qD === "tomorrow") d = isoPlus(1);
+  else if(typeof qD === "number") d = nextWeekdayISO(qD);
   
-  P().tasks.push({id:++uid, t:txt, a, min, d, time, done:false, p});
+  P().tasks.push({id:++uid, t:txt, a, min, d, time, done:false, p, rep:qR});
   save(); boot(); setTimeout(()=>{const i=$("qa-t");if(i){i.value=''; i.focus();}},50);
 }
 
@@ -1078,6 +1295,13 @@ function addNote(){ const i=$("nT"), v=i.value.trim(); if(!v)return;
 function togNote(id){ const n=(P().notes||[]).find(n=>n.id===id); if(n){n.done=!n.done; save(); boot();} }
 function delNote(id){ P().notes=(P().notes||[]).filter(n=>n.id!==id); save(); boot(); }
 
+function openHb(){ const L=t();
+  sheet(`<h3>${L.addHb}</h3>
+  <div class="f-row"><label>${L.name}</label><input id="hbN" type="text" placeholder="${L.hbPh}"></div>
+  <div class="modal-actions"><button class="cta" onclick="createHb()">${L.create}</button><button class="ghost" onclick="closeSheet()">${L.cancel}</button></div>`); }
+function createHb(){ const n=$("hbN").value.trim(); if(!n){closeSheet();return;}
+  (P().habits=P().habits||[]).push({id:++uid,t:n,logs:[]}); closeSheet(); save(); boot(); }
+function delHb(id){ P().habits=P().habits.filter(x=>x.id!==id); save(); boot(); }
 function togHb(id, dateStr) {
   const h = P().habits.find(x=>x.id===id); if(!h)return;
   if(h.logs.includes(dateStr)) h.logs = h.logs.filter(d => d !== dateStr);
@@ -1086,7 +1310,9 @@ function togHb(id, dateStr) {
 }
 function tog(id){ const x=P().tasks.find(x=>x.id===id); if(!x)return;
   x.done=!x.done;
-  if(x.done){ (P().hist=P().hist||[]).push({d:todayISO(),min:x.min,a:x.a}); }
+  if(x.done){ (P().hist=P().hist||[]).push({d:todayISO(),min:x.min,a:x.a});
+    if(x.rep){ const nd=isoAdd(x.d, x.rep==="d"?1:7);
+      P().tasks.push({id:++uid,t:x.t,a:x.a,min:x.min,d:nd,time:x.time,done:false,p:x.p,rep:x.rep}); } }
   else{ const h=P().hist||[]; const i=h.findIndex(e=>e.d===todayISO()&&e.min===x.min&&e.a===x.a); if(i>-1)h.splice(i,1); }
   save(); boot(); }
 function delTask(id){ P().tasks=P().tasks.filter(x=>x.id!==id); save(); boot(); }
@@ -1148,12 +1374,21 @@ function openEdit(id){
   <div class="f-grid">
     <div class="f-row"><label>${L.time}</label><input id="eTi" type="time" value="${x.time||''}"></div>
     <div class="f-row"><label>${L.date}</label><input id="eD" type="date" value="${x.d}"></div>
+    <div class="f-row"><label>${L.area2}</label><select id="eA">${P().areas.map((a,i)=>`<option value="${i}" ${i===x.a?"selected":""}>${esc(a)}</option>`).join("")}</select></div>
+    <div class="f-row"><label>${L.minutes}</label><input id="eM" type="number" min="1" max="1439" value="${x.min}"></div>
+    <div class="f-row"><label>${L.prio}</label><select id="eP">${L.prios.map((p,i)=>`<option value="${i}" ${i===(x.p||0)?"selected":""}>${p}</option>`).join("")}</select></div>
+    <div class="f-row"><label>${L.repeatL}</label><select id="eR">${L.repOpts.map((r,i)=>`<option value="${["","d","w"][i]}" ${["","d","w"][i]===(x.rep||"")?"selected":""}>${r}</option>`).join("")}</select></div>
   </div>
-  <div class="modal-actions"><button class="cta" onclick="saveEdit(${id})">${L.saveB}</button><button class="ghost" onclick="closeSheet()">${L.cancel}</button></div>`);
+  <div class="modal-actions">
+    <button class="cta" onclick="saveEdit(${id})">${L.saveB}</button>
+    ${x.done?"":`<button class="ghost" style="border:1px solid var(--line2)" onclick="closeSheet();startFocus(${id})">${ic("play",18)} ${L.startF}</button>`}
+    <button class="dangerb" onclick="delTask(${id});closeSheet()">${ic("x",18)} ${L.delT}</button>
+    <button class="ghost" onclick="closeSheet()">${L.cancel}</button></div>`);
 }
 function saveEdit(id){ const x=P().tasks.find(x=>x.id===id); if(x){
   x.t=$("eT").value.trim()||x.t;
-  x.time=$("eTi").value; x.d=$("eD").value||x.d; }
+  x.time=$("eTi").value; x.d=$("eD").value||x.d;
+  x.a=+$("eA").value; x.min=Math.max(1,+$("eM").value||x.min); x.p=+$("eP").value; x.rep=$("eR").value; }
   closeSheet(); save(); boot(); }
 
 function openSlotEdit(id){
@@ -1161,7 +1396,7 @@ function openSlotEdit(id){
   sheet(`<h3>${L.edit}</h3>
   <div class="f-row"><label>${L.name}</label><input id="seN" type="text" value="${esc(s.n)}"></div>
   <div class="f-row"><label>${L.slotTime}</label><input id="seTi" type="text" value="${esc(s.time)}"></div>
-  <div class="modal-actions"><button class="cta" onclick="saveSlotEdit(${id})">${L.saveB}</button><button class="dangerb" onclick="delSlot(${id}); closeSheet()">${L.el?"Διαγραφή":"Delete"}</button><button class="ghost" onclick="closeSheet()">${L.cancel}</button></div>`);
+  <div class="modal-actions"><button class="cta" onclick="saveSlotEdit(${id})">${L.saveB}</button><button class="dangerb" onclick="delSlot(${id}); closeSheet()">${S.lang==="el"?"Διαγραφή":"Delete"}</button><button class="ghost" onclick="closeSheet()">${L.cancel}</button></div>`);
 }
 function saveSlotEdit(id){ const s=P().slots.find(x=>x.id===id); if(s){
   s.n=$("seN").value.trim()||s.n; s.time=$("seTi").value.trim()||s.time; }
@@ -1172,7 +1407,7 @@ function autoplan(id){
   const L=t();
   const today=new Date(todayISO()+"T12:00"), exam=new Date(x.d+"T12:00");
   const span=Math.max(1,Math.round((exam-today)/86400000)-1);
-  const steps = L.el ? ["Έρευνα & Σημειώσεις", "Προσχέδιο / Ασκήσεις", "Αναθεώρηση & Μορφοποίηση", "Τελική Υποβολή"] : ["Research & Notes", "First Draft / Exercises", "Review & Formatting", "Final Submit"];
+  const steps = S.lang==="el" ? ["Έρευνα & Σημειώσεις", "Προσχέδιο / Ασκήσεις", "Αναθεώρηση & Μορφοποίηση", "Τελική Υποβολή"] : ["Research & Notes", "First Draft / Exercises", "Review & Formatting", "Final Submit"];
   steps.forEach((s,i)=>{
     const off=Math.min(span,Math.max(0,Math.round(span*(i/(steps.length-1||1)))));
     P().tasks.push({id:++uid,t:`${s} — ${x.t}`,a:x.a,min:60,d:isoPlus(off),time:"",done:false,p:2});
@@ -1187,9 +1422,10 @@ $("sheetOvl").addEventListener("click",e=>{ if(e.target.id==="sheetOvl"){ if(F){
 function openNewProfile(){ const L=t();
   sheet(`<h3>${L.newProfile}</h3>
   <div class="f-row"><label>${L.name}</label><input id="npN" type="text"></div>
+  <div class="f-row"><label>${L.type}</label><select id="npP">${Object.entries(L.personas).map(([k,v])=>`<option value="${k}">${v[1]}</option>`).join("")}</select></div>
   <div class="modal-actions"><button class="cta" onclick="createProfile()">${L.create}</button><button class="ghost" onclick="closeSheet()">${L.cancel}</button></div>`); }
 function createProfile(){ const n=$("npN").value.trim()||"—";
-  S.profiles.push(mkProfile(n,"adult",S.lang)); S.active=S.profiles.length-1;
+  S.profiles.push(mkProfile(n,$("npP")?$("npP").value:"adult",S.lang)); S.active=S.profiles.length-1;
   closeSheet(); save(); boot(); }
 
 function openDl(){ const L=t();
@@ -1197,10 +1433,11 @@ function openDl(){ const L=t();
   <div class="f-row"><label>${L.dlName}</label><input id="dN" type="text"></div>
   <div class="f-grid">
     <div class="f-row"><label>${L.dlDate}</label><input id="dD" type="date" value="${isoPlus(7)}"></div>
+    <div class="f-row"><label>${L.dlArea}</label><select id="dA">${P().areas.map((a,i)=>`<option value="${i}">${esc(a)}</option>`).join("")}</select></div>
   </div>
   <div class="modal-actions"><button class="cta" onclick="createDl()">${L.create}</button><button class="ghost" onclick="closeSheet()">${L.cancel}</button></div>`); }
 function createDl(){ const n=$("dN").value.trim(); if(!n){closeSheet();return;}
-  P().dls.push({id:++uid,t:n,a:0,d:$("dD").value||todayISO(),planned:false});
+  P().dls.push({id:++uid,t:n,a:+($("dA")?$("dA").value:0),d:$("dD").value||todayISO(),planned:false});
   closeSheet(); save(); boot(); }
 
 function openSlot(){ const L=t();
@@ -1220,6 +1457,9 @@ function openSettings(){ const L=t();
     <div class="chipset" style="margin-bottom:16px">${P().areas.map(a=>`<span class="chip on">${esc(a)}</span>`).join("")}</div>
     <div style="display:flex;gap:12px"><input id="stArea" type="text" placeholder="${L.areaPh}">
     <button class="btn-p" style="margin-top:0; padding:0 24px;" onclick="addArea()">${ic("plus",20)}</button></div></div>
+  <div class="f-row"><label>${L.themeL}</label>
+    <div class="chipset" style="display:flex; gap:10px;">${["light","dark","auto"].map((th,i)=>`<button class="pchip ${(S.theme||'auto')===th?'on':''}" onclick="S.theme='${th}';save();applyTheme();openSettings();boot()">${L.themes[i]}</button>`).join("")}</div>
+  </div>
   <div class="modal-actions">
     <button class="ghost" onclick="backup()" style="border:1px solid var(--line2); display:flex; align-items:center; justify-content:center; gap:12px">${ic("code",22)} ${L.backup}</button>
     <button class="dangerb" onclick="resetAll()">${L.resetB}</button>
