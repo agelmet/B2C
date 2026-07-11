@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Πάντα — Τα πάντα σου. Πάντα.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Commissioner:wght@400;500;600;700;800&family=Literata:ital,opsz,wght@1,7..72,500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F3F4F1;
+  --card:#FFFFFF;
+  --ink:#1B1F24;
+  --ink2:#5A6270;
+  --ink3:#98A0AC;
+  --line:#E4E6E1;
+  --accent:#3D53E0;
+  --accent-soft:#E9ECFC;
+  --good:#1E7A46;
+  --good-soft:#E4F4EA;
+  --warn:#B0641D;
+  --warn-soft:#FBF0E0;
+  --danger:#C24328;
+  --danger-soft:#FAEAE5;
+  --r:16px;
+  --shadow:0 1px 2px rgba(27,31,36,.05),0 6px 20px rgba(27,31,36,.06);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html{font-size:16px;}
+body{font-family:'Commissioner',system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;padding-bottom:calc(84px + env(safe-area-inset-bottom));}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;}
+input,select{font-family:inherit;font-size:15px;color:var(--ink);}
+.app{max-width:960px;margin:0 auto;padding:0 16px;}
+
+/* ===== Top bar ===== */
+.top{display:flex;align-items:center;gap:12px;padding:18px 0 10px;position:sticky;top:0;background:linear-gradient(var(--bg) 82%,transparent);z-index:40;}
+.brand{font-weight:800;font-size:22px;letter-spacing:-.02em;}
+.brand .dot{color:var(--accent);}
+.brand-tag{font-family:'Literata',serif;font-style:italic;font-size:12.5px;color:var(--ink3);display:none;}
+@media(min-width:640px){.brand-tag{display:inline;margin-left:8px;}}
+.top .spacer{flex:1;}
+.profiles{display:flex;gap:6px;align-items:center;}
+.avatar{width:36px;height:36px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;border:2px solid transparent;transition:.15s;}
+.avatar.active{border-color:var(--accent);background:var(--accent);color:#fff;}
+.avatar.add{background:var(--card);border:1.5px dashed var(--ink3);color:var(--ink3);font-size:18px;}
+.lang{font-size:12px;font-weight:700;color:var(--ink2);background:var(--card);border:1px solid var(--line);border-radius:999px;padding:7px 12px;}
+
+/* ===== Greeting / today ring ===== */
+.hero{display:flex;align-items:center;gap:18px;padding:10px 0 4px;}
+.hero h1{font-size:clamp(22px,5vw,30px);font-weight:800;letter-spacing:-.02em;line-height:1.15;}
+.hero .sub{color:var(--ink2);font-size:14px;margin-top:2px;}
+.ring{--p:0;width:74px;height:74px;border-radius:50%;flex:0 0 auto;background:conic-gradient(var(--accent) calc(var(--p)*1%),#E7E9E4 0);display:flex;align-items:center;justify-content:center;}
+.ring .in{width:58px;height:58px;border-radius:50%;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.ring b{font-size:15px;font-weight:800;}
+.ring span{font-size:9.5px;color:var(--ink3);text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== Tabs (desktop top / mobile bottom) ===== */
+.tabs{display:flex;gap:4px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px;margin:14px 0 18px;box-shadow:var(--shadow);}
+.tabs button{flex:1;padding:10px 6px;border-radius:999px;font-weight:600;font-size:13.5px;color:var(--ink2);display:flex;align-items:center;justify-content:center;gap:7px;transition:.15s;white-space:nowrap;}
+.tabs button.on{background:var(--ink);color:#fff;}
+.tabs .ico{font-size:15px;line-height:1;}
+@media(max-width:639px){
+  .tabs{position:fixed;left:12px;right:12px;bottom:calc(10px + env(safe-area-inset-bottom));margin:0;z-index:50;}
+  .tabs button span.lbl{font-size:10.5px;}
+  .tabs button{flex-direction:column;gap:3px;padding:8px 2px;}
+}
+
+/* ===== Cards & sections ===== */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:18px;margin-bottom:14px;}
+.sec-h{display:flex;align-items:baseline;gap:10px;margin:20px 0 10px;}
+.sec-h h2{font-size:16px;font-weight:800;letter-spacing:-.01em;}
+.sec-h .hint{font-size:12.5px;color:var(--ink3);}
+.sec-h .right{margin-left:auto;font-size:13px;font-weight:700;color:var(--accent);}
+
+/* ===== Quick add ===== */
+.qadd{display:flex;flex-direction:column;gap:10px;}
+.qadd .row1{display:flex;gap:8px;}
+.qadd input[type=text]{flex:1;border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;background:var(--bg);outline:none;transition:.15s;}
+.qadd input[type=text]:focus{border-color:var(--accent);background:#fff;}
+.qadd .go{background:var(--accent);color:#fff;font-weight:700;border-radius:12px;padding:0 20px;font-size:15px;}
+.chipset{display:flex;gap:6px;flex-wrap:wrap;}
+.chipset .lb{font-size:11px;color:var(--ink3);font-weight:700;text-transform:uppercase;letter-spacing:.06em;align-self:center;margin-right:2px;}
+.pchip{font-size:12.5px;font-weight:600;padding:7px 12px;border-radius:999px;background:var(--bg);border:1.5px solid var(--line);color:var(--ink2);transition:.12s;}
+.pchip.on{border-color:var(--accent);background:var(--accent-soft);color:var(--accent);}
+
+/* ===== Task list ===== */
+.task{display:flex;align-items:center;gap:12px;padding:12px 4px;border-bottom:1px solid var(--line);}
+.task:last-child{border-bottom:none;}
+.tick{width:24px;height:24px;border-radius:8px;border:2px solid var(--ink3);flex:0 0 auto;display:flex;align-items:center;justify-content:center;color:transparent;font-size:13px;transition:.15s;}
+.task.done .tick{background:var(--good);border-color:var(--good);color:#fff;}
+.task .body{flex:1;min-width:0;}
+.task .t{font-weight:600;font-size:15px;}
+.task.done .t{text-decoration:line-through;color:var(--ink3);}
+.task .m{display:flex;gap:8px;align-items:center;margin-top:3px;flex-wrap:wrap;}
+.badge{font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px;}
+.mins{font-size:12px;color:var(--ink2);font-weight:600;}
+.del{color:var(--ink3);font-size:17px;padding:6px;opacity:.6;}
+.empty{color:var(--ink3);font-size:14px;text-align:center;padding:26px 10px;}
+.empty b{display:block;font-size:15px;color:var(--ink2);margin-bottom:3px;}
+
+/* ===== Week ===== */
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;}
+@media(max-width:760px){.week{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px;margin:0 -16px;padding-left:16px;padding-right:16px;}
+.day{min-width:72vw;scroll-snap-align:start;}}
+.day{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;box-shadow:var(--shadow);}
+.day.today{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft),var(--shadow);}
+.day h4{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink3);display:flex;justify-content:space-between;}
+.day h4 b{color:var(--ink);}
+.slot{font-size:11.5px;font-weight:600;background:var(--bg);border-left:3px solid var(--ink3);padding:5px 8px;border-radius:0 8px 8px 0;margin-top:7px;color:var(--ink2);}
+.dtask{font-size:12.5px;font-weight:600;padding:6px 8px;border-radius:9px;margin-top:7px;display:flex;gap:6px;align-items:center;}
+.dtask.done{opacity:.45;text-decoration:line-through;}
+.dtask .dm{margin-left:auto;font-size:10.5px;font-weight:700;opacity:.75;}
+
+/* ===== Subs & deadlines ===== */
+.sub-row{display:flex;align-items:center;gap:12px;padding:12px 4px;border-bottom:1px solid var(--line);}
+.sub-row:last-child{border:none;}
+.sub-ico{width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:17px;flex:0 0 auto;}
+.sub-row .n{font-weight:700;font-size:14.5px;}
+.sub-row .d{font-size:12px;color:var(--ink3);}
+.sub-row .amt{margin-left:auto;font-weight:800;font-size:15px;}
+.total-line{display:flex;justify-content:space-between;align-items:center;padding-top:14px;margin-top:4px;border-top:2px solid var(--ink);font-weight:800;}
+.dl{display:flex;align-items:center;gap:12px;padding:13px 4px;border-bottom:1px solid var(--line);}
+.dl:last-child{border:none;}
+.count{min-width:56px;text-align:center;border-radius:12px;padding:7px 4px;font-weight:800;font-size:16px;line-height:1;}
+.count small{display:block;font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-top:2px;opacity:.8;}
+.plan-btn{margin-left:auto;font-size:12px;font-weight:700;color:var(--accent);background:var(--accent-soft);padding:8px 12px;border-radius:999px;white-space:nowrap;}
+
+/* ===== Flows ===== */
+.flows{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px;}
+.flow{background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:15px;text-align:left;transition:.15s;box-shadow:var(--shadow);}
+.flow:hover{border-color:var(--accent);}
+.flow .fi{font-size:22px;}
+.flow b{display:block;font-size:14px;margin-top:8px;}
+.flow span{font-size:12px;color:var(--ink2);display:block;margin-top:3px;line-height:1.45;}
+
+/* ===== Overlays ===== */
+.ovl{position:fixed;inset:0;background:rgba(27,31,36,.45);backdrop-filter:blur(3px);z-index:100;display:flex;align-items:flex-end;justify-content:center;}
+@media(min-width:640px){.ovl{align-items:center;}}
+.sheet{background:var(--card);border-radius:22px 22px 0 0;width:100%;max-width:480px;padding:24px 22px calc(24px + env(safe-area-inset-bottom));max-height:88vh;overflow-y:auto;}
+@media(min-width:640px){.sheet{border-radius:22px;}}
+.sheet h3{font-size:19px;font-weight:800;margin-bottom:4px;letter-spacing:-.01em;}
+.sheet .sd{font-size:13.5px;color:var(--ink2);margin-bottom:16px;}
+.f-row{margin-bottom:13px;}
+.f-row label{display:block;font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--ink3);margin-bottom:6px;}
+.f-row input,.f-row select{width:100%;border:1.5px solid var(--line);border-radius:12px;padding:12px 13px;background:var(--bg);outline:none;}
+.f-row input:focus,.f-row select:focus{border-color:var(--accent);background:#fff;}
+.sheet .cta{width:100%;background:var(--accent);color:#fff;font-weight:800;font-size:15.5px;border-radius:14px;padding:15px;margin-top:6px;}
+.sheet .ghost{width:100%;color:var(--ink2);font-weight:600;padding:13px;font-size:14px;}
+.persona-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0 6px;}
+.persona{border:2px solid var(--line);border-radius:16px;padding:16px 13px;text-align:center;transition:.15s;}
+.persona.on,.persona:hover{border-color:var(--accent);background:var(--accent-soft);}
+.persona .pi{font-size:26px;}
+.persona b{display:block;font-size:14px;margin-top:7px;}
+.persona span{font-size:11.5px;color:var(--ink2);}
+.wordmark{font-size:34px;font-weight:800;letter-spacing:-.03em;text-align:center;}
+.wordmark .dot{color:var(--accent);}
+.tagline{font-family:'Literata',serif;font-style:italic;text-align:center;color:var(--ink2);font-size:14.5px;margin:4px 0 18px;}
+.hide{display:none!important;}
+.stat-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px;}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px;box-shadow:var(--shadow);}
+.stat b{font-size:20px;font-weight:800;letter-spacing:-.02em;display:block;}
+.stat span{font-size:11px;color:var(--ink3);font-weight:600;text-transform:uppercase;letter-spacing:.04em;}
+.prem{font-size:12px;color:var(--ink2);background:var(--warn-soft);border:1px solid #EAD9BC;border-radius:12px;padding:11px 14px;margin-top:10px;line-height:1.5;}
+.prem b{color:var(--warn);}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="top">
+    <div class="brand">πάντα<span class="dot">.</span><span class="brand-tag" id="brandTag">Τα πάντα σου. Πάντα.</span></div>
+    <div class="spacer"></div>
+    <div class="profiles" id="profileBar"></div>
+    <button class="lang" id="langBtn" onclick="toggleLang()">EN</button>
+  </div>
+
+  <div class="hero">
+    <div style="flex:1">
+      <h1 id="greet"></h1>
+      <div class="sub" id="greetSub"></div>
+    </div>
+    <div class="ring" id="ring"><div class="in"><b id="ringPct">0%</b><span id="ringLbl">σήμερα</span></div></div>
+  </div>
+
+  <div class="tabs" id="tabs"></div>
+
+  <main id="view"></main>
+</div>
+
+<!-- Onboarding -->
+<div class="ovl" id="onb">
+  <div class="sheet">
+    <div class="wordmark">πάντα<span class="dot">.</span></div>
+    <div class="tagline" id="onbTag">Τα πάντα σου. Πάντα.</div>
+    <div style="text-align:center;margin-bottom:8px;"><button class="lang" onclick="toggleLang()" id="onbLang">English</button></div>
+    <div class="f-row"><label id="onbNameLbl">Το όνομά σου</label><input type="text" id="onbName" placeholder="π.χ. Νίκος"></div>
+    <label style="font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--ink3);" id="onbWho">Ποιος θα το χρησιμοποιεί;</label>
+    <div class="persona-grid" id="personaGrid"></div>
+    <button class="cta" id="onbGo" onclick="finishOnb()">Ξεκίνα — είναι δωρεάν</button>
+  </div>
+</div>
+
+<!-- Generic sheet -->
+<div class="ovl hide" id="sheetOvl"><div class="sheet" id="sheetBody"></div></div>
+
+<script>
+/* ============ Safe storage (works in restricted previews, persists when deployed) ============ */
+const mem={};
+const store={
+  get(k){ try{ return localStorage.getItem(k) ?? mem[k] ?? null; }catch(e){ return mem[k] ?? null; } },
+  set(k,v){ mem[k]=v; try{ localStorage.setItem(k,v); }catch(e){} }
+};
+
+/* ============ i18n ============ */
+const T={
+  el:{tag:"Τα πάντα σου. Πάντα.",today:"Σήμερα",week:"Εβδομάδα",subs:"Συνδρομές",dls:"Προθεσμίες",flows:"Ροές",
+  hi:["Καλημέρα","Καλησπέρα","Καλό βράδυ"],greetSub:d=>`${d.left} εκκρεμότητες · ~${d.time} ακόμη`,allDone:"Όλα έτοιμα — μπράβο! 🎉",
+  ringLbl:"σήμερα",qPh:"Τι πρέπει να γίνει; π.χ. Ασκήσεις άλγεβρας…",qGo:"Προσθήκη",area:"Τομέας",time:"Χρόνος",day:"Ημέρα",
+  todayTasks:"Οι εκκρεμότητες του σήμερα",tomorrow:"Αύριο",noTasks:"Τίποτα εδώ",noTasksSub:"Πρόσθεσε κάτι από πάνω ή διάλεξε μια έτοιμη ροή.",
+  schedule:"Πρόγραμμα",addSlot:"+ μάθημα/δραστηριότητα",subsTitle:"Οι συνδρομές της οικογένειας",subsHint:"φροντιστήρια, αθλήματα, υπηρεσίες",
+  addSub:"+ συνδρομή",perMonth:"Σύνολο / μήνα",renews:"ανανέωση",dlTitle:"Διαγωνίσματα & προθεσμίες",addDl:"+ προθεσμία",
+  plan:"Φτιάξε πλάνο",planned:"Έτοιμο πλάνο ✓",days:"μέρες",daysOne:"μέρα",todayLit:"σήμερα",
+  flowsTitle:"Έτοιμες ροές",flowsHint:"ένα πάτημα — έτοιμο πρόγραμμα",
+  stTasks:"εκκρεμότητες",stTime:"χρόνος σήμερα",stStreak:"σερί ημερών",
+  wk:["Δευ","Τρί","Τετ","Πέμ","Παρ","Σάβ","Κυρ"],
+  months:["Ιαν","Φεβ","Μαρ","Απρ","Μαΐ","Ιουν","Ιουλ","Αυγ","Σεπ","Οκτ","Νοε","Δεκ"],
+  onbName:"Το όνομά σου",onbWho:"Ποιος θα το χρησιμοποιεί;",onbGo:"Ξεκίνα — είναι δωρεάν",onbLang:"English",
+  personas:{student:["🎒","Μαθητής","σχολείο & φροντιστήρια"],uni:["🎓","Φοιτητής","σχολές & εργασίες"],adult:["🗂️","Ενήλικας","λογαριασμοί & ζωή"],parent:["👨‍👩‍👧","Γονέας","όλη η οικογένεια"]},
+  newProfile:"Νέο προφίλ",name:"Όνομα",type:"Τύπος",create:"Δημιουργία",cancel:"Άκυρο",
+  subName:"Όνομα (π.χ. Φροντιστήριο Μαθηματικών)",subCost:"€ / μήνα",subDay:"Ημέρα ανανέωσης (1–28)",subCat:"Κατηγορία",
+  cats:{edu:"📚 Εκπαίδευση",sport:"⚽ Άθλημα",serv:"📺 Υπηρεσία",health:"🏥 Υγεία"},
+  dlName:"Τίτλος (π.χ. Διαγώνισμα Φυσικής)",dlDate:"Ημερομηνία",dlArea:"Τομέας",
+  slotName:"Τίτλος (π.χ. Σχολείο, Αγγλικά)",slotDays:"Ημέρες",slotTime:"Ώρα (π.χ. 17:00–19:00)",
+  flowStudy:["📘","Διάβασμα μαθήματος","Θεωρία 30′ → Ασκήσεις 45′ → Επανάληψη 20′"],
+  flowExam:["📝","Προετοιμασία διαγωνίσματος","διάλεξε ημερομηνία — το πλάνο μοιράζεται μόνο του στις μέρες"],
+  flowWork:["🎓","Εργασία / Coursework","Έρευνα → Σχέδιο → Γράψιμο → Διόρθωση → Παράδοση"],
+  flowRev:["🔁","Επανάληψη εβδομάδας","20′ ανά μάθημα, κάθε Σάββατο"],
+  flowBills:["💶","Λογαριασμοί μήνα","ΔΕΗ, νερό, κινητό, κοινόχρηστα — μία φορά τον μήνα"],
+  pickArea:"Για ποιο μάθημα/τομέα;",pickDate:"Πότε είναι;",apply:"Πρόσθεσέ το",
+  premT:"Πάντα Family",prem:"Δωρεάν: 1 προφίλ. <b>Πάντα Family €19,90/έτος</b> — έως 4 προφίλ, αντίγραφα ασφαλείας & συγχρονισμός σε όλες τις συσκευές.",
+  examFlow:["Θεωρία & σημειώσεις","Ασκήσεις","Επανάληψη λαθών","Sample διαγώνισμα"],
+  workFlow:["Έρευνα & πηγές","Σχεδιάγραμμα","Γράψιμο πρώτης έκδοσης","Διόρθωση & μορφοποίηση","Τελικός έλεγχος & παράδοση"]},
+  en:{tag:"Everything you've got. Always.",today:"Today",week:"Week",subs:"Subscriptions",dls:"Deadlines",flows:"Flows",
+  hi:["Good morning","Good afternoon","Good evening"],greetSub:d=>`${d.left} to do · ~${d.time} left`,allDone:"All done — well done! 🎉",
+  ringLbl:"today",qPh:"What needs to get done? e.g. Algebra exercises…",qGo:"Add",area:"Area",time:"Time",day:"Day",
+  todayTasks:"Today's tasks",tomorrow:"Tomorrow",noTasks:"Nothing here",noTasksSub:"Add something above or pick a ready-made flow.",
+  schedule:"Schedule",addSlot:"+ class/activity",subsTitle:"Family subscriptions",subsHint:"tutors, sports, services",
+  addSub:"+ subscription",perMonth:"Total / month",renews:"renews",dlTitle:"Exams & deadlines",addDl:"+ deadline",
+  plan:"Auto-plan",planned:"Plan ready ✓",days:"days",daysOne:"day",todayLit:"today",
+  flowsTitle:"Ready-made flows",flowsHint:"one tap — full plan",
+  stTasks:"open tasks",stTime:"time today",stStreak:"day streak",
+  wk:["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],
+  months:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
+  onbName:"Your name",onbWho:"Who will use it?",onbGo:"Start — it's free",onbLang:"Ελληνικά",
+  personas:{student:["🎒","Student","school & tutoring"],uni:["🎓","University","courses & deadlines"],adult:["🗂️","Adult","bills & life"],parent:["👨‍👩‍👧","Parent","the whole family"]},
+  newProfile:"New profile",name:"Name",type:"Type",create:"Create",cancel:"Cancel",
+  subName:"Name (e.g. Math tutor)",subCost:"€ / month",subDay:"Renewal day (1–28)",subCat:"Category",
+  cats:{edu:"📚 Education",sport:"⚽ Sport",serv:"📺 Service",health:"🏥 Health"},
+  dlName:"Title (e.g. Physics exam)",dlDate:"Date",dlArea:"Area",
+  slotName:"Title (e.g. School, English)",slotDays:"Days",slotTime:"Time (e.g. 17:00–19:00)",
+  flowStudy:["📘","Study a subject","Theory 30′ → Exercises 45′ → Review 20′"],
+  flowExam:["📝","Exam prep","pick a date — the plan spreads itself across the days"],
+  flowWork:["🎓","Coursework","Research → Outline → Draft → Edit → Submit"],
+  flowRev:["🔁","Weekly review","20′ per subject, every Saturday"],
+  flowBills:["💶","Monthly bills","power, water, phone — once a month"],
+  pickArea:"Which subject/area?",pickDate:"When is it?",apply:"Add it",
+  premT:"Panta Family",prem:"Free: 1 profile. <b>Panta Family €19.90/yr</b> — up to 4 profiles, backups & sync across devices.",
+  examFlow:["Theory & notes","Exercises","Review mistakes","Sample exam"],
+  workFlow:["Research & sources","Outline","First draft","Edit & format","Final check & submit"]}
+};
+
+/* ============ Areas / palette ============ */
+const AREA_COLORS=[["#2B5BD7","#E8F0FE"],["#1E7A46","#E4F4EA"],["#B0641D","#FBF0E0"],["#8A3FC2","#F3E9FB"],["#C2334F","#FBE9ED"],["#0E6E5C","#E2F2EE"],["#6B7280","#EEF0F2"]];
+
+/* ============ Seeds per persona ============ */
+function seeds(p,lang){
+  const el=lang==="el";
+  const D=n=>{const d=new Date();d.setDate(d.getDate()+n);return d.toISOString().slice(0,10);};
+  if(p==="student")return{
+    areas:el?["Μαθηματικά","Φυσική","Βιολογία","Αγγλικά"]:["Math","Physics","Biology","English"],
+    tasks:[
+      {t:el?"Ασκήσεις άλγεβρας σελ. 42":"Algebra exercises p. 42",a:0,min:45,d:D(0)},
+      {t:el?"Θεωρία: κύτταρο":"Theory: the cell",a:2,min:30,d:D(0)},
+      {t:el?"Vocabulary Unit 5":"Vocabulary Unit 5",a:3,min:20,d:D(1)}],
+    slots:[{n:el?"Σχολείο":"School",days:[0,1,2,3,4],time:"08:15–14:00"},
+      {n:el?"Φροντιστήριο Μαθ.":"Math tutoring",days:[1,3],time:"17:00–19:00"},
+      {n:el?"Ποδόσφαιρο":"Football",days:[2,4],time:"18:00–19:30"}],
+    subs:[{n:el?"Φροντιστήριο":"Tutoring school",c:120,day:1,cat:"edu"},
+      {n:el?"Ποδόσφαιρο":"Football club",c:40,day:5,cat:"sport"},
+      {n:el?"Αγγλικά":"English lessons",c:60,day:1,cat:"edu"}],
+    dls:[{t:el?"Διαγώνισμα Φυσικής":"Physics exam",a:1,d:D(9)}]};
+  if(p==="uni")return{
+    areas:el?["Μικροοικονομία","Στατιστική","Marketing","Αγγλικά ΙΙ"]:["Microeconomics","Statistics","Marketing","English II"],
+    tasks:[{t:el?"Διάβασμα κεφ. 3":"Read chapter 3",a:0,min:60,d:D(0)},
+      {t:el?"Ασκήσεις SPSS":"SPSS exercises",a:1,min:45,d:D(1)}],
+    slots:[{n:el?"Διαλέξεις":"Lectures",days:[0,2,4],time:"09:00–13:00"},{n:el?"Γυμναστήριο":"Gym",days:[1,3],time:"19:00–20:00"}],
+    subs:[{n:"Spotify",c:6,day:12,cat:"serv"},{n:el?"Γυμναστήριο":"Gym",c:25,day:1,cat:"sport"}],
+    dls:[{t:el?"Παράδοση εργασίας Marketing":"Marketing coursework due",a:2,d:D(14)},{t:el?"Εξεταστική: Στατιστική":"Statistics final",a:1,d:D(21)}]};
+  if(p==="adult")return{
+    areas:el?["Σπίτι","Οικονομικά","Υγεία","Δουλειά"]:["Home","Finances","Health","Work"],
+    tasks:[{t:el?"Πληρωμή ΔΕΗ":"Pay electricity bill",a:1,min:15,d:D(0)},
+      {t:el?"Ραντεβού οδοντίατρο":"Book dentist",a:2,min:15,d:D(1)}],
+    slots:[{n:el?"Δουλειά":"Work",days:[0,1,2,3,4],time:"09:00–17:00"},{n:el?"Περπάτημα":"Walk",days:[1,3,5],time:"07:30–08:00"}],
+    subs:[{n:el?"Κινητό":"Mobile plan",c:22,day:15,cat:"serv"},{n:"Netflix",c:13,day:3,cat:"serv"},{n:el?"Ασφάλεια ΙΧ":"Car insurance",c:28,day:20,cat:"serv"}],
+    dls:[{t:el?"ΚΤΕΟ αυτοκινήτου":"Car inspection (MOT)",a:1,d:D(25)},{t:el?"Δόση ΕΝΦΙΑ":"Property-tax instalment",a:1,d:D(18)}]};
+  return{ /* parent */
+    areas:el?["Παιδιά","Σπίτι","Οικονομικά","Υγεία"]:["Kids","Home","Finances","Health"],
+    tasks:[{t:el?"Πληρωμή φροντιστηρίου":"Pay tutoring fee",a:2,min:10,d:D(0)},
+      {t:el?"Φόρμα σχολικής εκδρομής":"School-trip form",a:0,min:10,d:D(1)}],
+    slots:[{n:el?"Προπόνηση Νίκου":"Nikos' practice",days:[2,4],time:"18:00–19:30"},{n:el?"Μπαλέτο Μαρίας":"Maria's ballet",days:[1],time:"17:30–18:30"}],
+    subs:[{n:el?"Φροντιστήριο Νίκος":"Tutoring — Nikos",c:120,day:1,cat:"edu"},{n:el?"Μπαλέτο Μαρία":"Ballet — Maria",c:45,day:1,cat:"sport"},{n:el?"Αγγλικά ×2":"English ×2",c:110,day:1,cat:"edu"}],
+    dls:[{t:el?"Εμβόλιο παιδιάτρου":"Paediatrician appointment",a:3,d:D(11)}]};
+}
+
+/* ============ State ============ */
+let S=null;
+function load(){ const raw=store.get("panta_v1"); if(raw){ try{S=JSON.parse(raw);}catch(e){S=null;} } }
+function save(){ store.set("panta_v1",JSON.stringify(S)); }
+function P(){ return S.profiles[S.active]; }
+function t(){ return T[S?S.lang:"el"]; }
+load();
+
+let curTab="today", uid=Date.now();
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const todayISO=()=>new Date().toISOString().slice(0,10);
+const fmtMin=m=>m>=60?`${Math.floor(m/60)}h${m%60?` ${m%60}′`:""}`:`${m}′`;
+const dayIdx=iso=>{const d=new Date(iso+"T12:00");return (d.getDay()+6)%7;};
+
+/* ============ Onboarding ============ */
+let onbPersona="student", onbLangState="el";
+function renderOnb(){
+  const L=T[onbLangState];
+  $("onbTag").textContent=L.tag; $("onbNameLbl").textContent=L.onbName; $("onbWho").textContent=L.onbWho;
+  $("onbGo").textContent=L.onbGo; $("onbLang").textContent=L.onbLang;
+  $("personaGrid").innerHTML=Object.entries(L.personas).map(([k,v])=>
+    `<button class="persona ${k===onbPersona?'on':''}" onclick="onbPersona='${k}';renderOnb()"><div class="pi">${v[0]}</div><b>${v[1]}</b><span>${v[2]}</span></button>`).join("");
+}
+function finishOnb(){
+  const name=$("onbName").value.trim()||(onbLangState==="el"?"Εγώ":"Me");
+  S={lang:onbLangState,active:0,streak:1,lastDay:todayISO(),profiles:[mkProfile(name,onbPersona,onbLangState)]};
+  save(); $("onb").classList.add("hide"); boot();
+}
+function mkProfile(name,persona,lang){
+  const sd=seeds(persona,lang);
+  return{name,persona,areas:sd.areas,
+    tasks:sd.tasks.map(x=>({id:++uid,t:x.t,a:x.a,min:x.min,d:x.d,done:false})),
+    slots:sd.slots.map(x=>({id:++uid,...x})),
+    subs:sd.subs.map(x=>({id:++uid,...x})),
+    dls:sd.dls.map(x=>({id:++uid,...x,planned:false}))};
+}
+function toggleLang(){
+  if(!S){ onbLangState=onbLangState==="el"?"en":"el"; renderOnb(); return; }
+  S.lang=S.lang==="el"?"en":"el"; save(); boot();
+}
+
+/* ============ Boot & chrome ============ */
+function boot(){
+  const L=t();
+  document.documentElement.lang=S.lang;
+  $("brandTag").textContent=L.tag;
+  $("langBtn").textContent=S.lang==="el"?"EN":"ΕΛ";
+  $("ringLbl").textContent=L.ringLbl;
+  /* streak */
+  const td=todayISO();
+  if(S.lastDay!==td){ const y=new Date();y.setDate(y.getDate()-1);
+    S.streak=(S.lastDay===y.toISOString().slice(0,10))?S.streak+1:1; S.lastDay=td; save(); }
+  /* profiles */
+  $("profileBar").innerHTML=S.profiles.map((p,i)=>
+    `<button class="avatar ${i===S.active?'active':''}" title="${esc(p.name)}" onclick="S.active=${i};save();boot()">${esc(p.name.slice(0,2).toUpperCase())}</button>`).join("")+
+    `<button class="avatar add" onclick="openNewProfile()">+</button>`;
+  /* greeting */
+  const h=new Date().getHours(), hi=L.hi[h<12?0:h<19?1:2];
+  $("greet").textContent=`${hi}, ${P().name}`;
+  const open=P().tasks.filter(x=>!x.done&&x.d<=todayISO());
+  const mins=open.reduce((s,x)=>s+x.min,0);
+  $("greetSub").textContent=open.length?L.greetSub({left:open.length,time:fmtMin(mins)}):L.allDone;
+  /* ring */
+  const dueToday=P().tasks.filter(x=>x.d===todayISO());
+  const pct=dueToday.length?Math.round(dueToday.filter(x=>x.done).length/dueToday.length*100):0;
+  $("ring").style.setProperty("--p",pct); $("ringPct").textContent=pct+"%";
+  /* tabs */
+  const tabs=[["today","☀️",L.today],["week","🗓️",L.week],["subs","💶",L.subs],["dls","⏳",L.dls],["flows","✨",L.flows]];
+  $("tabs").innerHTML=tabs.map(([k,i,l])=>
+    `<button class="${curTab===k?'on':''}" onclick="curTab='${k}';boot()"><span class="ico">${i}</span><span class="lbl">${l}</span></button>`).join("");
+  render();
+}
+
+/* ============ Views ============ */
+function areaBadge(ai){ const [fg,bg]=AREA_COLORS[ai%AREA_COLORS.length];
+  return `<span class="badge" style="color:${fg};background:${bg}">${esc(P().areas[ai]||"—")}</span>`; }
+
+function taskRow(x){
+  return `<div class="task ${x.done?'done':''}">
+    <button class="tick" onclick="tog(${x.id})">✓</button>
+    <div class="body"><div class="t">${esc(x.t)}</div>
+      <div class="m">${areaBadge(x.a)}<span class="mins">⏱ ${fmtMin(x.min)}</span></div></div>
+    <button class="del" onclick="delTask(${x.id})">×</button></div>`;
+}
+function render(){
+  const L=t(), v=$("view");
+  if(curTab==="today"){
+    const td=todayISO(), tm=new Date();tm.setDate(tm.getDate()+1);const tmISO=tm.toISOString().slice(0,10);
+    const due=P().tasks.filter(x=>x.d<=td).sort((a,b)=>a.done-b.done);
+    const tmr=P().tasks.filter(x=>x.d===tmISO&&!x.done);
+    const open=P().tasks.filter(x=>!x.done&&x.d<=td);
+    v.innerHTML=`
+    <div class="stat-grid">
+      <div class="stat"><b>${open.length}</b><span>${L.stTasks}</span></div>
+      <div class="stat"><b>${fmtMin(open.reduce((s,x)=>s+x.min,0))||"0′"}</b><span>${L.stTime}</span></div>
+      <div class="stat"><b>${S.streak}🔥</b><span>${L.stStreak}</span></div>
+    </div>
+    <div class="card"><div class="qadd">
+      <div class="row1"><input type="text" id="qT" placeholder="${L.qPh}" onkeydown="if(event.key==='Enter')qAdd()"><button class="go" onclick="qAdd()">${L.qGo}</button></div>
+      <div class="chipset"><span class="lb">${L.area}</span>${P().areas.map((a,i)=>`<button class="pchip ${i===qA?'on':''}" onclick="qA=${i};render()">${esc(a)}</button>`).join("")}</div>
+      <div class="chipset"><span class="lb">${L.time}</span>${[15,30,45,60,90].map(m=>`<button class="pchip ${m===qM?'on':''}" onclick="qM=${m};render()">${m}′</button>`).join("")}
+        <span class="lb" style="margin-left:8px">${L.day}</span>
+        <button class="pchip ${qD===0?'on':''}" onclick="qD=0;render()">${L.today}</button>
+        <button class="pchip ${qD===1?'on':''}" onclick="qD=1;render()">${L.tomorrow}</button></div>
+    </div></div>
+    <div class="sec-h"><h2>${L.todayTasks}</h2></div>
+    <div class="card">${due.length?due.map(taskRow).join(""):`<div class="empty"><b>${L.noTasks}</b>${L.noTasksSub}</div>`}</div>
+    ${tmr.length?`<div class="sec-h"><h2>${L.tomorrow}</h2></div><div class="card">${tmr.map(taskRow).join("")}</div>`:""}`;
+  }
+  if(curTab==="week"){
+    const now=new Date(); const mon=new Date(now); mon.setDate(now.getDate()-((now.getDay()+6)%7));
+    let cols="";
+    for(let i=0;i<7;i++){ const d=new Date(mon); d.setDate(mon.getDate()+i); const iso=d.toISOString().slice(0,10);
+      const isT=iso===todayISO();
+      const slots=P().slots.filter(s=>s.days.includes(i));
+      const tasks=P().tasks.filter(x=>x.d===iso);
+      cols+=`<div class="day ${isT?'today':''}"><h4><b>${L.wk[i]}</b><span>${d.getDate()} ${L.months[d.getMonth()]}</span></h4>
+        ${slots.map(s=>`<div class="slot">🕐 ${esc(s.time)} · ${esc(s.n)}</div>`).join("")}
+        ${tasks.map(x=>{const [fg,bg]=AREA_COLORS[x.a%AREA_COLORS.length];
+          return `<div class="dtask ${x.done?'done':''}" style="color:${fg};background:${bg}" onclick="tog(${x.id})">${esc(x.t)}<span class="dm">${fmtMin(x.min)}</span></div>`;}).join("")}</div>`;
+    }
+    v.innerHTML=`<div class="sec-h"><h2>${L.schedule}</h2><button class="right" onclick="openSlot()">${L.addSlot}</button></div><div class="week">${cols}</div>`;
+  }
+  if(curTab==="subs"){
+    const total=P().subs.reduce((s,x)=>s+Number(x.c||0),0);
+    const icons={edu:["📚","#E8F0FE"],sport:["⚽","#E4F4EA"],serv:["📺","#F3E9FB"],health:["🏥","#FBE9ED"]};
+    v.innerHTML=`<div class="sec-h"><h2>${L.subsTitle}</h2><span class="hint">${L.subsHint}</span><button class="right" onclick="openSub()">${L.addSub}</button></div>
+    <div class="card">${P().subs.map(x=>{const ic=icons[x.cat]||icons.serv;
+      return `<div class="sub-row"><div class="sub-ico" style="background:${ic[1]}">${ic[0]}</div>
+        <div><div class="n">${esc(x.n)}</div><div class="d">${L.renews}: ${x.day}/${new Date().getMonth()+1}</div></div>
+        <div class="amt">€${Number(x.c).toFixed(0)}</div><button class="del" onclick="delSub(${x.id})">×</button></div>`;}).join("")||`<div class="empty"><b>${L.noTasks}</b></div>`}
+      <div class="total-line"><span>${L.perMonth}</span><span>€${total.toFixed(0)}</span></div></div>
+    <div class="prem"><b>${L.premT}:</b> ${L.prem}</div>`;
+  }
+  if(curTab==="dls"){
+    const td=new Date(todayISO()+"T12:00");
+    v.innerHTML=`<div class="sec-h"><h2>${L.dlTitle}</h2><button class="right" onclick="openDl()">${L.addDl}</button></div>
+    <div class="card">${P().dls.sort((a,b)=>a.d<b.d?-1:1).map(x=>{
+      const dd=Math.round((new Date(x.d+"T12:00")-td)/86400000);
+      const col=dd<=3?["var(--danger)","var(--danger-soft)"]:dd<=10?["var(--warn)","var(--warn-soft)"]:["var(--good)","var(--good-soft)"];
+      const lbl=dd===0?L.todayLit:(dd===1?`1 ${L.daysOne}`:`${dd} ${L.days}`);
+      return `<div class="dl"><div class="count" style="color:${col[0]};background:${col[1]}">${dd===0?"!":dd}<small>${lbl}</small></div>
+        <div><div class="n" style="font-weight:700;font-size:14.5px">${esc(x.t)}</div><div class="d" style="font-size:12px;color:var(--ink3)">${areaBadge(x.a)} · ${x.d}</div></div>
+        <button class="plan-btn" onclick="autoplan(${x.id})" ${x.planned?'style="opacity:.55"':''}>${x.planned?L.planned:L.plan}</button>
+        <button class="del" onclick="delDl(${x.id})">×</button></div>`;}).join("")||`<div class="empty"><b>${L.noTasks}</b></div>`}</div>`;
+  }
+  if(curTab==="flows"){
+    const F=[["flowStudy","study"],["flowExam","exam"],["flowWork","work"],["flowRev","rev"],["flowBills","bills"]];
+    v.innerHTML=`<div class="sec-h"><h2>${L.flowsTitle}</h2><span class="hint">${L.flowsHint}</span></div>
+    <div class="flows">${F.map(([k,fn])=>{const f=L[k];
+      return `<button class="flow" onclick="runFlow('${fn}')"><div class="fi">${f[0]}</div><b>${f[1]}</b><span>${f[2]}</span></button>`;}).join("")}</div>`;
+  }
+}
+
+/* ============ Actions ============ */
+let qA=0,qM=30,qD=0;
+function qAdd(){
+  const inp=$("qT"), txt=inp.value.trim(); if(!txt)return;
+  const d=new Date(); d.setDate(d.getDate()+qD);
+  P().tasks.push({id:++uid,t:txt,a:qA,min:qM,d:d.toISOString().slice(0,10),done:false});
+  save(); boot(); setTimeout(()=>{const i=$("qT");if(i)i.focus();},50);
+}
+function tog(id){ const x=P().tasks.find(x=>x.id===id); if(x){x.done=!x.done; save(); boot();} }
+function delTask(id){ P().tasks=P().tasks.filter(x=>x.id!==id); save(); boot(); }
+function delSub(id){ P().subs=P().subs.filter(x=>x.id!==id); save(); boot(); }
+function delDl(id){ P().dls=P().dls.filter(x=>x.id!==id); save(); boot(); }
+
+/* ============ Auto-plan an exam ============ */
+function autoplan(id){
+  const x=P().dls.find(d=>d.id===id); if(!x||x.planned)return;
+  const L=t(), steps=L.examFlow;
+  const today=new Date(todayISO()+"T12:00"), exam=new Date(x.d+"T12:00");
+  const span=Math.max(1,Math.round((exam-today)/86400000)-1);
+  steps.forEach((s,i)=>{
+    const off=Math.min(span,Math.max(0,Math.round(span*(i/(steps.length-1||1)))));
+    const dd=new Date(today); dd.setDate(today.getDate()+off);
+    P().tasks.push({id:++uid,t:`${s} — ${x.t}`,a:x.a,min:i===steps.length-1?60:40,d:dd.toISOString().slice(0,10),done:false});
+  });
+  x.planned=true; save(); curTab="week"; boot();
+}
+
+/* ============ Flows ============ */
+function runFlow(fn){
+  const L=t();
+  if(fn==="study"){ sheet(`<h3>${L.flowStudy[1]}</h3><p class="sd">${L.flowStudy[2]}</p>
+    <div class="f-row"><label>${L.pickArea}</label><select id="fA">${P().areas.map((a,i)=>`<option value="${i}">${esc(a)}</option>`).join("")}</select></div>
+    <button class="cta" onclick="applyStudy()">${L.apply}</button><button class="ghost" onclick="closeSheet()">${L.cancel}</button>`); return; }
+  if(fn==="exam"){ sheet(`<h3>${L.flowExam[1]}</h3><p class="sd">${L.flowExam[2]}</p>
+    <div class="f-row"><label>${L.dlName}</label><input id="fT" type="text"></div>
+    <div class="f-row"><label>${L.pickArea}</label><select id="fA">${P().areas.map((a,i)=>`<option value="${i}">${esc(a)}</option>`).join("")}</select></div>
+    <div class="f-row"><label>${L.pickDate}</label><input id="fD" type="date" value="${(()=>{const d=new Date();d.setDate(d.getDate()+10);return d.toISOString().slice(0,10);})()}"></div>
+    <button class="cta" onclick="applyExam()">${L.apply}</button><button class="ghost" onclick="closeSheet()">${L.cancel}</button>`); return; }
+  if(fn==="work"){ sheet(`<h3>${L.flowWork[1]}</h3><p class="sd">${L.flowWork[2]}</p>
+    <div class="f-row"><label>${L.dlName}</label><input id="fT" type="text"></div>
+    <div class="f-row"><label>${L.pickArea}</label><select id="fA">${P().areas.map((a,i)=>`<option value="${i}">${esc(a)}</option>`).join("")}</select></div>
+    <div class="f-row"><label>${L.pickDate}</label><input id="fD" type="date" value="${(()=>{const d=new Date();d.setDate(d.getDate()+14);return d.toISOString().slice(0,10);})()}"></div>
+    <button class="cta" onclick="applyWork()">${L.apply}</button><button class="ghost" onclick="closeSheet()">${L.cancel}</button>`); return; }
+  if(fn==="rev"){ /* Saturday review: 20' per area */
+    const now=new Date(); const sat=new Date(now); sat.setDate(now.getDate()+((5-((now.getDay()+6)%7))+7)%7);
+    const iso=sat.toISOString().slice(0,10);
+    P().areas.forEach((a,i)=>P().tasks.push({id:++uid,t:(S.lang==="el"?"Επανάληψη — ":"Review — ")+a,a:i,min:20,d:iso,done:false}));
+    save(); curTab="week"; boot(); return; }
+  if(fn==="bills"){
+    const names=S.lang==="el"?["ΔΕΗ / ρεύμα","Νερό","Κινητό & internet","Κοινόχρηστα"]:["Electricity","Water","Phone & internet","Building fees"];
+    const ai=Math.max(0,P().areas.findIndex(a=>/οικονομ|financ/i.test(a)));
+    names.forEach(n=>P().tasks.push({id:++uid,t:n,a:ai,min:10,d:todayISO(),done:false}));
+    save(); curTab="today"; boot(); return; }
+}
+function applyStudy(){ const L=t(),a=+$("fA").value, base=[[L.examFlow[0],30],[L.examFlow[1],45],[L.examFlow[2],20]];
+  base.forEach(([s,m])=>P().tasks.push({id:++uid,t:`${s} — ${P().areas[a]}`,a,min:m,d:todayISO(),done:false}));
+  closeSheet(); save(); curTab="today"; boot(); }
+function applyExam(){ const title=$("fT").value.trim()||t().flowExam[1], a=+$("fA").value, d=$("fD").value||todayISO();
+  P().dls.push({id:++uid,t:title,a,d,planned:false}); const nd=P().dls[P().dls.length-1];
+  closeSheet(); save(); autoplan(nd.id); }
+function applyWork(){ const L=t(),title=$("fT").value.trim()||L.flowWork[1], a=+$("fA").value, d=$("fD").value||todayISO();
+  P().dls.push({id:++uid,t:title,a,d,planned:true});
+  const today=new Date(todayISO()+"T12:00"), due=new Date(d+"T12:00");
+  const span=Math.max(1,Math.round((due-today)/86400000)-1);
+  L.workFlow.forEach((s,i)=>{ const off=Math.min(span,Math.round(span*(i/(L.workFlow.length-1))));
+    const dd=new Date(today); dd.setDate(today.getDate()+off);
+    P().tasks.push({id:++uid,t:`${s} — ${title}`,a,min:60,d:dd.toISOString().slice(0,10),done:false}); });
+  closeSheet(); save(); curTab="week"; boot(); }
+
+/* ============ Sheets: new profile / sub / deadline / slot ============ */
+function sheet(html){ $("sheetBody").innerHTML=html; $("sheetOvl").classList.remove("hide"); }
+function closeSheet(){ $("sheetOvl").classList.add("hide"); }
+$("sheetOvl")&&$("sheetOvl").addEventListener("click",e=>{ if(e.target.id==="sheetOvl") closeSheet(); });
+
+function openNewProfile(){ const L=t();
+  sheet(`<h3>${L.newProfile}</h3><p class="sd">${L.premT} · €19,90/yr</p>
+  <div class="f-row"><label>${L.name}</label><input id="npN" type="text"></div>
+  <div class="f-row"><label>${L.type}</label><select id="npP">${Object.entries(L.personas).map(([k,v])=>`<option value="${k}">${v[0]} ${v[1]}</option>`).join("")}</select></div>
+  <button class="cta" onclick="createProfile()">${L.create}</button><button class="ghost" onclick="closeSheet()">${L.cancel}</button>`); }
+function createProfile(){ const n=$("npN").value.trim()||"—";
+  S.profiles.push(mkProfile(n,$("npP").value,S.lang)); S.active=S.profiles.length-1;
+  closeSheet(); save(); boot(); }
+
+function openSub(){ const L=t();
+  sheet(`<h3>${L.addSub.replace("+ ","")}</h3>
+  <div class="f-row"><label>${L.name}</label><input id="sN" type="text" placeholder="${L.subName}"></div>
+  <div class="f-row"><label>${L.subCost}</label><input id="sC" type="number" min="0" step="1"></div>
+  <div class="f-row"><label>${L.subDay}</label><input id="sD" type="number" min="1" max="28" value="1"></div>
+  <div class="f-row"><label>${L.subCat}</label><select id="sK">${Object.entries(L.cats).map(([k,v])=>`<option value="${k}">${v}</option>`).join("")}</select></div>
+  <button class="cta" onclick="createSub()">${L.create}</button><button class="ghost" onclick="closeSheet()">${L.cancel}</button>`); }
+function createSub(){ const n=$("sN").value.trim(); if(!n){closeSheet();return;}
+  P().subs.push({id:++uid,n,c:+$("sC").value||0,day:Math.min(28,Math.max(1,+$("sD").value||1)),cat:$("sK").value});
+  closeSheet(); save(); boot(); }
+
+function openDl(){ const L=t();
+  sheet(`<h3>${L.addDl.replace("+ ","")}</h3>
+  <div class="f-row"><label>${L.dlName}</label><input id="dN" type="text"></div>
+  <div class="f-row"><label>${L.dlArea}</label><select id="dA">${P().areas.map((a,i)=>`<option value="${i}">${esc(a)}</option>`).join("")}</select></div>
+  <div class="f-row"><label>${L.dlDate}</label><input id="dD" type="date" value="${(()=>{const d=new Date();d.setDate(d.getDate()+7);return d.toISOString().slice(0,10);})()}"></div>
+  <button class="cta" onclick="createDl()">${L.create}</button><button class="ghost" onclick="closeSheet()">${L.cancel}</button>`); }
+function createDl(){ const n=$("dN").value.trim(); if(!n){closeSheet();return;}
+  P().dls.push({id:++uid,t:n,a:+$("dA").value,d:$("dD").value||todayISO(),planned:false});
+  closeSheet(); save(); boot(); }
+
+function openSlot(){ const L=t();
+  sheet(`<h3>${L.addSlot.replace("+ ","")}</h3>
+  <div class="f-row"><label>${L.name}</label><input id="slN" type="text" placeholder="${L.slotName}"></div>
+  <div class="f-row"><label>${L.slotDays}</label><div class="chipset" id="slDays">${T[S.lang].wk.map((w,i)=>`<button class="pchip" data-i="${i}" onclick="this.classList.toggle('on')">${w}</button>`).join("")}</div></div>
+  <div class="f-row"><label>${L.slotTime}</label><input id="slT" type="text" placeholder="17:00–19:00"></div>
+  <button class="cta" onclick="createSlot()">${L.create}</button><button class="ghost" onclick="closeSheet()">${L.cancel}</button>`); }
+function createSlot(){ const n=$("slN").value.trim(); if(!n){closeSheet();return;}
+  const days=[...document.querySelectorAll("#slDays .pchip.on")].map(b=>+b.dataset.i);
+  P().slots.push({id:++uid,n,days:days.length?days:[0],time:$("slT").value.trim()||"—"});
+  closeSheet(); save(); boot(); }
+
+/* ============ Start ============ */
+if(S){ $("onb").classList.add("hide"); boot(); } else { renderOnb(); }
+</script>
+</body>
+</html>
