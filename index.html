@@ -49,7 +49,7 @@ body {
   font-feature-settings: "cv02", "cv03", "cv11";
   position: relative;
   overflow-x: hidden;
-  transition: background-color 0.5s ease;
+  
 }
 /* Peak Ambient Animated Background */
 body::before {
@@ -60,7 +60,6 @@ body::before {
     radial-gradient(circle at 50% 90%, rgba(219, 39, 119, 0.08), transparent 50%);
   filter: blur(80px);
   animation: breathe 18s ease-in-out infinite alternate;
-  transition: all 0.5s ease;
 }
 body.is-wallet::before {
   background: 
@@ -190,8 +189,8 @@ body.is-wallet .sec-h .right { color:var(--good); background:var(--good-soft); }
 /* ===== Calendar Engine (Drag & Drop) ===== */
 .cal-wrapper { border: 1px solid var(--line2); border-radius: 32px; background: var(--card-solid); overflow: hidden; box-shadow: var(--sh); display: flex; flex-direction: column; }
 .cal-header { display: grid; border-bottom: 1px solid var(--line); background: var(--bg); }
-.cal-header.today-mode { grid-template-columns: 70px 1fr; }
-.cal-header.week-mode { grid-template-columns: 70px repeat(7, minmax(200px, 1fr)); }
+.cal-header.today-mode { grid-template-columns: 78px 1fr; }
+.cal-header.week-mode { grid-template-columns: 78px repeat(7, minmax(200px, 1fr)); }
 .cal-day-head { padding: 20px 12px; text-align: center; border-left: 1px solid var(--line); }
 .cal-day-head.is-today { background: var(--accent-soft); }
 .cal-day-head .dn { font-size: 28px; font-weight: 800; line-height: 1; letter-spacing: -0.04em; }
@@ -200,8 +199,8 @@ body.is-wallet .sec-h .right { color:var(--good); background:var(--good-soft); }
 
 .cal-body-wrap { overflow-y: auto; overflow-x: auto; height: 700px; scroll-behavior: smooth; }
 .cal-body { display: grid; min-height: 1728px; /* 24h * 72px */ position: relative; }
-.cal-body.today-mode { grid-template-columns: 70px 1fr; }
-.cal-body.week-mode { grid-template-columns: 70px repeat(7, minmax(200px, 1fr)); }
+.cal-body.today-mode { grid-template-columns: 78px 1fr; }
+.cal-body.week-mode { grid-template-columns: 78px repeat(7, minmax(200px, 1fr)); }
 
 .cal-times { position: relative; border-right: 1px solid var(--line); background: var(--bg); }
 .cal-time-lbl { position: absolute; left: 0; right: 0; height: 72px; font-size: 12.5px; color: var(--ink3); font-weight: 700; text-align: right; padding-right: 14px; transform: translateY(-8px); }
@@ -228,8 +227,8 @@ body.is-wallet .sec-h .right { color:var(--good); background:var(--good-soft); }
 .cal-event.is-task:active { cursor: grabbing; opacity: 0.9; }
 
 .cal-allday { border-bottom: 1px solid var(--line); background: var(--bg); display: grid; }
-.cal-allday.today-mode { grid-template-columns: 70px 1fr; }
-.cal-allday.week-mode { grid-template-columns: 70px repeat(7, minmax(200px, 1fr)); }
+.cal-allday.today-mode { grid-template-columns: 78px 1fr; }
+.cal-allday.week-mode { grid-template-columns: 78px repeat(7, minmax(200px, 1fr)); }
 .cal-allday-lbl { display: flex; align-items: center; justify-content: flex-end; padding-right: 14px; font-size: 11px; font-weight: 800; color: var(--ink3); text-transform: uppercase; letter-spacing: .1em; border-right: 1px solid var(--line); }
 .cal-allday-cell { padding: 12px; border-right: 1px solid var(--line); display: flex; flex-direction: column; gap: 8px; }
 .cal-allday-event { background: var(--card-solid); border: 1px solid var(--line2); padding: 10px 14px; border-radius: 12px; font-size: 13.5px; font-weight: 800; cursor: pointer; box-shadow: var(--sh-sm); transition: .2s; display: flex; align-items: center; gap: 10px; }
@@ -384,6 +383,78 @@ html[data-theme="dark"] .hero .sub { background:linear-gradient(90deg,rgba(99,10
 html[data-theme="dark"] .chip.on-warn { color:#1A1200; }
 html[data-theme="dark"] .cal-day-head svg, html[data-theme="dark"] .ringwrap circle:first-of-type { stroke:rgba(255,255,255,.08); }
 @media(max-width:850px){ html[data-theme="dark"] .tabs { background:rgba(20,20,28,.92); border-color:rgba(255,255,255,.1); } }
+
+/* ============ v17 FIX LAYER ============ */
+
+/* --- Stats chart (was completely unstyled) --- */
+.chart { display:flex; gap:10px; align-items:flex-end; height:180px; padding-top:10px; }
+.chart .col { flex:1; display:flex; flex-direction:column; align-items:center; gap:8px; height:100%; justify-content:flex-end; }
+.chart .bar { width:100%; max-width:46px; border-radius:12px; background:var(--track); transition:height .7s cubic-bezier(.25,1,.5,1); min-height:6px; }
+.chart .bar.hot { background:var(--grad); box-shadow:0 8px 24px rgba(124,58,237,.35); }
+.chart .val { font-size:10.5px; font-weight:800; color:var(--ink2); min-height:15px; font-variant-numeric:tabular-nums; }
+.chart .dlb { font-size:10.5px; font-weight:800; color:var(--ink3); text-transform:uppercase; letter-spacing:.06em; }
+.chart .col.today .dlb { color:var(--accent-text); }
+
+/* --- All-day label: no more cropping --- */
+.cal-allday-lbl { font-size:8.5px; white-space:normal; line-height:1.2; padding:6px 8px 6px 2px; letter-spacing:.05em; }
+
+/* --- Notes: compact horizontal strip (saves vertical space) --- */
+.notes-grid { display:flex; overflow-x:auto; gap:14px; padding-bottom:8px; scrollbar-width:none; margin-bottom:24px; }
+.notes-grid::-webkit-scrollbar { display:none; }
+.note-item, .note-add-card { min-width:200px; max-width:225px; flex:0 0 auto; padding:16px; border-radius:20px; }
+.note-add-card textarea { min-height:52px; }
+.note-text { font-size:13.5px; }
+
+/* --- Compression: everything visible without scrolling --- */
+.top { padding:20px 0 14px; }
+.hero { padding:8px 0 16px; }
+.tabs { margin-bottom:18px; }
+.dashboard { gap:24px; }
+.dashboard .sec-h { margin:16px 0 12px; }
+.dashboard .sec-h h2 { font-size:17px; }
+.qa-wrap { padding:16px; gap:12px; margin-bottom:20px; }
+.chip { padding:8px 14px; font-size:13px; border-radius:12px; }
+.qa-lbl { width:52px; font-size:10px; }
+.qa-input-row input { font-size:16px; padding:4px; }
+.qa-footer { padding-top:14px; }
+.btn-p { padding:12px 22px; font-size:15px; }
+@media(min-width:851px){ .cal-body-wrap { height:calc(100vh - 400px); min-height:420px; max-height:820px; } }
+
+/* --- Mobile: FAB + compact chrome + schedule first --- */
+.fab { position:fixed; right:18px; bottom:calc(98px + env(safe-area-inset-bottom)); width:62px; height:62px; border-radius:50%; background:var(--grad); color:#fff; display:flex; align-items:center; justify-content:center; box-shadow:0 16px 44px rgba(124,58,237,.5); z-index:85; transition:.2s; border:none; }
+.fab:active { transform:scale(.92); }
+@media(max-width:850px){
+  .app { padding:0 14px; }
+  .top { padding:12px 0 6px; gap:10px; } .brand { font-size:20px; }
+  .iconbtn, .avatar { width:38px; height:38px; }
+  .hero { padding:2px 0 10px; gap:8px; } .hero h1 { font-size:21px; }
+  .ringwrap { transform:scale(.68); transform-origin:right center; margin:-10px -8px; }
+  .hero .sub { font-size:12px; padding:6px 12px; margin-top:6px; }
+  .sec-h { margin:16px 0 10px; } .sec-h h2 { font-size:16.5px; }
+  .card { padding:16px; }
+  .dashboard { gap:16px; }
+  .dashboard .side-col { order:1; } .dashboard .main-col { order:2; }
+  .task { padding:14px 12px; gap:12px; } .task .t { font-size:15px; }
+  .tick { width:28px; height:28px; } .play { width:38px; height:38px; }
+  .w-header .bal { font-size:44px; }
+  .w-tabs button { padding:10px 16px; font-size:13px; }
+  body { padding-bottom:calc(104px + env(safe-area-inset-bottom)); }
+}
+
+/* --- Dark mode: real fixes --- */
+html[data-theme="dark"] .chip.on { color:#0C0C11; }
+html[data-theme="dark"] .chip.on-danger { color:#fff; }
+html[data-theme="dark"] body::before { background:
+  radial-gradient(circle at 10% 40%, rgba(99,102,241,.16), transparent 45%),
+  radial-gradient(circle at 90% 20%, rgba(139,92,246,.14), transparent 40%),
+  radial-gradient(circle at 50% 90%, rgba(236,72,153,.11), transparent 50%); }
+html[data-theme="dark"] .qa-input-row input,
+html[data-theme="dark"] .note-add-card textarea,
+html[data-theme="dark"] .w-fast-add input,
+html[data-theme="dark"] .qa-custom-time input { color:var(--ink); }
+html[data-theme="dark"] .cal-dropzone.drag-over { background:rgba(99,102,241,.18); }
+html[data-theme="dark"] .cal-day-head.is-today .dn, html[data-theme="dark"] .cal-day-head.is-today .dw { color:#A5B4FC; }
+html[data-theme="dark"] input[type="date"], html[data-theme="dark"] input[type="time"] { color-scheme:dark; }
 </style>
 </head>
 <body>
@@ -416,6 +487,8 @@ html[data-theme="dark"] .cal-day-head svg, html[data-theme="dark"] .ringwrap cir
   <div class="tabs" id="tabs"></div>
   <main id="view"></main>
 </div>
+
+<button class="fab hide" id="fab" onclick="openQuickAdd()"></button>
 
 <div class="mini hide" id="mini" onclick="reopenFocus(event)">
   <span class="mt" id="mTitle"></span>
@@ -511,7 +584,7 @@ notesH:"Σημειώσεις",notesPh:"Γράψε μια σημείωση...",
 schedule:"Ημερολόγιο",addSlot:"Δραστηριότητα",thisWeek:"Τρέχουσα",weekOf:"Εβδ.",
 dlTitle:"Hard Deadlines",addDl:"Προθεσμία",plan:"Φτιάξε πλάνο",planned:"Έτοιμο ✓",days:"μέρες",daysOne:"μέρα",todayLit:"σήμερα",late:"πέρασε",
 wBal:"Υπόλοιπο Μήνα",wQuick:"Γρήγορη Προσθήκη",wCoffee:"Καφές",wFood:"Φαγητό",wShop:"Ψώνια",wTransport:"Μετακίνηση",wInc:"Έσοδο",wExp:"Έξοδο",
-wDaily:"Ημερήσια",wMonth:"Μηνιαία",wYear:"Ετήσια",wCat:"Κατηγορίες",wDreams:"Όνειρα & Wishlist",wSaved:"μαζεύτηκαν",wCost:"Στόχος",wTxs:"Πρόσφατα",
+wDaily:"Ημερήσια",wMonth:"Μηνιαία",wYear:"Ετήσια",wCat:"Κατηγορίες",wDreams:"Στόχοι & Ταξίδια",wSaved:"μαζεύτηκαν",wCost:"Στόχος",wTxs:"Πρόσφατα",
 stTasks:"εκκρεμότητες",stTime:"χρόνος σήμερα",stStreak:"σερί", hbTitle:"Συνήθειες", hbHint:"7ήμερο Σερί",
 statsH:"Πρόοδος",chartH:"Εκτέλεση",chartHint:"Ώρες / Ημέρα", sDone:"ολοκλ. (7ημ)",sHours:"ώρες (7ημ)",sToday:"σήμερα",
 wk:["Δευ","Τρί","Τετ","Πέμ","Παρ","Σάβ","Κυρ"],wk1:["Δε","Τρ","Τε","Πε","Πα","Σα","Κυ"],
@@ -523,7 +596,7 @@ dlName:"Τίτλος",dlDate:"Ημερομηνία",dlArea:"Τομέας", slotN
 settings:"Ρυθμίσεις",areasH:"Projects / Τομείς",areaPh:"Νέος τομέας…",backup:"JSON Backup",resetB:"Factory Reset",resetQ:"Είστε σίγουροι;",
 focusT:"Deep Work",focusDone:"Ολοκληρώθηκε",focusStop:"Ακύρωση",focusMin:"Στο παρασκήνιο →",
 anytime: "Ολοήμερο", dragHint: "Σύρετε για αλλαγή ώρας (Desktop)",
-wBalD:"Ισοζύγιο Ημέρας",wBalY:"Ισοζύγιο Έτους",wSubs:"Πάγια & Συνδρομές",wSubTotal:"Πάγια / μήνα",wSubAdd:"Πάγιο",
+wBalD:"Ισοζύγιο Ημέρας",wBalY:"Ισοζύγιο Έτους",wExpD:"Έξοδα Ημέρας",wExpM:"Έξοδα Μήνα",wExpY:"Έξοδα Έτους",wSubs:"Πάγια & Συνδρομές",wSubTotal:"Πάγια / μήνα",wSubAdd:"Πάγιο",
 presetsLb:"Συνηθισμένες:",subCost:"Ποσό €",subDay:"Ημέρα ανανέωσης (1–28)",monthly:"Μηνιαία",yearly:"Ετήσια",cycle:"Χρέωση",
 renews:"ανανέωση",inDays:n=>n===0?"σήμερα":(n===1?"σε 1 ημέρα":`σε ${n} ημέρες`),
 searchT:"Αναζήτηση",searchPh:"Εκκρεμότητες, σημειώσεις, προθεσμίες…",noRes:"Κανένα αποτέλεσμα",
@@ -545,7 +618,7 @@ notesH:"Notes",notesPh:"Write a note...",
 schedule:"Calendar",addSlot:"Activity",thisWeek:"This week",weekOf:"Wk of",
 dlTitle:"Hard Deadlines",addDl:"Deadline",plan:"Auto-plan",planned:"Ready ✓",days:"days",daysOne:"day",todayLit:"today",late:"overdue",
 wBal:"Monthly Balance",wQuick:"Quick Add",wCoffee:"Coffee",wFood:"Food",wShop:"Shopping",wTransport:"Transport",wInc:"Income",wExp:"Expense",
-wDaily:"Daily",wMonth:"Monthly",wYear:"Yearly",wCat:"Categories",wDreams:"Dreams & Wishlist",wSaved:"saved",wCost:"Goal",wTxs:"Recent",
+wDaily:"Daily",wMonth:"Monthly",wYear:"Yearly",wCat:"Categories",wDreams:"Goals & Trips",wSaved:"saved",wCost:"Goal",wTxs:"Recent",
 stTasks:"open tasks",stTime:"time today",stStreak:"streak", hbTitle:"Habits", hbHint:"7-Day Streak",
 statsH:"Progress",chartH:"Execution",chartHint:"Hours / Day", sDone:"done (7d)",sHours:"hours (7d)",sToday:"today",
 wk:["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],wk1:["Mo","Tu","We","Th","Fr","Sa","Su"],
@@ -557,7 +630,7 @@ dlName:"Title",dlDate:"Date",dlArea:"Area", slotName:"Title (e.g. Deep Work)",sl
 settings:"Settings",areasH:"Projects / Areas",areaPh:"New area…",backup:"JSON Backup",resetB:"Factory Reset",resetQ:"Are you sure?",
 focusT:"Deep Work",focusDone:"Completed",focusStop:"Cancel",focusMin:"Continue in background →",
 anytime: "All Day", dragHint: "Drag to change time (Desktop)",
-wBalD:"Daily Balance",wBalY:"Yearly Balance",wSubs:"Recurring & Subscriptions",wSubTotal:"Recurring / month",wSubAdd:"Recurring",
+wBalD:"Daily Balance",wBalY:"Yearly Balance",wExpD:"Today's Spending",wExpM:"Monthly Spending",wExpY:"Yearly Spending",wSubs:"Recurring & Subscriptions",wSubTotal:"Recurring / month",wSubAdd:"Recurring",
 presetsLb:"Common:",subCost:"Amount €",subDay:"Renewal day (1–28)",monthly:"Monthly",yearly:"Yearly",cycle:"Billing",
 renews:"renews",inDays:n=>n===0?"today":(n===1?"in 1 day":`in ${n} days`),
 searchT:"Search",searchPh:"Tasks, notes, deadlines…",noRes:"No results",
@@ -614,7 +687,7 @@ function seeds(p,lang){
 let S=null, curTab="today", weekOff=0, uid=Date.now();
 let F=null;
 // Quick Add State (No Selects)
-let qA=0, qM=30, qD="today", qP=1, qR="", wSign=-1;
+let qA=0, qM=30, qD="today", qP=1, qR="", wSign=-1, qTxt="", qTime="", qDate="";
 
 function load(){
   let raw=store.get("panta_v2");
@@ -718,6 +791,8 @@ function boot(){
   $("langBtn").textContent=S.lang==="el"?"EN":"ΕΛ";
   $("ringLbl").textContent=L.ringLbl;
   $("gearBtn").innerHTML=ic("gear",22); const sb=$("searchBtn"); if(sb)sb.innerHTML=ic("search",22); applyTheme();
+  const fb=$("fab"); if(fb){ fb.innerHTML=ic("plus",28);
+    fb.classList.toggle("hide", !(window.innerWidth<=850 && curTab!=="wallet")); }
   $("mPause").innerHTML=ic(F&&F.run?"pause":"play",20);
   $("mDone").innerHTML=ic("check",20);
   
@@ -871,10 +946,9 @@ function renderWallet(v, L) {
   }
   
   const curTxs = w.txs.filter(x => x.d >= startISO && x.d <= endISO);
-  const bal = curTxs.reduce((s,x)=>s+x.amt, 0);
   const incT = curTxs.filter(x=>x.amt>0).reduce((s,x)=>s+x.amt,0);
   const expT = Math.abs(curTxs.filter(x=>x.amt<0).reduce((s,x)=>s+x.amt,0));
-  const balLbl = view==="daily"?L.wBalD:(view==="yearly"?L.wBalY:L.wBal);
+  const expLbl = view==="daily"?L.wExpD:(view==="yearly"?L.wExpY:L.wExpM);
   /* recurring subs */
   const nowD=new Date(), cd=nowD.getDate(), dim=new Date(nowD.getFullYear(),nowD.getMonth()+1,0).getDate();
   const du=x=>{let n=x.day-cd; if(n<0)n+=dim; return n;};
@@ -952,16 +1026,15 @@ function renderWallet(v, L) {
     }
     
     // Smooth array for chart to not overcrowd (Month view: show every 3rd day roughly or allow horizontal scroll)
-    const maxVal = Math.max(1, ...slots.map(s => Math.max(s.inc, s.exp)));
+    const maxVal = Math.max(1, ...slots.map(s => s.exp));
     
     mainHtml = `
       <div class="w-chart-wrap" style="overflow-x:auto; scrollbar-width:none;">
         <div class="w-chart" style="min-width:${slots.length*40}px;">
           ${slots.map(s => `
             <div class="col">
-              <div style="display:flex; gap:4px; height:100%; align-items:flex-end; width:100%;">
-                <div class="bar bar-inc" style="height:${Math.max(2, (s.inc/maxVal)*100)}%"></div>
-                <div class="bar bar-exp" style="height:${Math.max(2, (s.exp/maxVal)*100)}%"></div>
+              <div style="display:flex; height:100%; align-items:flex-end; width:100%;">
+                <div class="bar bar-exp" style="height:${Math.max(2, (s.exp/maxVal)*100)}%; border-radius:10px 10px 4px 4px;"></div>
               </div>
               <span class="dlb">${s.lbl}</span>
             </div>
@@ -979,17 +1052,14 @@ function renderWallet(v, L) {
   </div>
 
   <div class="w-header">
-    <span>${balLbl}</span>
-    <div class="bal">€${bal.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2})}</div>
-    <div style="display:flex; gap:12px; margin-top:16px;">
-      <span style="font-size:14px; font-weight:800; color:var(--good); background:var(--good-soft); padding:8px 16px; border-radius:999px;">+€${incT.toFixed(0)} ${L.wInc}</span>
-      <span style="font-size:14px; font-weight:800; color:var(--danger); background:var(--danger-soft); padding:8px 16px; border-radius:999px;">−€${expT.toFixed(0)} ${L.wExp}</span>
-    </div>
+    <span>${expLbl}</span>
+    <div class="bal" style="background:linear-gradient(135deg,#F43F5E,#EC4899); -webkit-background-clip:text; background-clip:text;">${expT>0?"−":""}€${expT.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2})}</div>
+    ${incT>0?`<div style="margin-top:14px;"><span style="font-size:13px; font-weight:800; color:var(--good); background:var(--good-soft); padding:7px 15px; border-radius:999px;">+€${incT.toFixed(0)} ${L.wInc}</span></div>`:""}
   </div>
   
   ${mainHtml}
-  ${subsHtml}
-  ${goalsHtml}
+  ${view==="monthly"?subsHtml:""}
+  ${view==="yearly"?goalsHtml:""}
   
   <div class="sec-h"><h2>${ic("wallet",22)} ${L.wTxs}</h2></div>
   <div style="display:flex; flex-direction:column; gap:12px;">
@@ -1083,41 +1153,7 @@ function render(){
     v.innerHTML=`
     <div class="dashboard">
       <div class="main-col">
-        <div class="qa-wrap">
-          <div class="qa-input-row">
-            <input type="text" id="qa-t" placeholder="${L.qPh}" onkeydown="if(event.key==='Enter')qAdd()">
-          </div>
-          
-          <div class="qa-track">
-            <span class="qa-lbl">${L.area}</span>
-            ${P().areas.map((a,i)=>`<button class="chip ${i===qA?'on':''}" onclick="qA=${i};render()">${esc(a)}</button>`).join("")}
-          </div>
-          
-          <div class="qa-track">
-            <span class="qa-lbl">${L.time}</span>
-            ${[15,30,45,60,90,120].map(m=>`<button class="chip ${m===qM?'on':''}" onclick="qM=${m};render()">${m}′</button>`).join("")}
-          </div>
-          
-          <div class="qa-track">
-            <span class="qa-lbl">${L.day}</span>
-            <button class="chip ${qD==='today'?'on':''}" onclick="qD='today';render()">${L.today}</button>
-            <button class="chip ${qD==='tomorrow'?'on':''}" onclick="qD='tomorrow';render()">${L.tomorrow}</button>
-            ${L.wk1.map((w,i)=>`<button class="chip ${qD===i?'on':''}" onclick="qD=${i};render()">${w}</button>`).join("")}
-          </div>
-          
-          <div class="qa-track">
-            <span class="qa-lbl">${L.prio}</span>
-            ${L.prios.map((p,i)=>`<button class="chip ${qP===i?(i===2?'on-danger':i===1?'on-warn':'on'):''}" onclick="qP=${i};render()">${p}</button>`).join("")}
-          </div>
-          
-          <div class="qa-footer">
-            <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
-              <div class="qa-custom-time">${ic("clock", 18)} <input type="time" id="qa-time"></div>
-              <button class="chip ${qR?'on':''}" onclick="qR=qR===''?'d':(qR==='d'?'w':'');render()">${ic("loop",15)} ${L.repOpts[qR===''?0:(qR==='d'?1:2)]}</button>
-            </div>
-            <button class="btn-p" onclick="qAdd()">${L.qGo}</button>
-          </div>
-        </div>
+        ${window.innerWidth>850?`<div class="qa-wrap">${qaHTML(false)}</div>`:""}
         
         <div class="sec-h"><h2>${ic("pin",22)} ${L.notesH}</h2></div>
         <div class="notes-grid">
@@ -1275,19 +1311,41 @@ function renderDls(v,L,td){
 }
 
 /* ============ Actions ============ */
-function qAdd(){
-  const inp=$("qa-t"); if(!inp) return;
-  const txt = inp.value.trim(); if(!txt)return;
-  const a = qA; const min = qM; const p = qP;
-  let d = todayISO();
-  let time = $("qa-time") ? $("qa-time").value : "";
-  
-  if(qD === "tomorrow") d = isoPlus(1);
-  else if(typeof qD === "number") d = nextWeekdayISO(qD);
-  
-  P().tasks.push({id:++uid, t:txt, a, min, d, time, done:false, p, rep:qR});
-  save(); boot(); setTimeout(()=>{const i=$("qa-t");if(i){i.value=''; i.focus();}},50);
+/* ===== Quick Add: shared builder (desktop inline / mobile FAB sheet), state-preserving ===== */
+function qaHTML(inSheet){ const L=t(); const go=inSheet?"qAdd();closeSheet();":"qAdd();";
+ return `
+   <div class="qa-input-row"><input type="text" id="qa-t" placeholder="${L.qPh}" value="${esc(qTxt)}" oninput="qTxt=this.value" onkeydown="if(event.key==='Enter'){${go}}"></div>
+   <div class="qa-track"><span class="qa-lbl">${L.area}</span>${P().areas.map((a,i)=>`<button class="chip ${i===qA?'on':''}" onclick="qA=${i};refreshQA(${inSheet})">${esc(a)}</button>`).join("")}</div>
+   <div class="qa-track"><span class="qa-lbl">${L.time}</span>${[15,30,45,60,90,120].map(m=>`<button class="chip ${m===qM?'on':''}" onclick="qM=${m};refreshQA(${inSheet})">${m}′</button>`).join("")}</div>
+   <div class="qa-track"><span class="qa-lbl">${L.day}</span>
+     <button class="chip ${qD==='today'?'on':''}" onclick="qD='today';refreshQA(${inSheet})">${L.today}</button>
+     <button class="chip ${qD==='tomorrow'?'on':''}" onclick="qD='tomorrow';refreshQA(${inSheet})">${L.tomorrow}</button>
+     <label class="chip ${qD==='custom'?'on':''}" style="display:inline-flex;align-items:center;gap:8px;">${ic("cal",15)}<input type="date" id="qa-date" value="${qDate||todayISO()}" onchange="qD='custom';qDate=this.value;refreshQA(${inSheet})" style="background:transparent;border:none;outline:none;color:inherit;font-weight:700;font-family:inherit;font-size:13px;padding:0;"></label>
+   </div>
+   <div class="qa-track"><span class="qa-lbl">${L.prio}</span>${L.prios.map((p,i)=>`<button class="chip ${qP===i?(i===2?'on-danger':i===1?'on-warn':'on'):''}" onclick="qP=${i};refreshQA(${inSheet})"><span class="pd" style="background:${qP===i?'currentColor':PRC[i]};width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:7px;vertical-align:1px;"></span>${p}</button>`).join("")}</div>
+   <div class="qa-footer">
+     <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+       <div class="qa-custom-time">${ic("clock",16)} <input type="time" id="qa-time" value="${qTime}" onchange="qTime=this.value"></div>
+       <button class="chip ${qR?'on':''}" onclick="qR=qR===''?'d':(qR==='d'?'w':'');refreshQA(${inSheet})">${ic("loop",14)} ${L.repOpts[qR===''?0:(qR==='d'?1:2)]}</button>
+     </div>
+     <button class="btn-p" onclick="${go}">${L.qGo}</button>
+   </div>`;
 }
+function refreshQA(inSheet){ if(inSheet) openQuickAdd(); else render(); }
+function openQuickAdd(){ const L=t(); sheet(`<h3>${L.qGo}</h3>`+qaHTML(true));
+  setTimeout(()=>{const i=$("qa-t"); if(i&&!qTxt)i.focus();},80); }
+function qAdd(){
+  const txt=(qTxt||"").trim(); if(!txt) return;
+  let d=todayISO();
+  if(qD==="tomorrow") d=isoPlus(1);
+  else if(qD==="custom") d=qDate||todayISO();
+  P().tasks.push({id:++uid, t:txt, a:qA, min:qM, d, time:qTime||"", done:false, p:qP, rep:qR});
+  qTxt=""; qTime="";
+  save(); boot();
+}
+window.addEventListener("resize",()=>{ const wide=window.innerWidth>850;
+  if(wide!==window.__pw){ window.__pw=wide; if(S)boot(); } });
+window.__pw=window.innerWidth>850;
 
 function addNote(){ const i=$("nT"), v=i.value.trim(); if(!v)return;
   (P().notes=P().notes||[]).unshift({id:++uid,t:v,done:false}); save(); boot();
