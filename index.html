@@ -3,6 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#F3F4F1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Πάντα">
+<meta name="mobile-web-app-capable" content="yes">
 <title>Πάντα — Τα πάντα σου. Πάντα.</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Commissioner:wght@400;500;600;700;800&family=Literata:ital,opsz,wght@1,7..72,500&display=swap" rel="stylesheet">
@@ -262,6 +267,7 @@ perMonth:"Σύνολο / μήνα",perYear:"το χρόνο",renews:"ανανέ�
 dlTitle:"Διαγωνίσματα & προθεσμίες",addDl:"+ προθεσμία",plan:"Φτιάξε πλάνο",planned:"Έτοιμο ✓",days:"μέρες",daysOne:"μέρα",todayLit:"σήμερα",late:"πέρασε",
 flowsTitle:"Έτοιμες ροές",flowsHint:"ένα πάτημα — έτοιμο πρόγραμμα",
 stTasks:"εκκρεμότητες",stTime:"χρόνος σήμερα",stStreak:"σερί ημερών",
+notesH:"Γρήγορες σημειώσεις",notesPh:"π.χ. Βγάλε τον σκύλο, κλείσε κουρείο…",
 statsH:"Η πρόοδός σου",chartH:"Ώρες δουλειάς — 7 ημέρες",chartHint:"με βάση όσα ολοκλήρωσες",
 sDone:"ολοκληρωμένα (7ημ)",sHours:"ώρες (7ημ)",sToday:"σήμερα",sBest:"καλύτερη μέρα",
 areaH:"Ανά τομέα — 7 ημέρες",noStats:"Ολοκλήρωσε τις πρώτες σου εκκρεμότητες και εδώ θα χτίζεται η εικόνα σου.",
@@ -299,6 +305,7 @@ perMonth:"Total / month",perYear:"per year",renews:"renews",monthly:"Monthly",ye
 dlTitle:"Exams & deadlines",addDl:"+ deadline",plan:"Auto-plan",planned:"Ready ✓",days:"days",daysOne:"day",todayLit:"today",late:"overdue",
 flowsTitle:"Ready-made flows",flowsHint:"one tap — full plan",
 stTasks:"open tasks",stTime:"time today",stStreak:"day streak",
+notesH:"Quick notes",notesPh:"e.g. Take the dog out, book a haircut…",
 statsH:"Your progress",chartH:"Hours worked — 7 days",chartHint:"based on what you completed",
 sDone:"done (7d)",sHours:"hours (7d)",sToday:"today",sBest:"best day",
 areaH:"By area — 7 days",noStats:"Complete your first tasks and your picture will build here.",
@@ -376,10 +383,10 @@ function load(){
   let raw=store.get("panta_v2");
   if(!raw){ raw=store.get("panta_v1"); /* migrate v1 */
     if(raw){ try{ S=JSON.parse(raw);
-      S.profiles.forEach(pr=>{ pr.hist=pr.hist||[]; pr.tasks.forEach(t=>t.p=t.p??0); pr.subs.forEach(s=>s.cy=s.cy||"m"); });
+      S.profiles.forEach(pr=>{ pr.hist=pr.hist||[]; pr.notes=pr.notes||[]; pr.tasks.forEach(t=>t.p=t.p??0); pr.subs.forEach(s=>s.cy=s.cy||"m"); });
       save(); }catch(e){S=null;} }
     return; }
-  try{S=JSON.parse(raw);}catch(e){S=null;}
+  try{S=JSON.parse(raw); if(S)S.profiles.forEach(pr=>pr.notes=pr.notes||[]);}catch(e){S=null;}
 }
 function save(){ store.set("panta_v2",JSON.stringify(S)); }
 function P(){ return S.profiles[S.active]; }
@@ -410,6 +417,8 @@ function finishOnb(){
 function mkProfile(name,persona,lang){
   const sd=seeds(persona,lang);
   return{name,persona,areas:sd.areas,hist:sd.hist,
+    notes:[{id:++uid,t:lang==="el"?"Βγάλε τον σκύλο βόλτα":"Take the dog out",done:false},
+           {id:++uid,t:lang==="el"?"Κλείσε ραντεβού κουρείο":"Book a haircut",done:false}],
     tasks:sd.tasks.map(x=>({id:++uid,done:false,...x})),
     slots:sd.slots.map(x=>({id:++uid,...x})),
     subs:sd.subs.map(x=>({id:++uid,...x})),
@@ -490,7 +499,15 @@ function render(){
     <div class="sec-h"><h2>${L.todayTasks}</h2></div>
     <div class="card">${allDone?`<div class="alldone"><div class="big">🎉</div><b>${L.allDoneBig}</b><span>${L.allDoneSub}</span></div>`
       :due.length?due.map(x=>taskRow(x)).join(""):`<div class="empty"><b>${L.noTasks}</b>${L.noTasksSub}</div>`}</div>
-    ${tmr.length?`<div class="sec-h"><h2>${L.tomorrow}</h2></div><div class="card">${tmr.map(x=>taskRow(x)).join("")}</div>`:""}`;
+    ${tmr.length?`<div class="sec-h"><h2>${L.tomorrow}</h2></div><div class="card">${tmr.map(x=>taskRow(x)).join("")}</div>`:""}
+    <div class="sec-h"><h2>📌 ${L.notesH}</h2></div>
+    <div class="card">
+      <div style="display:flex;gap:8px;margin-bottom:6px">
+        <input type="text" id="nT" placeholder="${L.notesPh}" onkeydown="if(event.key==='Enter')addNote()" style="flex:1;min-width:0;border:1.5px solid var(--line);border-radius:12px;padding:11px 13px;background:var(--bg);outline:none">
+        <button onclick="addNote()" style="background:var(--accent);color:#fff;font-weight:800;border-radius:12px;padding:0 18px;font-size:18px">+</button>
+      </div>
+      ${(P().notes||[]).map(n=>`<div class="task ${n.done?'done':''}"><button class="tick" onclick="togNote(${n.id})">✓</button><div class="body"><div class="t">${esc(n.t)}</div></div><button class="del" onclick="delNote(${n.id})">×</button></div>`).join("")}
+    </div>`;
   }
   if(curTab==="week"){
     const now=new Date(); const mon=new Date(now); mon.setDate(now.getDate()-((now.getDay()+6)%7)+weekOff*7);
@@ -589,6 +606,11 @@ function tog(id){ const x=P().tasks.find(x=>x.id===id); if(!x)return;
   else{ const h=P().hist||[]; const i=h.findIndex(e=>e.d===todayISO()&&e.min===x.min&&e.a===x.a); if(i>-1)h.splice(i,1); }
   save(); boot(); }
 function delTask(id){ P().tasks=P().tasks.filter(x=>x.id!==id); save(); boot(); }
+function addNote(){ const i=$("nT"), v=i.value.trim(); if(!v)return;
+  (P().notes=P().notes||[]).push({id:++uid,t:v,done:false}); save(); boot();
+  setTimeout(()=>{const n=$("nT"); if(n){n.focus(); n.scrollIntoView({block:"center"});}},50); }
+function togNote(id){ const n=(P().notes||[]).find(n=>n.id===id); if(n){n.done=!n.done; save(); boot();} }
+function delNote(id){ P().notes=(P().notes||[]).filter(n=>n.id!==id); save(); boot(); }
 function delSub(id){ P().subs=P().subs.filter(x=>x.id!==id); save(); boot(); }
 function delDl(id){ P().dls=P().dls.filter(x=>x.id!==id); save(); boot(); }
 function delSlot(id){ P().slots=P().slots.filter(x=>x.id!==id); save(); boot(); }
